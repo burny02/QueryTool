@@ -29,11 +29,16 @@ Module SQLModule
 
         Finally
             'Close Off & Clean up
-            rs.Close()
-            rs = Nothing
+
+            Try
+                rs.Close()
+            Catch ex As Exception
+                ex = Nothing
+            Finally
+                rs = Nothing
+            End Try
 
         End Try
-
         QueryTest = Counter
 
     End Function
@@ -55,10 +60,16 @@ Module SQLModule
             MsgBox(ex.Message)
 
         Finally
+
             'Close Off & Clean up
-            con.Close()
-            con = Nothing
-            cmd = Nothing
+            Try
+                con.Close()
+            Catch ex As Exception
+                ex = Nothing
+            Finally
+                con = Nothing
+                cmd = Nothing
+            End Try
 
         End Try
 
@@ -89,9 +100,15 @@ Module SQLModule
             MsgBox(ex.Message)
 
         Finally
+
             'Close off & Clean up
-            con.Close()
-            con = Nothing
+            Try
+                con.Close()
+            Catch ex As Exception
+                ex = Nothing
+            Finally
+                con = Nothing
+            End Try
 
         End Try
 
@@ -128,9 +145,16 @@ Module SQLModule
         Catch ex As Exception
             MsgBox(ex.Message)
         Finally
+
             'Close off & clean up
-            con.Close()
-            con = Nothing
+            Try
+                con.Close()
+            Catch ex As Exception
+                ex = Nothing
+            Finally
+                con = Nothing
+            End Try
+
         End Try
 
     End Sub
@@ -233,9 +257,15 @@ Module SQLModule
             MsgBox(ex.Message)
             TempDataSet = Nothing
         Finally
+
             'Close off & Clean up
-            con.Close()
-            con = Nothing
+            Try
+                con.Close()
+            Catch ex As Exception
+                ex = Nothing
+            Finally
+                con = Nothing
+            End Try
 
         End Try
 
@@ -243,7 +273,7 @@ Module SQLModule
 
     Public Sub UploadCSV()
 
-        MsgBox("Please ensure .xls contains all queries, rather than just open or closed")
+        MsgBox("Please ensure .xls contains all study queries")
 
         Dim fd As OpenFileDialog = New OpenFileDialog()
 
@@ -284,12 +314,23 @@ Module SQLModule
 
             'Read Data from First Sheet 
 
-            cmdExcel.CommandText = "SELECT * From [" & SheetName & "]"
+            cmdExcel.CommandText = "SELECT first([Protocol Number]) AS F0, [Screening Number] As F1, [Visit Name] AS F2, " & _
+                                    "[Form Name] AS F3, first([Page Number]) AS F4, " & _
+                                    "first([Field Name]) AS F5, first([Query Status]) AS F6, [Query Text] AS F7, " & _
+                                    "[Query Creation Date (UTC)] AS F8, [Query Creation Time (UTC)] AS F9, " & _
+                                    "[Query Created By] AS F10, first([Query Created By Role]) AS F11, first([Query Closed Date]) AS F12, " & _
+                                    "first([Query Closed Time]) AS F13, first([Query Closed By]) AS F14, first([Query Closed By Role]) AS F15 " & _
+                                    "FROM [" & SheetName & "]" & _
+                                    "GROUP BY [Screening Number], [Visit Name], [Form Name], [Query Text], [Query Creation Date (UTC)], " & _
+                                    "[Query Creation Time (UTC)], [Query Created By]"
+
 
             oda.SelectCommand = cmdExcel
 
             oda.Fill(dt)
 
+            Dim FinalCount As Long = (dt.Rows.Count)
+            Dim Study As String = dt.Rows(1).Item(0)
 
             'Clean Up
             connExcel.Close()
@@ -301,57 +342,180 @@ Module SQLModule
             conStr = Nothing
 
 
-            'SEPERATE INTO CODED AND NON CODED 
-
-            Dim Coded = From u In dt.AsEnumerable() _
-                             Where u.Field(Of String)("Query Text").StartsWith("[")
-                             Where u.Field(Of String)("Query Text").Substring(0, 8).EndsWith("]")
-                             Select u.Field(Of String)("Query Text")
-
-            Dim Uncoded = From u In dt.AsEnumerable() _
-                             Where Not u.Field(Of String)("Query Text").StartsWith("[") Or Not u.Field(Of String)("Query Text").Substring(0, 8).EndsWith("]")
-                             Select u.Field(Of String)("Query Text")
+            'Get Backend
+            Dim con As New OleDb.OleDbConnection(Connect)
+            Dim tempDa As New OleDb.OleDbDataAdapter("SELECT * FROM Queries", con)
+            Dim BackendDT As New DataTable()
+            Dim UpdateTable = dt.Clone
+            Dim InsertTable = dt.Clone
+            tempDa.Fill(BackendDT)
 
 
-            MsgBox(Coded.Count & " " & Uncoded.Count)
+            'JOIN BACKEND AND EXCEL - PUT INTO UPDATE DATATABLE
+            Dim UpdateData =
+                    From a In dt.AsEnumerable()
+                    Join b In BackendDT.AsEnumerable()
+                    On
+                    a.Field(Of String)("F1") Equals b.Field(Of String)("RVLID") And
+                    a.Field(Of String)("F2") Equals b.Field(Of String)("VisitName") And
+                    a.Field(Of String)("F3") Equals b.Field(Of String)("FormName") And
+                    a.Field(Of String)("F7") Equals b.Field(Of String)("Description") And
+                    a.Field(Of String)("F8") Equals b.Field(Of String)("CreateDate") And
+                    a.Field(Of String)("F9") Equals b.Field(Of String)("CreateTime") And
+                    a.Field(Of String)("F10") Equals b.Field(Of String)("CreatedBy")
+                Where
+                    a.Field(Of String)("F6") <> b.Field(Of String)("Status") Or
+                    a.Field(Of String)("F12") <> b.Field(Of String)("ClosedDate") Or
+                    a.Field(Of String)("F13") <> b.Field(Of String)("ClosedTime") Or
+                    a.Field(Of String)("F14") <> b.Field(Of String)("ClosedBy") Or
+                    a.Field(Of String)("F15") <> b.Field(Of String)("ClosedByRole")
+                Select a
+
+            For Each row In UpdateData
+                UpdateTable.ImportRow(row)
+            Next
+
+            UpdateData = Nothing
+
+            'JOIN BACKEND AND EXCEL - DELETE QUERIES ALREADY ON
+            Dim InsertData =
+                    From a In dt.AsEnumerable()
+                    Join b In BackendDT.AsEnumerable()
+                    On
+                    a.Field(Of String)("F1") Equals b.Field(Of String)("RVLID") And
+                    a.Field(Of String)("F2") Equals b.Field(Of String)("VisitName") And
+                    a.Field(Of String)("F3") Equals b.Field(Of String)("FormName") And
+                    a.Field(Of String)("F7") Equals b.Field(Of String)("Description") And
+                    a.Field(Of String)("F8") Equals b.Field(Of String)("CreateDate") And
+                    a.Field(Of String)("F9") Equals b.Field(Of String)("CreateTime") And
+                    a.Field(Of String)("F10") Equals b.Field(Of String)("CreatedBy")
+                Select a
+
+            Dim RowsToDelete As New ArrayList()
+
+            For Each row In InsertData
+                RowsToDelete.Add(row)
+            Next
+
+            For Each row In RowsToDelete
+                dt.Rows.Remove(row)
+            Next
+
+            For Each row In dt.Rows
+                InsertTable.ImportRow(row)
+            Next
+
+            InsertData = Nothing
 
 
-            'PASTE UNION QUERY TO TABLE
 
-            'On Error GoTo 0
-            'CurrentDb.Execute("SELECT * INTO [All] FROM [Allqry]", dbFailOnError)
+            'Clean Up
+            RowsToDelete = Nothing
+            tempDa = Nothing
+            BackendDT = Nothing
+            dt = Nothing
 
 
-            'If GetStudy = vbNullString Then Exit Sub
 
-            'UPDATE OLD CODED QUERIES
+            'Update BackEnd
+            Dim da As New OleDb.OleDbDataAdapter()
 
-            'CurrentDb.Execute("UpdateCoded", dbFailOnError)
+            'Set all rows as modified
+            For Each row In UpdateTable.Rows
+                row.SetModified()
+            Next
 
-            'UPDATE OLD UNCODED QUERIES
 
-            'CurrentDb.Execute("UpdateNonCoded", dbFailOnError)
+            'Set Update Command for backend
 
-            'UPLOAD TO METRICS
+            da.UpdateCommand = New OleDb.OleDbCommand("Update Queries SET Status=@P1, ClosedDate=@P2, ClosedTime=@P3, ClosedBy=@P4, ClosedByRole=@P5 " & _
+                                                        "WHERE RVLID=@P6 AND VisitName=@P7 AND FormName=@P8 AND Description=@P9 " & _
+                                                        "AND CreateDate=@P10 AND CreateTime=@P11 AND CreatedBy=@P12", con)
 
-            'CurrentDb.Execute("InsertNew", dbFailOnError)
+            'Set update parameters
+            With da.UpdateCommand.Parameters
+                .Add("@P1", OleDb.OleDbType.Char, 50, "F6")
+                .Add("@P2", OleDb.OleDbType.Char, 50, "F12")
+                .Add("@P3", OleDb.OleDbType.Char, 50, "F13")
+                .Add("@P4", OleDb.OleDbType.Char, 50, "F14")
+                .Add("@P5", OleDb.OleDbType.Char, 50, "F15")
+                .Add("@P6", OleDb.OleDbType.Char, 50, "F1")
+                .Add("@P7", OleDb.OleDbType.Char, 50, "F2")
+                .Add("@P8", OleDb.OleDbType.Char, 50, "F3")
+                .Add("@P9", OleDb.OleDbType.Char, 50, "F7")
+                .Add("@P10", OleDb.OleDbType.Char, 50, "F8")
+                .Add("@P11", OleDb.OleDbType.Char, 50, "F9")
+                .Add("@P12", OleDb.OleDbType.Char, 50, "F10")
+            End With
 
-            'Dim rs As Recordset
-            'Dim NumQueries As Long
+            con.Open()
+            da.Update(UpdateTable)
+            con.Close()
 
-            'rs = CurrentDb.OpenRecordset("SELECT [ID] FROM [Queries] WHERE [Study]='" & Study & "'")
 
-            'On Error Resume Next
-            'rs.MoveLast()
-            'NumQueries = rs.RecordCount
+            'Set all rows as new
+            For Each row In InsertTable.Rows
+                row.SetAdded()
+            Next
 
-            'DoCmd.DeleteObject(acTable, "Temp")
-            'DoCmd.DeleteObject(acTable, "All")
+            'Set Insert Command for backend
+            da.InsertCommand = New OleDb.OleDbCommand("INSERT INTO Queries " & _
+                                                          "(Study, RVLID, VisitName, FormName, " & _
+                                                          "PageNo, FieldName, Status, Description, CreateDate, " & _
+                                                          "CreateTime, CreatedBy, CreatedByRole, ClosedDate, ClosedTime, " & _
+                                                          "ClosedBy, ClosedByRole) " & _
+                                                      "VALUES (@P1, @P2, @P3, @P4, @P5, @P6, " & _
+                                                          "@P7, @P8, @P9, @P10, @P11, @P12, @P13, @P14, @P15, " & _
+                                                          "@P16)", con)
 
-            'DoCmd.SetWarnings True
 
-            'MsgBox "CSV Uploaded. Please QC that " & Study & " has a total of " & NumQueries & " queries."
+            'Set insert parameters
+            With da.InsertCommand.Parameters
+                .Add("@P1", OleDb.OleDbType.Char, 50, "F0")
+                .Add("@P2", OleDb.OleDbType.Char, 50, "F1")
+                .Add("@P3", OleDb.OleDbType.Char, 100, "F2")
+                .Add("@P5", OleDb.OleDbType.Char, 100, "F3")
+                .Add("@P4", OleDb.OleDbType.Char, 50, "F4")
+                .Add("@P6", OleDb.OleDbType.Char, 50, "F5")
+                .Add("@P7", OleDb.OleDbType.Char, 50, "F6")
+                .Add("@P10", OleDb.OleDbType.Char, 255, "F7")
+                .Add("@P11", OleDb.OleDbType.Char, 50, "F8")
+                .Add("@P12", OleDb.OleDbType.Char, 50, "F9")
+                .Add("@P13", OleDb.OleDbType.Char, 50, "F10")
+                .Add("@P8", OleDb.OleDbType.Char, 50, "F11")
+                .Add("@P9", OleDb.OleDbType.Char, 50, "F12")
+                .Add("@P14", OleDb.OleDbType.Char, 50, "F13")
+                .Add("@P15", OleDb.OleDbType.Char, 30, "F14")
+                .Add("@P16", OleDb.OleDbType.Char, 30, "F15")
+            End With
 
+
+            'Open Connection & Update
+            con.Open()
+            da.Update(InsertTable)
+
+
+            'Codes are entered as Data Macro
+
+
+            'Close Off & Clean up
+            con.Close()
+            con = Nothing
+            da = Nothing
+            UpdateTable = Nothing
+            InsertTable = Nothing
+            dt = Nothing
+
+
+            'Update Upload Date/Time
+            ExecuteSQL("UPDATE Study SET UploadDate=Date(), UploadPerson='" & GetUserName() & "'" & _
+                       "WHERE StudyCode='" & Study & "'")
+
+
+            'For QC check
+            MsgBox("Upload Complete, " & FinalCount & " total queries uploaded")
+
+            Form1.TabControl1.SelectTab(0)
 
         End If
 

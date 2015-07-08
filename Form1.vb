@@ -36,8 +36,12 @@
 
             Case 1
                 ctl = Me.DataGridView1
-                SQLCode = "SELECT StudyCode, UploadDate, UploadPerson FROM Study ORDER BY UploadDate ASC"
+                SQLCode = "SELECT replace(StudyCode,'Retroscreen-',''), UploadDate, UploadPerson FROM Study ORDER BY UploadDate ASC"
                 CreateDataSet(SQLCode, Bind, ctl)
+
+            Case 2
+                ctl = Me.DataGridView2
+                
 
         End Select
 
@@ -63,8 +67,19 @@
                 ctl.columns(0).headertext = "Study"
                 ctl.columns(1).headertext = "Last Update"
                 ctl.columns(2).headertext = "Upload Person"
+                ctl.columns(1).DefaultCellStyle.Format = "dd-MMM-yyyy"
                 ctl.enabled = False
                 ctl.AllowUserToAddRows = False
+            Case "DataGridView2"
+                Me.ComboBox1.DataSource = TempDataSet("SELECT replace(StudyCode,'Retroscreen-','') as Study1, StudyCode FROM Study ORDER BY StudyCode ASC").Tables(0)
+                Me.ComboBox1.ValueMember = "StudyCode"
+                Me.ComboBox1.DisplayMember = "Study1"
+                Dim SQLCode As String = "SELECT a.*, Description, Status, FormName, RVLID FROM QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID " & _
+                "WHERE Study='" & Me.ComboBox1.SelectedValue.ToString & "'"
+                CreateDataSet(SQLCode, BindingSource1, ctl)
+                ctl.columns(0).visible = False
+                ctl.AllowUserToAddRows = False
+
         End Select
 
 
@@ -80,6 +95,28 @@
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
 
         Call UploadCSV()
+
+    End Sub
+
+    Private Sub ComboBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles ComboBox1.KeyDown
+
+        e.SuppressKeyPress = True
+
+    End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+
+        If Me.ComboBox1.SelectedValue.ToString <> "System.Data.DataRowView" Then
+
+            Dim ctl As Object = Me.DataGridView2
+
+            Call UnloadData()
+            Dim SQLCode As String
+            SQLCode = "SELECT a.*, Description, Status, FormName, RVLID FROM QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID " & _
+                    "WHERE Study='" & Me.ComboBox1.SelectedValue.ToString & "'"
+            CreateDataSet(SQLCode, BindingSource1, ctl)
+
+        End If
 
     End Sub
 End Class
