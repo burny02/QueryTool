@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="QueryTool.exe" size="248296">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="QueryTool.exe" size="241128">
       <assemblyIdentity name="QueryTool" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>mKRrZ4mCyiCMiSQ1THi0duQkEWnNKZ6/BLPUhtToZms=</dsig:DigestValue>
+        <dsig:DigestValue>Q0WYVBGeOMvJQiydCTIiZrQwg2Coc03QGWGk6+cW6OU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

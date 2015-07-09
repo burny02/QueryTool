@@ -9,7 +9,7 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("QueryTool")> 
-<Assembly: AssemblyDescription("")> 
+<Assembly: AssemblyDescription("Created by David Burnside")> 
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("QueryTool")> 
 <Assembly: AssemblyCopyright("Copyright ©  2015")> 

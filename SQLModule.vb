@@ -1,4 +1,5 @@
 ﻿'Imports needed for OLEDB connections (Access backend)
+Imports System.IO
 Imports System.Data
 Imports System.Data.OleDb.OleDbConnection
 Module SQLModule
@@ -16,27 +17,22 @@ Module SQLModule
         'Execute a SQL Command and return the number of records
 
         Dim Counter As Long
-        Dim rs As New ADODB.Recordset
+        Dim dt As New DataTable
+        Dim da As New OleDb.OleDbDataAdapter(SQLCode, Connect)
 
         Try
             'Connect
-            rs.Open(SQLCode, Connect, ADODB.CursorTypeEnum.adOpenStatic)
+            da.Fill(dt)
             'Assign
-            Counter = rs.RecordCount
+            Counter = dt.Rows.Count
 
         Catch ex As Exception
             MsgBox(ex.Message)
 
         Finally
             'Close Off & Clean up
-
-            Try
-                rs.Close()
-            Catch ex As Exception
-                ex = Nothing
-            Finally
-                rs = Nothing
-            End Try
+            dt = Nothing
+            da = Nothing
 
         End Try
         QueryTest = Counter
@@ -149,6 +145,8 @@ Module SQLModule
             'Close off & clean up
             Try
                 con.Close()
+                'Requery
+                Call Refresher(ctl)
             Catch ex As Exception
                 ex = Nothing
             Finally
@@ -205,7 +203,7 @@ Module SQLModule
 
         Select Case ctl.name
 
-            Case "DataGridView3"
+            Case "DataGridView2", "DataGridView3"
 
                 'Custom Command Builder...OLEDB Parameters must be added in the order they are used
 
@@ -214,18 +212,17 @@ Module SQLModule
                 Dim con As New OleDb.OleDbConnection(Connect)
 
                 'SET THE Commands, with Parameters (OLDB Parameters must be added in the order they are used in the statement)
-                CurrentDataAdapter.UpdateCommand = New OleDb.OleDbCommand("UPDATE TrainingCourse SET TypeID=@P1, CourseDate=@P2 WHERE ID=@P3", con)
-                CurrentDataAdapter.InsertCommand = New OleDb.OleDbCommand("INSERT INTO TrainingCourse (TypeID, CourseDate) VALUES (@P1, @P2)", con)
+                CurrentDataAdapter.UpdateCommand = New OleDb.OleDbCommand("UPDATE QueryCodes SET SiteCode=@P1, RespondCode=@P2, " & _
+                                                                          "Person=@P3, TypeCode=@P4 " & _
+                                                                          "WHERE QueryID=@P5", con)
 
                 'Add parameters with the source columns in the dataset
                 With CurrentDataAdapter.UpdateCommand.Parameters
-                    .Add("@P1", OleDb.OleDbType.Double).SourceColumn = "TypeID"
-                    .Add("@P2", OleDb.OleDbType.Date).SourceColumn = "CourseDate"
-                    .Add("@P3", OleDb.OleDbType.Double).SourceColumn = "ID"
-                End With
-                With CurrentDataAdapter.InsertCommand.Parameters
-                    .Add("@P1", OleDb.OleDbType.Double).SourceColumn = "TypeID"
-                    .Add("@P2", OleDb.OleDbType.Date).SourceColumn = "CourseDate"
+                    .Add("@P1", OleDb.OleDbType.VarChar, 255, "SiteCode")
+                    .Add("@P2", OleDb.OleDbType.VarChar, 255, "RespondCode")
+                    .Add("@P3", OleDb.OleDbType.VarChar, 255, "Person")
+                    .Add("@P4", OleDb.OleDbType.VarChar, 255, "TypeCode")
+                    .Add("@P5", OleDb.OleDbType.Double, 255, "QueryID")
                 End With
 
 
@@ -322,7 +319,10 @@ Module SQLModule
                                     "first([Query Closed Time]) AS F13, first([Query Closed By]) AS F14, first([Query Closed By Role]) AS F15 " & _
                                     "FROM [" & SheetName & "]" & _
                                     "GROUP BY [Screening Number], [Visit Name], [Form Name], [Query Text], [Query Creation Date (UTC)], " & _
-                                    "[Query Creation Time (UTC)], [Query Created By]"
+                                    "[Query Creation Time (UTC)], [Query Created By]" & _
+                                    "HAVING [Screening Number]<>'' AND [Visit Name]<>'' AND [Form Name]<>'' " & _
+                                    "AND [Query Text]<>'' AND [Query Creation Date (UTC)]<>'' " & _
+                                    "AND [Query Creation Time (UTC)]<>'' AND [Query Created By]<>''"
 
 
             oda.SelectCommand = cmdExcel
@@ -516,6 +516,226 @@ Module SQLModule
             MsgBox("Upload Complete, " & FinalCount & " total queries uploaded")
 
             Form1.TabControl1.SelectTab(0)
+
+        End If
+
+    End Sub
+
+    Public Function CreateCSVString(SQLCode As String) As String
+
+        Dim da As New OleDb.OleDbDataAdapter(SQLCode, Connect)
+        Dim dt As New DataTable
+        Dim Output As String = vbNullString
+
+        Try 
+            da.Fill(dt)
+
+            For Each row In dt.Rows
+
+                If Not IsNothing(row.item(0)) And Not IsDBNull(row.item(0)) Then
+                    Output = Output & row.Item(0) & ","
+                End If
+
+            Next
+
+            Output = Left(Output, Len(Output) - 1)
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+
+        Finally
+            CreateCSVString = Output
+            dt = Nothing
+            da = Nothing
+        End Try
+
+    End Function
+
+    Public Sub Refresher(DataItem As Object)
+
+        Try
+            Call CreateDataSet(CurrentDataAdapter.SelectCommand.CommandText, CurrentBindingSource, DataItem)
+            DataItem.parent.refresh()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+
+    End Sub
+
+    Public Sub ExportExcel(SQLCode As String, Study As String, Send As Boolean)
+
+        Dim AllowedSite As String = CreateCSVString("SELECT Code FROM SiteCODE a INNER JOIN Study b ON a.ListID=b.CodeList " & _
+                                                            "WHERE StudyCode='" & Study & "'")
+        Dim AllowedResponse As String = CreateCSVString("SELECT Code FROM GroupCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
+                                                    "WHERE StudyCode='" & Study & "'")
+        Dim AllowedType As String = CreateCSVString("SELECT Code FROM TypeCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
+                                                    "WHERE StudyCode='" & Study & "'")
+
+        Dim NumberWrong As Long = QueryTest("SELECT a.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " & _
+                        "FormName, Description, Status FROM QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID " & _
+                        "WHERE Study='" & Study & "'" & _
+                        "AND (instr('" & AllowedSite & "',SiteCode)=0" & _
+                        " OR instr('" & AllowedResponse & "',RespondCode)=0" & _
+                        " OR instr('" & AllowedType & "',TypeCode)=0" & _
+                        " OR SiteCode=''" & _
+                        " OR RespondCode=''" & _
+                        " OR Person=''" & _
+                        " OR Person NOT Like '[a-z][a-z-][a-z]'" & _
+                        " OR isnull(Person)" & _
+                        " OR isnull(SiteCode)" & _
+                        " OR isnull(RespondCode)" & _
+                        " OR isnull(TypeCode)" & _
+                        " OR len(Person)<>3" & _
+                        " OR TypeCode='')" & _
+                        " ORDER BY RVLID ASC")
+
+        If NumberWrong <> 0 Then
+            If MsgBox(NumberWrong & " bad/empty codes were found and will be missing from report. Do you wish to proceed?", vbYesNo) = vbNo Then Exit Sub
+        End If
+
+        Dim WantSend As Boolean = False
+
+        If Send = True Then
+            If MsgBox("Would you like to attach the spreadsheet to an email?", vbYesNo) = vbYes Then WantSend = True
+        End If
+
+
+        Dim dt As New DataTable
+        Dim da As New OleDb.OleDbDataAdapter(SQLCode, Connect)
+        da.Fill(dt)
+
+        da = Nothing
+
+        Dim i As Integer
+        Dim j As Integer
+
+        Dim xlApp As Object
+        xlApp = CreateObject("Excel.Application")
+        With xlApp
+            .Visible = False
+            .Workbooks.Add()
+            .Sheets("Sheet1").Select()
+
+            'Add column heading
+            For i = 1 To dt.Columns.Count
+                xlApp.activesheet.Cells(1, i).Value = dt.Columns(i - 1).ColumnName
+            Next i
+
+            'Add Rows
+            For i = 0 To dt.Rows.Count - 1
+                For j = 0 To dt.Columns.Count - 1
+                    xlApp.activesheet.Cells(i + 2, j + 1) = dt.Rows(i).Item(j)
+                Next j
+            Next i
+
+            xlApp.Cells.EntireColumn.AutoFit()
+            .activesheet.Range("$A$1:$Z$1").AutoFilter()
+
+            Dim numrow As Long
+            Dim r As Long
+            numrow = dt.Rows.Count + 1
+            For r = 2 To numrow
+                If .activesheet.Range("$A$" & r).Value < Date.Now Then
+                    .activesheet.Range("$A$" & r & ":$Z$" & r).Font.ColorIndex = 3
+                Else
+                    Exit For
+                End If
+
+            Next r
+
+        End With
+
+        dt = Nothing
+        da = Nothing
+
+        If WantSend = False Then xlApp.Visible = True
+
+        If WantSend = True Then
+
+            Dim Namer As String
+
+            Namer = Study & " Queries " & Format(Now(), "dd-mmm-yyyy")
+
+            If Not Directory.Exists("C:\DBS") Then MkDir("C:\DBS")
+
+            xlApp.DisplayAlerts = False
+
+            'SAVES FILE USING THE VARIABLE BOOKNAME AS FILENAME
+            xlApp.ActiveWorkbook.SaveAs("C:\DBS\" & Namer & ".xlsx")
+
+            xlApp.DisplayAlerts = True
+
+            Dim OutApp = CreateObject("Outlook.Application")
+            Dim objOutlookMsg = OutApp.CreateItem(0)
+
+            Dim MSite As Long
+            Dim WSite As Long
+            Dim QSite As Long
+            Dim OvMSite As Long
+            Dim OvWSite As Long
+            Dim OvQSite As Long
+
+            OutApp = CreateObject("Outlook.Application")
+            objOutlookMsg = OutApp.CreateItem(0)
+
+            MSite = QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+                                "INNER JOIN Study c on b.Study=c.StudyCode) " & _
+                                "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
+                                "WHERE Status='Open' AND Site='MAN' " & _
+                                "AND SiteCode=Code AND Study='" & Study & "'")
+
+            WSite = QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+                                "INNER JOIN Study c on b.Study=c.StudyCode) " & _
+                                "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
+                                "WHERE Status='Open' AND Site='WHC' " & _
+                                "AND SiteCode=Code AND Study='" & Study & "'")
+
+            QSite = QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+                                "INNER JOIN Study c on b.Study=c.StudyCode) " & _
+                                "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
+                                "WHERE Status='Open' AND Site='Quarantine' " & _
+                                "AND SiteCode=Code AND Study='" & Study & "'")
+
+            OvMSite = QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+                                "INNER JOIN Study c on b.Study=c.StudyCode) " & _
+                                "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
+                                "WHERE Status='Open' AND Site='MAN' " & _
+                                "AND dateadd('d',QueryAgeLimit,CreateDate)<Date()  " & _
+                                "AND SiteCode=Code AND Study='" & Study & "'")
+
+            OvWSite = QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+                                "INNER JOIN Study c on b.Study=c.StudyCode) " & _
+                                "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
+                                "WHERE Status='Open' AND Site='WHC' " & _
+                                "AND dateadd('d',QueryAgeLimit,CreateDate)<Date()  " & _
+                                "AND SiteCode=Code AND Study='" & Study & "'")
+
+            OvQSite = QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+                                "INNER JOIN Study c on b.Study=c.StudyCode) " & _
+                                "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
+                                "WHERE Status='Open' AND Site='Quarantine' " & _
+                                "AND dateadd('d',QueryAgeLimit,CreateDate)<Date()  " & _
+                                "AND SiteCode=Code AND Study='" & Study & "'")
+
+
+
+            objOutlookMsg.Subject = Study & " Queries"
+
+            objOutlookMsg.HTMLBody = "Dear All" & "<br/>" & "<br/>" & _
+                                        "Please find attached the latest query spreadsheet:" & "<br/>" & "<br/>" & "<br/>" & _
+                                        "MAN - " & MSite & "(" & OvMSite & " overdue)" & "<br/>" & _
+                                        "WHC - " & WSite & "(" & OvWSite & " overdue)" & "<br/>" & _
+                                        "VCU - " & QSite & "(" & OvQSite & " overdue)" & "<br/>" & "<br/>" & "<br/>" & _
+                                        "Please filter by columns B,C,D as required and respond on the portal." & "<br/>" & "<br/>" & _
+                                        "Overdue queries are marked in red." & "<br/>" & "<br/>" & _
+                                        "Many thanks"
+
+
+            objOutlookMsg.Display()
+            objOutlookMsg.Attachments.Add(xlApp.ActiveWorkbook.fullname.ToString)
+
+            OutApp = Nothing
+            xlApp.Quit()
 
         End If
 

@@ -63,9 +63,39 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
-        Friend ReadOnly Property thumb_plus_sign_icon_iconset_66_6_15683() As System.Drawing.Bitmap
+        Friend ReadOnly Property ExcelIcon() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("thumb-plus-sign-icon-iconset-66_6-15683", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("ExcelIcon", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property hVIVO_screensaver_two() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("hVIVO_screensaver_two", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property SAVER() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("SAVER", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property UPLOADER() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("UPLOADER", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

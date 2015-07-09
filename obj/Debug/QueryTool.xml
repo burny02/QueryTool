@@ -15,7 +15,23 @@ QueryTool
   Overrides the current thread's CurrentUICulture property for all
   resource lookups using this strongly typed resource class.
 </summary>
+</member><member name="P:QueryTool.My.Resources.Resources.Excel_20Icon">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:QueryTool.My.Resources.Resources.hVIVO_screensaver_two">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:QueryTool.My.Resources.Resources.SAVER">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:QueryTool.My.Resources.Resources.thumb_plus_sign_icon_iconset_66_6_15683">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:QueryTool.My.Resources.Resources.UPLOADER">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>

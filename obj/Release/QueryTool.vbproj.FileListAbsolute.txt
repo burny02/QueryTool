@@ -1,0 +1,15 @@
+C:\OK\Databases\Backup\QueryTool\QueryTool\bin\Release\QueryTool.exe.config
+C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Release\QueryTool.vbproj.ResolveComReference.cache
+C:\OK\Databases\Backup\QueryTool\QueryTool\bin\Release\QueryTool.exe.manifest
+C:\OK\Databases\Backup\QueryTool\QueryTool\bin\Release\QueryTool.application
+C:\OK\Databases\Backup\QueryTool\QueryTool\bin\Release\QueryTool.exe
+C:\OK\Databases\Backup\QueryTool\QueryTool\bin\Release\QueryTool.pdb
+C:\OK\Databases\Backup\QueryTool\QueryTool\bin\Release\QueryTool.xml
+C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Release\QueryTool.Form1.resources
+C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Release\QueryTool.Resources.resources
+C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Release\QueryTool.vbproj.GenerateResource.Cache
+C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Release\QueryTool.exe.manifest
+C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Release\QueryTool.application
+C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Release\QueryTool.exe
+C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Release\QueryTool.xml
+C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Release\QueryTool.pdb
