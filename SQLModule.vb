@@ -348,7 +348,9 @@ Module SQLModule
             Dim BackendDT As New DataTable()
             Dim UpdateTable = dt.Clone
             Dim InsertTable = dt.Clone
+            tempDa.AcceptChangesDuringFill = True
             tempDa.Fill(BackendDT)
+
 
 
             'JOIN BACKEND AND EXCEL - PUT INTO UPDATE DATATABLE
@@ -374,6 +376,14 @@ Module SQLModule
             For Each row In UpdateData
                 UpdateTable.ImportRow(row)
             Next
+
+            UpdateTable.PrimaryKey = New DataColumn() {UpdateTable.Columns("F1"), _
+                                                        UpdateTable.Columns("F2"), _
+                                                        UpdateTable.Columns("F3"), _
+                                                        UpdateTable.Columns("F7"), _
+                                                        UpdateTable.Columns("F8"), _
+                                                        UpdateTable.Columns("F9"), _
+                                                        UpdateTable.Columns("F10")}
 
             UpdateData = Nothing
 
@@ -405,6 +415,14 @@ Module SQLModule
                 InsertTable.ImportRow(row)
             Next
 
+            InsertTable.PrimaryKey = New DataColumn() {InsertTable.Columns("F1"), _
+                                                    InsertTable.Columns("F2"), _
+                                                    InsertTable.Columns("F3"), _
+                                                    InsertTable.Columns("F7"), _
+                                                    InsertTable.Columns("F8"), _
+                                                    InsertTable.Columns("F9"), _
+                                                    InsertTable.Columns("F10")}
+
             InsertData = Nothing
 
 
@@ -420,17 +438,19 @@ Module SQLModule
             'Update BackEnd
             Dim da As New OleDb.OleDbDataAdapter()
 
+
             'Set all rows as modified
             For Each row In UpdateTable.Rows
                 row.SetModified()
             Next
 
 
+
             'Set Update Command for backend
 
             da.UpdateCommand = New OleDb.OleDbCommand("Update Queries SET Status=@P1, ClosedDate=@P2, ClosedTime=@P3, ClosedBy=@P4, ClosedByRole=@P5 " & _
-                                                        "WHERE RVLID=@P6 AND VisitName=@P7 AND FormName=@P8 AND Description=@P9 " & _
-                                                        "AND CreateDate=@P10 AND CreateTime=@P11 AND CreatedBy=@P12", con)
+                                                    "WHERE RVLID=@P6 AND VisitName=@P7 AND FormName=@P8 AND Description=@P9 " & _
+                                                    "AND CreateDate=@P10 AND CreateTime=@P11 AND CreatedBy=@P12", con)
 
             'Set update parameters
             With da.UpdateCommand.Parameters
@@ -442,15 +462,32 @@ Module SQLModule
                 .Add("@P6", OleDb.OleDbType.Char, 50, "F1")
                 .Add("@P7", OleDb.OleDbType.Char, 50, "F2")
                 .Add("@P8", OleDb.OleDbType.Char, 50, "F3")
-                .Add("@P9", OleDb.OleDbType.Char, 50, "F7")
-                .Add("@P10", OleDb.OleDbType.Char, 50, "F8")
-                .Add("@P11", OleDb.OleDbType.Char, 50, "F9")
+                .Add("@P9", OleDb.OleDbType.Char, 100, "F7")
+                .Add("@P10", OleDb.OleDbType.Char, 100, "F8")
+                .Add("@P11", OleDb.OleDbType.Char, 255, "F9")
                 .Add("@P12", OleDb.OleDbType.Char, 50, "F10")
             End With
 
-            con.Open()
-            da.Update(UpdateTable)
-            con.Close()
+            For Each row In UpdateTable.Rows
+
+                Dim P1 As String = "'" & Replace(row.Item("F6").ToString, "'", "") & "'"
+                Dim P2 As String = "'" & Replace(row.Item("F12").ToString, "'", "") & "'"
+                Dim P3 As String = "'" & Replace(row.Item("F13").ToString, "'", "") & "'"
+                Dim P4 As String = "'" & Replace(row.Item("F14").ToString, "'", "") & "'"
+                Dim P5 As String = "'" & Replace(row.Item("F15").ToString, "'", "") & "'"
+                Dim P6 As String = "'" & Replace(row.Item("F1").ToString, "'", "") & "'"
+                Dim P7 As String = "'" & Replace(row.Item("F2").ToString, "'", "") & "'"
+                Dim P8 As String = "'" & Replace(row.Item("F3").ToString, "'", "") & "'"
+                Dim P9 As String = "'" & Replace(row.Item("F7").ToString, "'", "") & "'"
+                Dim P10 As String = "'" & Replace(row.Item("F8").ToString, "'", "") & "'"
+                Dim P11 As String = "'" & Replace(row.Item("F9").ToString, "'", "") & "'"
+                Dim P12 As String = "'" & Replace(row.Item("F10").ToString, "'", "") & "'"
+
+                Call ExecuteSQL("Update Queries SET Status=" & P1 & ", ClosedDate=" & P2 & ", ClosedTime=" & P3 & ", ClosedBy=" & P4 & ", ClosedByRole=" & P5 & _
+                                                    " WHERE RVLID=" & P6 & " AND VisitName=" & P7 & " AND FormName=" & P8 & " AND Description=" & P9 & _
+                                                    " AND CreateDate=" & P10 & " AND CreateTime=" & P11 & " AND CreatedBy=" & P12)
+
+            Next
 
 
             'Set all rows as new
@@ -485,8 +522,8 @@ Module SQLModule
                 .Add("@P8", OleDb.OleDbType.Char, 50, "F11")
                 .Add("@P9", OleDb.OleDbType.Char, 50, "F12")
                 .Add("@P14", OleDb.OleDbType.Char, 50, "F13")
-                .Add("@P15", OleDb.OleDbType.Char, 30, "F14")
-                .Add("@P16", OleDb.OleDbType.Char, 30, "F15")
+                .Add("@P15", OleDb.OleDbType.Char, 50, "F14")
+                .Add("@P16", OleDb.OleDbType.Char, 50, "F15")
             End With
 
 
@@ -508,14 +545,14 @@ Module SQLModule
 
 
             'Update Upload Date/Time
-            ExecuteSQL("UPDATE Study SET UploadDate=Date(), UploadPerson='" & GetUserName() & "'" & _
+            ExecuteSQL("UPDATE Study SET UploadDate=now(), UploadPerson='" & GetUserName() & "'" & _
                        "WHERE StudyCode='" & Study & "'")
 
 
             'For QC check
             MsgBox("Upload Complete, " & FinalCount & " total queries uploaded")
 
-            Form1.TabControl1.SelectTab(0)
+            Call Refresher(Form1.DataGridView1)
 
         End If
 
@@ -631,26 +668,26 @@ Module SQLModule
             xlApp.Cells.EntireColumn.AutoFit()
             .activesheet.Range("$A$1:$Z$1").AutoFilter()
 
-            Dim numrow As Long
-            Dim r As Long
-            numrow = dt.Rows.Count + 1
-            For r = 2 To numrow
-                If .activesheet.Range("$A$" & r).Value < Date.Now Then
-                    .activesheet.Range("$A$" & r & ":$Z$" & r).Font.ColorIndex = 3
-                Else
-                    Exit For
-                End If
-
-            Next r
-
         End With
 
+        Dim numrow As Long
+        Dim r As Long
+        numrow = dt.Rows.Count + 1
         dt = Nothing
         da = Nothing
 
         If WantSend = False Then xlApp.Visible = True
 
         If WantSend = True Then
+
+            For r = 2 To numrow
+                If xlApp.activesheet.Range("$A$" & r).Value < Date.Now Then
+                    xlApp.activesheet.Range("$A$" & r & ":$Z$" & r).Font.ColorIndex = 3
+                Else
+                    Exit For
+                End If
+
+            Next r
 
             Dim Namer As String
 
@@ -740,4 +777,6 @@ Module SQLModule
         End If
 
     End Sub
+
+
 End Module

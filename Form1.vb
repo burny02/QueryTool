@@ -8,7 +8,11 @@
 
         Call LoginCheck()
 
-        Me.Label2.Text = "Query Tool " & vbNewLine & "Developed by David Burnside" & vbNewLine & "Version: " & My.Application.Info.Version.ToString()
+        Try
+            Me.Label2.Text = "Query Tool " & vbNewLine & "Developed by David Burnside" & vbNewLine & "Version: " & System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString
+        Catch ex As Exception
+            Me.Label2.Text = "Query Tool " & vbNewLine & "Developed by David Burnside"
+        End Try
 
         Me.Text = SolutionName
 
@@ -38,25 +42,25 @@
 
             Case 1
                 ctl = Me.DataGridView1
-                SQLCode = "SELECT replace(StudyCode,'Retroscreen-',''), UploadDate, UploadPerson FROM Study ORDER BY UploadDate DESC"
+                SQLCode = "SELECT DisplayName, UploadDate, UploadPerson FROM Study ORDER BY UploadDate DESC"
                 CreateDataSet(SQLCode, Bind, ctl)
 
             Case 2
                 ctl = Me.DataGridView2
-                Me.ComboBox1.DataSource = TempDataSet("SELECT replace(StudyCode,'Retroscreen-','') as Study1, StudyCode FROM Study ORDER BY StudyCode ASC").Tables(0)
+                Me.ComboBox1.DataSource = TempDataSet("SELECT DisplayName, StudyCode FROM Study ORDER BY StudyCode ASC").Tables(0)
                 Me.ComboBox1.ValueMember = "StudyCode"
-                Me.ComboBox1.DisplayMember = "Study1"
+                Me.ComboBox1.DisplayMember = "DisplayName"
 
             Case 3
                 ctl = Me.DataGridView3
-                Me.ComboBox2.DataSource = TempDataSet("SELECT replace(StudyCode,'Retroscreen-','') as Study1, StudyCode FROM Study ORDER BY StudyCode ASC").Tables(0)
+                Me.ComboBox2.DataSource = TempDataSet("SELECT DisplayName, StudyCode FROM Study ORDER BY StudyCode ASC").Tables(0)
                 Me.ComboBox2.ValueMember = "StudyCode"
-                Me.ComboBox2.DisplayMember = "Study1"
+                Me.ComboBox2.DisplayMember = "DisplayName"
 
             Case 4
-                Me.ComboBox3.DataSource = TempDataSet("SELECT replace(StudyCode,'Retroscreen-','') as Study1, StudyCode FROM Study ORDER BY StudyCode ASC").Tables(0)
+                Me.ComboBox3.DataSource = TempDataSet("SELECT DisplayName, StudyCode FROM Study ORDER BY StudyCode ASC").Tables(0)
                 Me.ComboBox3.ValueMember = "StudyCode"
-                Me.ComboBox3.DisplayMember = "Study1"
+                Me.ComboBox3.DisplayMember = "DisplayName"
 
         End Select
 
@@ -90,25 +94,25 @@
         ctl.columns(8).readonly = True
         ctl.AllowUserToAddRows = False
         Dim cmb As New DataGridViewComboBoxColumn()
-        cmb.DataSource = TempDataSet("SELECT Code FROM SiteCode a inner join Study b ON a.ListID=b.CodeList " & _
+        cmb.DataSource = TempDataSet("SELECT Site, Code FROM SiteCode a inner join Study b ON a.ListID=b.CodeList " & _
                                      "WHERE StudyCode='" & Combo.SelectedValue.ToString & "' ORDER BY Code ASC").Tables(0)
         cmb.DataPropertyName = CurrentDataSet.Tables(0).Columns(1).ToString
         cmb.ValueMember = "Code"
-        cmb.DisplayMember = "Code"
+        cmb.DisplayMember = "Site"
         ctl.Columns.Add(cmb)
         Dim cmb2 As New DataGridViewComboBoxColumn()
-        cmb2.DataSource = TempDataSet("SELECT Code FROM TypeCode a inner join Study b ON a.ListID=b.CodeList " & _
+        cmb2.DataSource = TempDataSet("SELECT ErrorType, Code FROM TypeCode a inner join Study b ON a.ListID=b.CodeList " & _
                                      "WHERE StudyCode='" & Combo.SelectedValue.ToString & "' ORDER BY Code ASC").Tables(0)
         cmb2.DataPropertyName = CurrentDataSet.Tables(0).Columns(2).ToString
         cmb2.ValueMember = "Code"
-        cmb2.DisplayMember = "Code"
+        cmb2.DisplayMember = "ErrorType"
         ctl.Columns.Add(cmb2)
         Dim cmb3 As New DataGridViewComboBoxColumn()
-        cmb3.DataSource = TempDataSet("SELECT Code FROM GroupCode a inner join Study b ON a.ListID=b.CodeList " & _
+        cmb3.DataSource = TempDataSet("SELECT Group, Code FROM GroupCode a inner join Study b ON a.ListID=b.CodeList " & _
                                      "WHERE StudyCode='" & Combo.SelectedValue.ToString & "' ORDER BY Code ASC").Tables(0)
         cmb3.DataPropertyName = CurrentDataSet.Tables(0).Columns(4).ToString
         cmb3.ValueMember = "Code"
-        cmb3.DisplayMember = "Code"
+        cmb3.DisplayMember = "Group"
         ctl.Columns.Add(cmb3)
         ctl.columns(3).displayindex = 10
         cmb3.HeaderText = "Respond Code"
@@ -129,7 +133,7 @@
                 ctl.columns(0).headertext = "Study"
                 ctl.columns(1).headertext = "Last Update"
                 ctl.columns(2).headertext = "Upload Person"
-                ctl.columns(1).DefaultCellStyle.Format = "dd-MMM-yyyy"
+                ctl.columns(1).DefaultCellStyle.Format = "dd-MMM-yyyy - HH:mm"
                 ctl.enabled = False
                 ctl.AllowUserToAddRows = False
             Case "DataGridView2"
@@ -231,7 +235,7 @@
     End Sub
 
     Private Sub Button6_Click_1(sender As Object, e As EventArgs) Handles Button6.Click
-        Call ExportExcel("SELECT dateadd('d',QueryAgeLimit,CreateDate) AS DueDate, " & _
+        Call ExportExcel("SELECT dateadd('d',QueryAgeLimit,CreateDate) AS DueDate," & _
                          "Person as [Allocated To], Site, Group, RVLID, " & _
                         "FormName, Description " & _
                         "FROM (((((Queries a INNER JOIN Study b ON a.Study=b.StudyCode) " & _
@@ -245,9 +249,7 @@
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
-        Call ExportExcel("SELECT dateadd('d',QueryAgeLimit,CreateDate) AS DueDate, " & _
-                         "Study, Person as [Allocated To], Site, Group, RVLID, " & _
-                        "FormName, Description " & _
+        Call ExportExcel("SELECT a.*, c.* " & _
                         "FROM (((((Queries a INNER JOIN Study b ON a.Study=b.StudyCode) " & _
                         "INNER JOIN QueryCodes c ON a.QueryID=c.QueryID) " & _
                         "INNER JOIN GroupCode d ON b.CodeList=d.ListID) " & _
@@ -258,7 +260,7 @@
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        Call ExportExcel("SELECT dateadd('d',QueryAgeLimit,CreateDate) AS DueDate, " & _
+        Call ExportExcel("SELECT " & _
                          "Person as [Allocated To], Site, Group, RVLID, " & _
                         "FormName, Description " & _
                         "FROM (((((Queries a INNER JOIN Study b ON a.Study=b.StudyCode) " & _
