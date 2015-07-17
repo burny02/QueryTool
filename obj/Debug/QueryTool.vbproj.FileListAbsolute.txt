@@ -14,3 +14,7 @@ C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Debug\QueryTool.application
 C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Debug\QueryTool.exe
 C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Debug\QueryTool.xml
 C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Debug\QueryTool.pdb
+C:\OK\Databases\Backup\QueryTool\QueryTool\bin\Debug\TemplateDB.dll
+C:\OK\Databases\Backup\QueryTool\QueryTool\bin\Debug\TemplateDB.pdb
+C:\OK\Databases\Backup\QueryTool\QueryTool\bin\Debug\TemplateDB.xml
+C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Debug\QueryTool.vbprojResolveAssemblyReference.cache

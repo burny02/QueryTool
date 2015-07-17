@@ -4,9 +4,10 @@
 
         Me.WindowState = FormWindowState.Maximized
 
-        Call LockCheck()
+        Call StartUpCentral()
 
-        Call LoginCheck()
+        Call Central.LockCheck()
+        Call Central.LoginCheck()
 
         Try
             Me.Label2.Text = "Query Tool " & vbNewLine & "Developed by David Burnside" & vbNewLine & "Version: " & System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString
@@ -20,8 +21,8 @@
 
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
 
-        If UnloadData() = True Then e.Cancel = True
-        Call Quitter(True)
+        If Central.UnloadData() = True Then e.Cancel = True
+        Call Central.Quitter(True)
 
     End Sub
 
@@ -31,7 +32,7 @@
         Dim Bind As BindingSource = BindingSource1
         Dim ctl As Object = Nothing
 
-        If UnloadData() = True Then
+        If Central.UnloadData() = True Then
             e.Cancel = True
             Exit Sub
         End If
@@ -43,22 +44,22 @@
             Case 1
                 ctl = Me.DataGridView1
                 SQLCode = "SELECT DisplayName, UploadDate, UploadPerson FROM Study ORDER BY UploadDate DESC"
-                CreateDataSet(SQLCode, Bind, ctl)
+                Central.CreateDataSet(SQLCode, Bind, ctl)
 
             Case 2
                 ctl = Me.DataGridView2
-                Me.ComboBox1.DataSource = TempDataSet("SELECT DisplayName, StudyCode FROM Study ORDER BY StudyCode ASC").Tables(0)
+                Me.ComboBox1.DataSource = Central.TempDataSet("SELECT DisplayName, StudyCode FROM Study ORDER BY StudyCode ASC").Tables(0)
                 Me.ComboBox1.ValueMember = "StudyCode"
                 Me.ComboBox1.DisplayMember = "DisplayName"
 
             Case 3
                 ctl = Me.DataGridView3
-                Me.ComboBox2.DataSource = TempDataSet("SELECT DisplayName, StudyCode FROM Study ORDER BY StudyCode ASC").Tables(0)
+                Me.ComboBox2.DataSource = Central.TempDataSet("SELECT DisplayName, StudyCode FROM Study ORDER BY StudyCode ASC").Tables(0)
                 Me.ComboBox2.ValueMember = "StudyCode"
                 Me.ComboBox2.DisplayMember = "DisplayName"
 
             Case 4
-                Me.ComboBox3.DataSource = TempDataSet("SELECT DisplayName, StudyCode FROM Study ORDER BY StudyCode ASC").Tables(0)
+                Me.ComboBox3.DataSource = Central.TempDataSet("SELECT DisplayName, StudyCode FROM Study ORDER BY StudyCode ASC").Tables(0)
                 Me.ComboBox3.ValueMember = "StudyCode"
                 Me.ComboBox3.DisplayMember = "DisplayName"
 
@@ -83,7 +84,7 @@
     Private Sub Grid2And3(ctl As Object, Combo As ComboBox, SQLString As String)
 
         Call ResetDataGrid()
-        CreateDataSet(SQLString, BindingSource1, ctl)
+        Central.CreateDataSet(SQLString, BindingSource1, ctl)
         ctl.columns(0).visible = False
         ctl.columns(1).visible = False
         ctl.columns(2).visible = False
@@ -94,23 +95,23 @@
         ctl.columns(8).readonly = True
         ctl.AllowUserToAddRows = False
         Dim cmb As New DataGridViewComboBoxColumn()
-        cmb.DataSource = TempDataSet("SELECT Site, Code FROM SiteCode a inner join Study b ON a.ListID=b.CodeList " & _
+        cmb.DataSource = Central.TempDataSet("SELECT Site, Code FROM SiteCode a inner join Study b ON a.ListID=b.CodeList " & _
                                      "WHERE StudyCode='" & Combo.SelectedValue.ToString & "' ORDER BY Code ASC").Tables(0)
-        cmb.DataPropertyName = CurrentDataSet.Tables(0).Columns(1).ToString
+        cmb.DataPropertyName = Central.CurrentDataSet.Tables(0).Columns(1).ToString
         cmb.ValueMember = "Code"
         cmb.DisplayMember = "Site"
         ctl.Columns.Add(cmb)
         Dim cmb2 As New DataGridViewComboBoxColumn()
-        cmb2.DataSource = TempDataSet("SELECT ErrorType, Code FROM TypeCode a inner join Study b ON a.ListID=b.CodeList " & _
+        cmb2.DataSource = Central.TempDataSet("SELECT ErrorType, Code FROM TypeCode a inner join Study b ON a.ListID=b.CodeList " & _
                                      "WHERE StudyCode='" & Combo.SelectedValue.ToString & "' ORDER BY Code ASC").Tables(0)
-        cmb2.DataPropertyName = CurrentDataSet.Tables(0).Columns(2).ToString
+        cmb2.DataPropertyName = Central.CurrentDataSet.Tables(0).Columns(2).ToString
         cmb2.ValueMember = "Code"
         cmb2.DisplayMember = "ErrorType"
         ctl.Columns.Add(cmb2)
         Dim cmb3 As New DataGridViewComboBoxColumn()
-        cmb3.DataSource = TempDataSet("SELECT Group, Code FROM GroupCode a inner join Study b ON a.ListID=b.CodeList " & _
+        cmb3.DataSource = Central.TempDataSet("SELECT Group, Code FROM GroupCode a inner join Study b ON a.ListID=b.CodeList " & _
                                      "WHERE StudyCode='" & Combo.SelectedValue.ToString & "' ORDER BY Code ASC").Tables(0)
-        cmb3.DataPropertyName = CurrentDataSet.Tables(0).Columns(4).ToString
+        cmb3.DataPropertyName = Central.CurrentDataSet.Tables(0).Columns(4).ToString
         cmb3.ValueMember = "Code"
         cmb3.DisplayMember = "Group"
         ctl.Columns.Add(cmb3)
@@ -145,11 +146,11 @@
 
             Case "DataGridView3"
 
-                Dim AllowedSite As String = CreateCSVString("SELECT Code FROM SiteCODE a INNER JOIN Study b ON a.ListID=b.CodeList " & _
+                Dim AllowedSite As String = Central.CreateCSVString("SELECT Code FROM SiteCODE a INNER JOIN Study b ON a.ListID=b.CodeList " & _
                                                             "WHERE StudyCode='" & Me.ComboBox2.SelectedValue.ToString & "'")
-                Dim AllowedResponse As String = CreateCSVString("SELECT Code FROM GroupCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
+                Dim AllowedResponse As String = Central.CreateCSVString("SELECT Code FROM GroupCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
                                                             "WHERE StudyCode='" & Me.ComboBox2.SelectedValue.ToString & "'")
-                Dim AllowedType As String = CreateCSVString("SELECT Code FROM TypeCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
+                Dim AllowedType As String = Central.CreateCSVString("SELECT Code FROM TypeCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
                                                             "WHERE StudyCode='" & Me.ComboBox2.SelectedValue.ToString & "'")
 
                 Dim SQLCode As String = "SELECT a.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " & _
@@ -192,7 +193,7 @@
 
         If Me.ComboBox1.SelectedValue.ToString <> "System.Data.DataRowView" Then
 
-            If UnloadData() = True Then Exit Sub
+            If Central.UnloadData() = True Then Exit Sub
             Call ResetDataGrid()
             Call Specifics(Me.DataGridView2)
 
@@ -202,28 +203,28 @@
 
     Private Sub DataGridView2_DataError(sender As Object, e As DataGridViewDataErrorEventArgs) Handles DataGridView2.DataError
 
-        Call ErrorHandler(sender, e)
+        Call Central.ErrorHandler(sender, e)
 
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
-        Call UpdateBackend(Me.DataGridView2)
+        Call Saver(DataGridView2)
 
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        Call UpdateBackend(Me.DataGridView3)
+        Call Saver(DataGridView3)
     End Sub
 
     Private Sub DataGridView3_DataError(sender As Object, e As DataGridViewDataErrorEventArgs) Handles DataGridView3.DataError
-        Call ErrorHandler(sender, e)
+        Call Central.ErrorHandler(sender, e)
     End Sub
 
     Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox2.SelectedIndexChanged
         If Me.ComboBox2.SelectedValue.ToString <> "System.Data.DataRowView" Then
 
-            If UnloadData() = True Then Exit Sub
+            If Central.UnloadData() = True Then Exit Sub
             Call ResetDataGrid()
             Call Specifics(Me.DataGridView3)
 
