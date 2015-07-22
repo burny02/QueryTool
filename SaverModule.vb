@@ -31,11 +31,11 @@
 
                 'Add parameters with the source columns in the dataset
                 With Central.CurrentDataAdapter.UpdateCommand.Parameters
-                    .Add("@P1", OleDb.OleDbType.VarChar, 255, "SiteCode")
-                    .Add("@P2", OleDb.OleDbType.VarChar, 255, "RespondCode")
-                    .Add("@P3", OleDb.OleDbType.VarChar, 255, "Person")
-                    .Add("@P4", OleDb.OleDbType.VarChar, 255, "TypeCode")
-                    .Add("@P5", OleDb.OleDbType.Double, 255, "QueryID")
+                    .Add("@P1", OleDb.OleDbType.VarChar, 5, "SiteCode")
+                    .Add("@P2", OleDb.OleDbType.VarChar, 5, "RespondCode")
+                    .Add("@P3", OleDb.OleDbType.VarChar, 5, "Person")
+                    .Add("@P4", OleDb.OleDbType.VarChar, 5, "TypeCode")
+                    .Add("@P5", OleDb.OleDbType.VarChar, 50, "QueryID")
                 End With
 
 

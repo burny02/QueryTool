@@ -95,25 +95,25 @@
         ctl.columns(8).readonly = True
         ctl.AllowUserToAddRows = False
         Dim cmb As New DataGridViewComboBoxColumn()
-        cmb.DataSource = Central.TempDataSet("SELECT Site, Code FROM SiteCode a inner join Study b ON a.ListID=b.CodeList " & _
+        cmb.DataSource = Central.TempDataSet("SELECT Code & ' - ' & Site AS Display, Code FROM SiteCode a inner join Study b ON a.ListID=b.CodeList " & _
                                      "WHERE StudyCode='" & Combo.SelectedValue.ToString & "' ORDER BY Code ASC").Tables(0)
         cmb.DataPropertyName = Central.CurrentDataSet.Tables(0).Columns(1).ToString
         cmb.ValueMember = "Code"
-        cmb.DisplayMember = "Site"
+        cmb.DisplayMember = "Display"
         ctl.Columns.Add(cmb)
         Dim cmb2 As New DataGridViewComboBoxColumn()
-        cmb2.DataSource = Central.TempDataSet("SELECT ErrorType, Code FROM TypeCode a inner join Study b ON a.ListID=b.CodeList " & _
+        cmb2.DataSource = Central.TempDataSet("SELECT Code & ' - ' & ErrorType AS Display, Code FROM TypeCode a inner join Study b ON a.ListID=b.CodeList " & _
                                      "WHERE StudyCode='" & Combo.SelectedValue.ToString & "' ORDER BY Code ASC").Tables(0)
         cmb2.DataPropertyName = Central.CurrentDataSet.Tables(0).Columns(2).ToString
         cmb2.ValueMember = "Code"
-        cmb2.DisplayMember = "ErrorType"
+        cmb2.DisplayMember = "Display"
         ctl.Columns.Add(cmb2)
         Dim cmb3 As New DataGridViewComboBoxColumn()
-        cmb3.DataSource = Central.TempDataSet("SELECT Group, Code FROM GroupCode a inner join Study b ON a.ListID=b.CodeList " & _
+        cmb3.DataSource = Central.TempDataSet("SELECT Code & ' - ' & Group AS Display, Code FROM GroupCode a inner join Study b ON a.ListID=b.CodeList " & _
                                      "WHERE StudyCode='" & Combo.SelectedValue.ToString & "' ORDER BY Code ASC").Tables(0)
         cmb3.DataPropertyName = Central.CurrentDataSet.Tables(0).Columns(4).ToString
         cmb3.ValueMember = "Code"
-        cmb3.DisplayMember = "Group"
+        cmb3.DisplayMember = "Display"
         ctl.Columns.Add(cmb3)
         ctl.columns(3).displayindex = 10
         cmb3.HeaderText = "Respond Code"
@@ -272,5 +272,13 @@
                         "WHERE Status='Responded' AND Study='" & Me.ComboBox3.SelectedValue.ToString & "' " & _
                         " AND f.code=c.SiteCode AND c.RespondCode=d.code AND TypeCode=e.code" _
                          , Me.ComboBox3.SelectedValue.ToString, False)
+    End Sub
+
+    Private Sub DataGridView3_CellEnter(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView3.CellEnter
+        Call Central.SingleClick(sender, e)
+    End Sub
+
+    Private Sub DataGridView2_CellEnter(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellEnter
+        Call Central.SingleClick(sender, e)
     End Sub
 End Class

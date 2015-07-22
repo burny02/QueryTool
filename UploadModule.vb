@@ -43,22 +43,22 @@
 
             'Read Data from First Sheet 
 
-            cmdExcel.CommandText = "SELECT first([Protocol Number]) AS F0, [Screening Number] As F1, [Visit Name] AS F2, " & _
-                                    "[Form Name] AS F3, first([Page Number]) AS F4, " & _
-                                    "first([Field Name]) AS F5, first([Query Status]) AS F6, [Query Text] AS F7, " & _
+            cmdExcel.CommandText = "SELECT [Protocol Number] AS F0, left([Screening Number],50) As F1, [Visit Name] AS F2, " & _
+                                    "[Form Name] AS F3, left([Page Number],50) AS F4, " & _
+                                    "[Field Name] AS F5, [Query Status] AS F6, replace([Query Text],""'"","""") AS F7, " & _
                                     "[Query Creation Date (UTC)] AS F8, [Query Creation Time (UTC)] AS F9, " & _
-                                    "[Query Created By] AS F10, first([Query Created By Role]) AS F11, first([Query Closed Date]) AS F12, " & _
-                                    "first([Query Closed Time]) AS F13, first([Query Closed By]) AS F14, first([Query Closed By Role]) AS F15 " & _
+                                    "[Query Created By] AS F10, [Query Created By Role] AS F11, [Query Closed Date] AS F12, " & _
+                                    "[Query Closed Time] AS F13, [Query Closed By] AS F14, [Query Closed By Role] AS F15, " & _
+                                    "[Query ID] AS F16 " & _
                                     "FROM [" & SheetName & "]" & _
-                                    "GROUP BY [Screening Number], [Visit Name], [Form Name], [Query Text], [Query Creation Date (UTC)], " & _
-                                    "[Query Creation Time (UTC)], [Query Created By]" & _
-                                    "HAVING [Screening Number]<>'' AND [Visit Name]<>'' AND [Form Name]<>'' " & _
-                                    "AND [Query Text]<>'' AND [Query Creation Date (UTC)]<>'' " & _
-                                    "AND [Query Creation Time (UTC)]<>'' AND [Query Created By]<>''"
+                                    "WHERE [Query ID]<>''"
 
 
             oda.SelectCommand = cmdExcel
 
+            For Each column In dt.Columns
+                column.DataType = GetType(String)
+            Next
             oda.Fill(dt)
 
             Dim FinalCount As Long = (dt.Rows.Count)
@@ -89,32 +89,20 @@
                     From a In dt.AsEnumerable()
                     Join b In BackendDT.AsEnumerable()
                     On
-                    a.Field(Of String)("F1") Equals b.Field(Of String)("RVLID") And
-                    a.Field(Of String)("F2") Equals b.Field(Of String)("VisitName") And
-                    a.Field(Of String)("F3") Equals b.Field(Of String)("FormName") And
-                    a.Field(Of String)("F7") Equals b.Field(Of String)("Description") And
-                    a.Field(Of String)("F8") Equals b.Field(Of String)("CreateDate") And
-                    a.Field(Of String)("F9") Equals b.Field(Of String)("CreateTime") And
-                    a.Field(Of String)("F10") Equals b.Field(Of String)("CreatedBy")
-                Where
-                    a.Field(Of String)("F6") <> b.Field(Of String)("Status") Or
-                    a.Field(Of String)("F12") <> b.Field(Of String)("ClosedDate") Or
-                    a.Field(Of String)("F13") <> b.Field(Of String)("ClosedTime") Or
-                    a.Field(Of String)("F14") <> b.Field(Of String)("ClosedBy") Or
-                    a.Field(Of String)("F15") <> b.Field(Of String)("ClosedByRole")
-                Select a
+                       a.Field(Of String)("F16") Equals b.Field(Of String)("QueryID")
+                    Where
+                        a.Field(Of String)("F6") <> b.Field(Of String)("Status") Or
+                        a.Field(Of String)("F12") <> b.Field(Of String)("ClosedDate") Or
+                        a.Field(Of String)("F13") <> b.Field(Of String)("ClosedTime") Or
+                        a.Field(Of String)("F14") <> b.Field(Of String)("ClosedBy") Or
+                        a.Field(Of String)("F15") <> b.Field(Of String)("ClosedByRole")
+                    Select a
+            
 
             For Each row In UpdateData
                 UpdateTable.ImportRow(row)
             Next
 
-            UpdateTable.PrimaryKey = New DataColumn() {UpdateTable.Columns("F1"), _
-                                                        UpdateTable.Columns("F2"), _
-                                                        UpdateTable.Columns("F3"), _
-                                                        UpdateTable.Columns("F7"), _
-                                                        UpdateTable.Columns("F8"), _
-                                                        UpdateTable.Columns("F9"), _
-                                                        UpdateTable.Columns("F10")}
 
             UpdateData = Nothing
 
@@ -123,13 +111,7 @@
                     From a In dt.AsEnumerable()
                     Join b In BackendDT.AsEnumerable()
                     On
-                    a.Field(Of String)("F1") Equals b.Field(Of String)("RVLID") And
-                    a.Field(Of String)("F2") Equals b.Field(Of String)("VisitName") And
-                    a.Field(Of String)("F3") Equals b.Field(Of String)("FormName") And
-                    a.Field(Of String)("F7") Equals b.Field(Of String)("Description") And
-                    a.Field(Of String)("F8") Equals b.Field(Of String)("CreateDate") And
-                    a.Field(Of String)("F9") Equals b.Field(Of String)("CreateTime") And
-                    a.Field(Of String)("F10") Equals b.Field(Of String)("CreatedBy")
+                        a.Field(Of String)("F16") Equals b.Field(Of String)("QueryID")
                 Select a
 
             Dim RowsToDelete As New ArrayList()
@@ -145,14 +127,6 @@
             For Each row In dt.Rows
                 InsertTable.ImportRow(row)
             Next
-
-            InsertTable.PrimaryKey = New DataColumn() {InsertTable.Columns("F1"), _
-                                                    InsertTable.Columns("F2"), _
-                                                    InsertTable.Columns("F3"), _
-                                                    InsertTable.Columns("F7"), _
-                                                    InsertTable.Columns("F8"), _
-                                                    InsertTable.Columns("F9"), _
-                                                    InsertTable.Columns("F10")}
 
             InsertData = Nothing
 
@@ -176,7 +150,6 @@
             Next
 
 
-
             'Loop each record for update command
 
             For Each row In UpdateTable.Rows
@@ -186,19 +159,16 @@
                 Dim P3 As String = "'" & Replace(row.Item("F13").ToString, "'", "") & "'"
                 Dim P4 As String = "'" & Replace(row.Item("F14").ToString, "'", "") & "'"
                 Dim P5 As String = "'" & Replace(row.Item("F15").ToString, "'", "") & "'"
-                Dim P6 As String = "'" & Replace(row.Item("F1").ToString, "'", "") & "'"
-                Dim P7 As String = "'" & Replace(row.Item("F2").ToString, "'", "") & "'"
-                Dim P8 As String = "'" & Replace(row.Item("F3").ToString, "'", "") & "'"
-                Dim P9 As String = "'" & Replace(row.Item("F7").ToString, "'", "") & "'"
-                Dim P10 As String = "'" & Replace(row.Item("F8").ToString, "'", "") & "'"
-                Dim P11 As String = "'" & Replace(row.Item("F9").ToString, "'", "") & "'"
-                Dim P12 As String = "'" & Replace(row.Item("F10").ToString, "'", "") & "'"
+                Dim P6 As String = "'" & Replace(row.Item("F16").ToString, "'", "") & "'"
 
-                Call Central.ExecuteSQL("Update Queries SET Status=" & P1 & ", ClosedDate=" & P2 & ", ClosedTime=" & P3 & ", ClosedBy=" & P4 & ", ClosedByRole=" & P5 & _
-                                                    " WHERE RVLID=" & P6 & " AND VisitName=" & P7 & " AND FormName=" & P8 & " AND Description=" & P9 & _
-                                                    " AND CreateDate=" & P10 & " AND CreateTime=" & P11 & " AND CreatedBy=" & P12)
+
+
+                Call Central.ExecuteSQL("Update Queries SET  Status=" & P1 & ", ClosedDate=" & P2 & ", ClosedTime=" & P3 & _
+                                        ", ClosedBy=" & P4 & ", ClosedByRole=" & P5 & _
+                                        " WHERE QueryID=" & P6)
 
             Next
+
 
 
             'Set all rows as new
@@ -211,18 +181,18 @@
                                                           "(Study, RVLID, VisitName, FormName, " & _
                                                           "PageNo, FieldName, Status, Description, CreateDate, " & _
                                                           "CreateTime, CreatedBy, CreatedByRole, ClosedDate, ClosedTime, " & _
-                                                          "ClosedBy, ClosedByRole) " & _
+                                                          "ClosedBy, ClosedByRole, QueryID) " & _
                                                       "VALUES (@P1, @P2, @P3, @P4, @P5, @P6, " & _
                                                           "@P7, @P8, @P9, @P10, @P11, @P12, @P13, @P14, @P15, " & _
-                                                          "@P16)")
+                                                          "@P16, @P17)")
 
 
             'Set insert parameters
             With da.InsertCommand.Parameters
                 .Add("@P1", OleDb.OleDbType.Char, 50, "F0")
                 .Add("@P2", OleDb.OleDbType.Char, 50, "F1")
-                .Add("@P3", OleDb.OleDbType.Char, 100, "F2")
-                .Add("@P5", OleDb.OleDbType.Char, 100, "F3")
+                .Add("@P3", OleDb.OleDbType.Char, 255, "F2")
+                .Add("@P5", OleDb.OleDbType.Char, 255, "F3")
                 .Add("@P4", OleDb.OleDbType.Char, 50, "F4")
                 .Add("@P6", OleDb.OleDbType.Char, 50, "F5")
                 .Add("@P7", OleDb.OleDbType.Char, 50, "F6")
@@ -235,6 +205,7 @@
                 .Add("@P14", OleDb.OleDbType.Char, 50, "F13")
                 .Add("@P15", OleDb.OleDbType.Char, 50, "F14")
                 .Add("@P16", OleDb.OleDbType.Char, 50, "F15")
+                .Add("@P17", OleDb.OleDbType.Char, 50, "F16")
             End With
 
 
