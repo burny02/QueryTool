@@ -75,7 +75,7 @@
 
 
             'Get Backend
-            Dim tempDa As OleDb.OleDbDataAdapter = Central.NewDataAdapter("SELECT * FROM Queries")
+            Dim tempDa As OleDb.OleDbDataAdapter = Overclass.NewDataAdapter("SELECT * FROM Queries")
             Dim BackendDT As New DataTable()
             Dim UpdateTable = dt.Clone
             Dim InsertTable = dt.Clone
@@ -163,7 +163,7 @@
 
 
 
-                Call Central.ExecuteSQL("Update Queries SET  Status=" & P1 & ", ClosedDate=" & P2 & ", ClosedTime=" & P3 & _
+                Call Overclass.ExecuteSQL("Update Queries SET  Status=" & P1 & ", ClosedDate=" & P2 & ", ClosedTime=" & P3 & _
                                         ", ClosedBy=" & P4 & ", ClosedByRole=" & P5 & _
                                         " WHERE QueryID=" & P6)
 
@@ -210,8 +210,8 @@
 
 
             'Open Connection & Update
-            Central.SetCommandConnection(da.InsertCommand)
-            Central.OpenCon()
+            Overclass.SetCommandConnection(da.InsertCommand)
+            Overclass.OpenCon()
             da.Update(InsertTable)
 
 
@@ -219,7 +219,7 @@
 
 
             'Close Off & Clean up
-            Central.CloseCon()
+            Overclass.CloseCon()
             da = Nothing
             UpdateTable = Nothing
             InsertTable = Nothing
@@ -227,14 +227,14 @@
 
 
             'Update Upload Date/Time
-            Central.ExecuteSQL("UPDATE Study SET UploadDate=now(), UploadPerson='" & Central.GetUserName() & "'" & _
+            Overclass.ExecuteSQL("UPDATE Study SET UploadDate=now(), UploadPerson='" & Overclass.GetUserName() & "'" & _
                        "WHERE StudyCode='" & Study & "'")
 
 
             'For QC check
             MsgBox("Upload Complete, " & FinalCount & " total queries uploaded")
 
-            Call Central.Refresher(Form1.DataGridView1)
+            Call Overclass.Refresher(Form1.DataGridView1)
 
         End If
 

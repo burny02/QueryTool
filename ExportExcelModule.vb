@@ -2,14 +2,14 @@
 Module ExportExcelModule
     Public Sub ExportExcel(SQLCode As String, Study As String, Send As Boolean)
 
-        Dim AllowedSite As String = Central.CreateCSVString("SELECT Code FROM SiteCODE a INNER JOIN Study b ON a.ListID=b.CodeList " & _
+        Dim AllowedSite As String = overclass.CreateCSVString("SELECT Code FROM SiteCODE a INNER JOIN Study b ON a.ListID=b.CodeList " & _
                                                             "WHERE StudyCode='" & Study & "'")
-        Dim AllowedResponse As String = Central.CreateCSVString("SELECT Code FROM GroupCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
+        Dim AllowedResponse As String = Overclass.CreateCSVString("SELECT Code FROM GroupCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
                                                     "WHERE StudyCode='" & Study & "'")
-        Dim AllowedType As String = Central.CreateCSVString("SELECT Code FROM TypeCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
+        Dim AllowedType As String = Overclass.CreateCSVString("SELECT Code FROM TypeCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
                                                     "WHERE StudyCode='" & Study & "'")
 
-        Dim NumberWrong As Long = Central.QueryTest("SELECT a.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " & _
+        Dim NumberWrong As Long = Overclass.QueryTest("SELECT a.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " & _
                         "FormName, Description, Status FROM QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID " & _
                         "WHERE Study='" & Study & "'" & _
                         "AND (instr('" & AllowedSite & "',SiteCode)=0" & _
@@ -39,7 +39,7 @@ Module ExportExcelModule
 
 
         Dim dt As New DataTable
-        Dim da As OleDb.OleDbDataAdapter = Central.NewDataAdapter(SQLCode)
+        Dim da As OleDb.OleDbDataAdapter = Overclass.NewDataAdapter(SQLCode)
         da.Fill(dt)
 
         da = Nothing
@@ -116,39 +116,39 @@ Module ExportExcelModule
             OutApp = CreateObject("Outlook.Application")
             objOutlookMsg = OutApp.CreateItem(0)
 
-            MSite = Central.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+            MSite = Overclass.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
                                 "INNER JOIN Study c on b.Study=c.StudyCode) " & _
                                 "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
                                 "WHERE Status='Open' AND Site='MAN' " & _
                                 "AND SiteCode=Code AND Study='" & Study & "'")
 
-            WSite = Central.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+            WSite = Overclass.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
                                 "INNER JOIN Study c on b.Study=c.StudyCode) " & _
                                 "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
                                 "WHERE Status='Open' AND Site='WHC' " & _
                                 "AND SiteCode=Code AND Study='" & Study & "'")
 
-            QSite = Central.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+            QSite = Overclass.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
                                 "INNER JOIN Study c on b.Study=c.StudyCode) " & _
                                 "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
                                 "WHERE Status='Open' AND Site='Quarantine' " & _
                                 "AND SiteCode=Code AND Study='" & Study & "'")
 
-            OvMSite = Central.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+            OvMSite = Overclass.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
                                 "INNER JOIN Study c on b.Study=c.StudyCode) " & _
                                 "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
                                 "WHERE Status='Open' AND Site='MAN' " & _
                                 "AND dateadd('d',QueryAgeLimit,CreateDate)<Date()  " & _
                                 "AND SiteCode=Code AND Study='" & Study & "'")
 
-            OvWSite = Central.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+            OvWSite = Overclass.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
                                 "INNER JOIN Study c on b.Study=c.StudyCode) " & _
                                 "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
                                 "WHERE Status='Open' AND Site='WHC' " & _
                                 "AND dateadd('d',QueryAgeLimit,CreateDate)<Date()  " & _
                                 "AND SiteCode=Code AND Study='" & Study & "'")
 
-            OvQSite = Central.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+            OvQSite = Overclass.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
                                 "INNER JOIN Study c on b.Study=c.StudyCode) " & _
                                 "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
                                 "WHERE Status='Open' AND Site='Quarantine' " & _

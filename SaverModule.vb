@@ -3,18 +3,18 @@
     Public Sub Saver(ctl As Object)
 
         'Get a generic command list first - Ignore errors (Multi table)
-        Dim cb As New OleDb.OleDbCommandBuilder(Central.CurrentDataAdapter)
+        Dim cb As New OleDb.OleDbCommandBuilder(Overclass.CurrentDataAdapter)
 
         Try
-            Central.CurrentDataAdapter.UpdateCommand = cb.GetUpdateCommand()
+            Overclass.CurrentDataAdapter.UpdateCommand = cb.GetUpdateCommand()
         Catch
         End Try
         Try
-            Central.CurrentDataAdapter.InsertCommand = cb.GetInsertCommand()
+            Overclass.CurrentDataAdapter.InsertCommand = cb.GetInsertCommand()
         Catch
         End Try
         Try
-            Central.CurrentDataAdapter.DeleteCommand = cb.GetDeleteCommand()
+            Overclass.CurrentDataAdapter.DeleteCommand = cb.GetDeleteCommand()
         Catch
         End Try
 
@@ -25,12 +25,12 @@
             Case "DataGridView2", "DataGridView3"
 
                 'SET THE Commands, with Parameters (OLDB Parameters must be added in the order they are used in the statement)
-                Central.CurrentDataAdapter.UpdateCommand = New OleDb.OleDbCommand("UPDATE QueryCodes SET SiteCode=@P1, RespondCode=@P2, " & _
+                Overclass.CurrentDataAdapter.UpdateCommand = New OleDb.OleDbCommand("UPDATE QueryCodes SET SiteCode=@P1, RespondCode=@P2, " & _
                                                                           "Person=@P3, TypeCode=@P4 " & _
                                                                           "WHERE QueryID=@P5")
 
                 'Add parameters with the source columns in the dataset
-                With Central.CurrentDataAdapter.UpdateCommand.Parameters
+                With Overclass.CurrentDataAdapter.UpdateCommand.Parameters
                     .Add("@P1", OleDb.OleDbType.VarChar, 5, "SiteCode")
                     .Add("@P2", OleDb.OleDbType.VarChar, 5, "RespondCode")
                     .Add("@P3", OleDb.OleDbType.VarChar, 5, "Person")
@@ -43,8 +43,8 @@
 
         
 
-        Call Central.SetCommandConnection()
-        Call Central.UpdateBackend(ctl)
+        Call Overclass.SetCommandConnection()
+        Call Overclass.UpdateBackend(ctl)
 
     End Sub
 
