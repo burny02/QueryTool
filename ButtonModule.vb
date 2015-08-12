@@ -1,4 +1,6 @@
-﻿Module ButtonModule
+﻿Imports Microsoft.Reporting.WinForms
+
+Module ButtonModule
 
     Public Sub ButtonSpecifics(sender As Object, e As EventArgs)
 
@@ -50,6 +52,37 @@
                         "WHERE Status='Open' AND Study='" & Form1.ComboBox3.SelectedValue.ToString & "' " & _
                         " AND f.code=c.SiteCode AND c.RespondCode=d.code AND TypeCode=e.code" _
                          , Form1.ComboBox3.SelectedValue.ToString, True)
+
+            Case "Button7"
+                Dim OK As New ReportViewer
+                OK.Visible = True
+                OK.ReportViewer1.Visible = True
+                OK.ReportViewer1.ProcessingMode = ProcessingMode.Local
+                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.AvgResponse.rdlc"
+                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
+                                                           Overclass.TempDataTable("SELECT * FROM AvgResponse")))
+                OK.ReportViewer1.RefreshReport()
+
+            Case "Button8"
+                Dim OK As New ReportViewer
+                OK.Visible = True
+                OK.ReportViewer1.Visible = True
+                OK.ReportViewer1.ProcessingMode = ProcessingMode.Local
+                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.Totals.rdlc"
+                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
+                                                           Overclass.TempDataTable("SELECT * FROM Totals")))
+                OK.ReportViewer1.RefreshReport()
+
+            Case "Button9"
+                Dim OK As New ReportViewer
+                OK.Visible = True
+                OK.ReportViewer1.Visible = True
+                OK.ReportViewer1.ProcessingMode = ProcessingMode.Local
+                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.QCTeam.rdlc"
+                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
+                                                           Overclass.TempDataTable("SELECT * FROM QCTeam")))
+                OK.ReportViewer1.RefreshReport()
+
 
         End Select
 

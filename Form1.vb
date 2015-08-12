@@ -27,6 +27,8 @@
             Exit Sub
         End If
 
+        Overclass.ResetCollection()
+
         Select Case e.TabPageIndex
 
             Case 1

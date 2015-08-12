@@ -25,8 +25,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>\\retroscreen.com\dfsroot\clinical\VOLUNTEER SCREENING SERVICES\DavidBurnside\Queries\</InstallUrl>
     <PublisherName>David Burnside</PublisherName>
-    <ApplicationRevision>21</ApplicationRevision>
-    <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>2.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -86,10 +86,13 @@
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -115,6 +118,11 @@
   <ItemGroup>
     <Compile Include="ButtonModule.vb" />
     <Compile Include="ComboModule.vb" />
+    <Compile Include="Daveo1.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Daveo1.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ExportExcelModule.vb" />
     <Compile Include="Form1.Designer.vb">
       <DependentUpon>Form1.vb</DependentUpon>
@@ -137,11 +145,20 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ReportViewer.Designer.vb">
+      <DependentUpon>ReportViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ReportViewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SaverModule.vb" />
     <Compile Include="UploadModule.vb" />
     <Compile Include="Variables.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="QCTeam.rdlc" />
+    <EmbeddedResource Include="Totals.rdlc" />
+    <EmbeddedResource Include="AvgResponse.rdlc" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
     </EmbeddedResource>
@@ -151,8 +168,22 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="ReportViewer.resx">
+      <DependentUpon>ReportViewer.vb</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Daveo1.xsc">
+      <DependentUpon>Daveo1.xsd</DependentUpon>
+    </None>
+    <None Include="Daveo1.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Daveo1.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Daveo1.xss">
+      <DependentUpon>Daveo1.xsd</DependentUpon>
+    </None>
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
