@@ -46,6 +46,8 @@
             Case 4
                 StartCombo(Me.ComboBox3)
 
+            Case 5
+                Me.DateTimePicker2.Value = Date.Now
 
         End Select
 
