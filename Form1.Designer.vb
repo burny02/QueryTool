@@ -66,6 +66,7 @@ Partial Class Form1
         Me.Button10 = New System.Windows.Forms.Button()
         Me.Button9 = New System.Windows.Forms.Button()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
+        Me.Button14 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -497,6 +498,7 @@ Partial Class Form1
         '
         'SplitContainer6.Panel2
         '
+        Me.SplitContainer6.Panel2.Controls.Add(Me.Button14)
         Me.SplitContainer6.Panel2.Controls.Add(Me.Button13)
         Me.SplitContainer6.Panel2.Controls.Add(Me.Button12)
         Me.SplitContainer6.Panel2.Controls.Add(Me.Button7)
@@ -622,6 +624,16 @@ Partial Class Form1
         Me.Button9.Text = "QC Teams"
         Me.Button9.UseVisualStyleBackColor = True
         '
+        'Button14
+        '
+        Me.Button14.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Button14.Location = New System.Drawing.Point(167, 239)
+        Me.Button14.Name = "Button14"
+        Me.Button14.Size = New System.Drawing.Size(85, 41)
+        Me.Button14.TabIndex = 7
+        Me.Button14.Text = "Deviations"
+        Me.Button14.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -714,4 +726,5 @@ Partial Class Form1
     Friend WithEvents DateTimePicker2 As System.Windows.Forms.DateTimePicker
     Friend WithEvents Label20 As System.Windows.Forms.Label
     Friend WithEvents Label19 As System.Windows.Forms.Label
+    Friend WithEvents Button14 As System.Windows.Forms.Button
 End Class

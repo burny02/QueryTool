@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DaveO1" targetNamespace="http://tempuri.org/DaveO1.xsd" xmlns:mstns="http://tempuri.org/DaveO1.xsd" xmlns="http://tempuri.org/DaveO1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection ConnectionStringObject="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=&quot;M:\VOLUNTEER SCREENING SERVICES\DavidBurnside\Queries\Backend3.accdb&quot;;Jet OLEDB:Database Password=Crypto*Dave02" IsAppSettingsProperty="false" Modifier="Assembly" Name="Backend3.accdb" Provider="System.Data.OleDb" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="DeviationsTableAdapter" GeneratorDataComponentClassName="DeviationsTableAdapter" Name="Deviations" UserDataComponentName="DeviationsTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="Backend3.accdb" DbObjectName="Deviations" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT * FROM Deviations</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="DateOfOpen" DataSetColumn="DateOfOpen" />
+              <Mapping SourceColumn="OpenMonth" DataSetColumn="OpenMonth" />
+              <Mapping SourceColumn="FilterDate" DataSetColumn="FilterDate" />
+              <Mapping SourceColumn="ErrorType" DataSetColumn="ErrorType" />
+              <Mapping SourceColumn="Site" DataSetColumn="Site" />
+              <Mapping SourceColumn="Study" DataSetColumn="Study" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DaveO1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DaveO1" msprop:Generator_UserDSName="DaveO1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Deviations" msprop:Generator_TableClassName="DeviationsDataTable" msprop:Generator_TableVarName="tableDeviations" msprop:Generator_TablePropName="Deviations" msprop:Generator_RowDeletingName="DeviationsRowDeleting" msprop:Generator_RowChangingName="DeviationsRowChanging" msprop:Generator_RowEvHandlerName="DeviationsRowChangeEventHandler" msprop:Generator_RowDeletedName="DeviationsRowDeleted" msprop:Generator_UserTableName="Deviations" msprop:Generator_RowChangedName="DeviationsRowChanged" msprop:Generator_RowEvArgName="DeviationsRowChangeEvent" msprop:Generator_RowClassName="DeviationsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DateOfOpen" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnDateOfOpen" msprop:Generator_ColumnPropNameInRow="DateOfOpen" msprop:Generator_ColumnPropNameInTable="DateOfOpenColumn" msprop:Generator_UserColumnName="DateOfOpen" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="OpenMonth" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnOpenMonth" msprop:Generator_ColumnPropNameInRow="OpenMonth" msprop:Generator_ColumnPropNameInTable="OpenMonthColumn" msprop:Generator_UserColumnName="OpenMonth" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="536870910" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FilterDate" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnFilterDate" msprop:Generator_ColumnPropNameInRow="FilterDate" msprop:Generator_ColumnPropNameInTable="FilterDateColumn" msprop:Generator_UserColumnName="FilterDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ErrorType" msprop:Generator_ColumnVarNameInTable="columnErrorType" msprop:Generator_ColumnPropNameInRow="ErrorType" msprop:Generator_ColumnPropNameInTable="ErrorTypeColumn" msprop:Generator_UserColumnName="ErrorType" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Site" msprop:Generator_ColumnVarNameInTable="columnSite" msprop:Generator_ColumnPropNameInRow="Site" msprop:Generator_ColumnPropNameInTable="SiteColumn" msprop:Generator_UserColumnName="Site" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Study" msprop:Generator_ColumnVarNameInTable="columnStudy" msprop:Generator_ColumnPropNameInRow="Study" msprop:Generator_ColumnPropNameInTable="StudyColumn" msprop:Generator_UserColumnName="Study" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

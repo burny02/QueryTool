@@ -137,6 +137,18 @@ Module ButtonModule
                                                                                   " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
+            Case "Button14"
+                CheckDates()
+                Dim OK As New ReportViewer
+                OK.Visible = True
+                OK.ReportViewer1.Visible = True
+                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.Deviations.rdlc"
+                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
+                                                          Overclass.TempDataTable("SELECT * FROM Deviations " & _
+                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) & _
+                                                                                  " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
+                OK.ReportViewer1.RefreshReport()
+
         End Select
 
     End Sub
