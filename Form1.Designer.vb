@@ -23,6 +23,9 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
@@ -58,6 +61,8 @@ Partial Class Form1
         Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.Label19 = New System.Windows.Forms.Label()
+        Me.Button15 = New System.Windows.Forms.Button()
+        Me.Button14 = New System.Windows.Forms.Button()
         Me.Button13 = New System.Windows.Forms.Button()
         Me.Button12 = New System.Windows.Forms.Button()
         Me.Button7 = New System.Windows.Forms.Button()
@@ -66,7 +71,6 @@ Partial Class Form1
         Me.Button10 = New System.Windows.Forms.Button()
         Me.Button9 = New System.Windows.Forms.Button()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
-        Me.Button14 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -197,6 +201,8 @@ Partial Class Form1
         'DataGridView1
         '
         Me.DataGridView1.AllowUserToDeleteRows = False
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.Gainsboro
+        Me.DataGridView1.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -279,6 +285,8 @@ Partial Class Form1
         'DataGridView2
         '
         Me.DataGridView2.AllowUserToDeleteRows = False
+        DataGridViewCellStyle2.BackColor = System.Drawing.Color.Gainsboro
+        Me.DataGridView2.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
         Me.DataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView2.Dock = System.Windows.Forms.DockStyle.Fill
@@ -362,6 +370,8 @@ Partial Class Form1
         '
         Me.DataGridView3.AllowUserToAddRows = False
         Me.DataGridView3.AllowUserToDeleteRows = False
+        DataGridViewCellStyle3.BackColor = System.Drawing.Color.Gainsboro
+        Me.DataGridView3.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle3
         Me.DataGridView3.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.DataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
@@ -498,6 +508,7 @@ Partial Class Form1
         '
         'SplitContainer6.Panel2
         '
+        Me.SplitContainer6.Panel2.Controls.Add(Me.Button15)
         Me.SplitContainer6.Panel2.Controls.Add(Me.Button14)
         Me.SplitContainer6.Panel2.Controls.Add(Me.Button13)
         Me.SplitContainer6.Panel2.Controls.Add(Me.Button12)
@@ -554,10 +565,30 @@ Partial Class Form1
         Me.Label19.TabIndex = 10
         Me.Label19.Text = "Date From:"
         '
+        'Button15
+        '
+        Me.Button15.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Button15.Location = New System.Drawing.Point(49, 229)
+        Me.Button15.Name = "Button15"
+        Me.Button15.Size = New System.Drawing.Size(85, 41)
+        Me.Button15.TabIndex = 8
+        Me.Button15.Text = "Data Cleanliness"
+        Me.Button15.UseVisualStyleBackColor = True
+        '
+        'Button14
+        '
+        Me.Button14.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Button14.Location = New System.Drawing.Point(167, 182)
+        Me.Button14.Name = "Button14"
+        Me.Button14.Size = New System.Drawing.Size(85, 41)
+        Me.Button14.TabIndex = 7
+        Me.Button14.Text = "Deviations"
+        Me.Button14.UseVisualStyleBackColor = True
+        '
         'Button13
         '
         Me.Button13.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button13.Location = New System.Drawing.Point(167, 174)
+        Me.Button13.Location = New System.Drawing.Point(167, 135)
         Me.Button13.Name = "Button13"
         Me.Button13.Size = New System.Drawing.Size(85, 41)
         Me.Button13.TabIndex = 6
@@ -567,7 +598,7 @@ Partial Class Form1
         'Button12
         '
         Me.Button12.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button12.Location = New System.Drawing.Point(167, 107)
+        Me.Button12.Location = New System.Drawing.Point(167, 88)
         Me.Button12.Name = "Button12"
         Me.Button12.Size = New System.Drawing.Size(85, 41)
         Me.Button12.TabIndex = 5
@@ -577,7 +608,7 @@ Partial Class Form1
         'Button7
         '
         Me.Button7.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button7.Location = New System.Drawing.Point(49, 174)
+        Me.Button7.Location = New System.Drawing.Point(49, 135)
         Me.Button7.Name = "Button7"
         Me.Button7.Size = New System.Drawing.Size(85, 41)
         Me.Button7.TabIndex = 0
@@ -587,7 +618,7 @@ Partial Class Form1
         'Button11
         '
         Me.Button11.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button11.Location = New System.Drawing.Point(49, 107)
+        Me.Button11.Location = New System.Drawing.Point(49, 88)
         Me.Button11.Name = "Button11"
         Me.Button11.Size = New System.Drawing.Size(85, 41)
         Me.Button11.TabIndex = 4
@@ -607,7 +638,7 @@ Partial Class Form1
         'Button10
         '
         Me.Button10.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button10.Location = New System.Drawing.Point(49, 239)
+        Me.Button10.Location = New System.Drawing.Point(49, 182)
         Me.Button10.Name = "Button10"
         Me.Button10.Size = New System.Drawing.Size(85, 41)
         Me.Button10.TabIndex = 3
@@ -623,16 +654,6 @@ Partial Class Form1
         Me.Button9.TabIndex = 2
         Me.Button9.Text = "QC Teams"
         Me.Button9.UseVisualStyleBackColor = True
-        '
-        'Button14
-        '
-        Me.Button14.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button14.Location = New System.Drawing.Point(167, 239)
-        Me.Button14.Name = "Button14"
-        Me.Button14.Size = New System.Drawing.Size(85, 41)
-        Me.Button14.TabIndex = 7
-        Me.Button14.Text = "Deviations"
-        Me.Button14.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -727,4 +748,5 @@ Partial Class Form1
     Friend WithEvents Label20 As System.Windows.Forms.Label
     Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents Button14 As System.Windows.Forms.Button
+    Friend WithEvents Button15 As System.Windows.Forms.Button
 End Class

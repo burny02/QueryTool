@@ -9,7 +9,7 @@ Module ExportExcelModule
         Dim AllowedType As String = Overclass.CreateCSVString("SELECT Code FROM TypeCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
                                                     "WHERE StudyCode='" & Study & "'")
 
-        Dim NumberWrong As Long = Overclass.QueryTest("SELECT a.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " & _
+        Dim NumberWrong As Long = Overclass.SELECTCount("SELECT a.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " & _
                         "FormName, Description, Status FROM QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID " & _
                         "WHERE Study='" & Study & "'" & _
                         "AND (instr('" & AllowedSite & "',SiteCode)=0" & _
@@ -116,39 +116,39 @@ Module ExportExcelModule
             OutApp = CreateObject("Outlook.Application")
             objOutlookMsg = OutApp.CreateItem(0)
 
-            MSite = Overclass.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+            MSite = Overclass.SELECTCount("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
                                 "INNER JOIN Study c on b.Study=c.StudyCode) " & _
                                 "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
                                 "WHERE Status='Open' AND Site='MAN' " & _
                                 "AND SiteCode=Code AND Study='" & Study & "'")
 
-            WSite = Overclass.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+            WSite = Overclass.SELECTCount("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
                                 "INNER JOIN Study c on b.Study=c.StudyCode) " & _
                                 "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
                                 "WHERE Status='Open' AND Site='WHC' " & _
                                 "AND SiteCode=Code AND Study='" & Study & "'")
 
-            QSite = Overclass.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+            QSite = Overclass.SELECTCount("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
                                 "INNER JOIN Study c on b.Study=c.StudyCode) " & _
                                 "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
                                 "WHERE Status='Open' AND Site='Quarantine' " & _
                                 "AND SiteCode=Code AND Study='" & Study & "'")
 
-            OvMSite = Overclass.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+            OvMSite = Overclass.SELECTCount("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
                                 "INNER JOIN Study c on b.Study=c.StudyCode) " & _
                                 "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
                                 "WHERE Status='Open' AND Site='MAN' " & _
                                 "AND dateadd('d',QueryAgeLimit,CreateDate)<Date()  " & _
                                 "AND SiteCode=Code AND Study='" & Study & "'")
 
-            OvWSite = Overclass.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+            OvWSite = Overclass.SELECTCount("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
                                 "INNER JOIN Study c on b.Study=c.StudyCode) " & _
                                 "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
                                 "WHERE Status='Open' AND Site='WHC' " & _
                                 "AND dateadd('d',QueryAgeLimit,CreateDate)<Date()  " & _
                                 "AND SiteCode=Code AND Study='" & Study & "'")
 
-            OvQSite = Overclass.QueryTest("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
+            OvQSite = Overclass.SELECTCount("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
                                 "INNER JOIN Study c on b.Study=c.StudyCode) " & _
                                 "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
                                 "WHERE Status='Open' AND Site='Quarantine' " & _
