@@ -163,13 +163,13 @@
 
 
 
-                Call Overclass.ExecuteSQL("Update Queries SET  Status=" & P1 & ", ClosedDate=" & P2 & ", ClosedTime=" & P3 & _
+                Call Overclass.AddToMassSQL("Update Queries SET  Status=" & P1 & ", ClosedDate=" & P2 & ", ClosedTime=" & P3 & _
                                         ", ClosedBy=" & P4 & ", ClosedByRole=" & P5 & _
                                         " WHERE QueryID=" & P6)
 
             Next
 
-
+            Overclass.ExecuteMassSQL()
 
             'Set all rows as new
             For Each row In InsertTable.Rows
