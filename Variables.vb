@@ -11,6 +11,8 @@ Module Variables
     Private Const ActiveUserTable As String = "[ActiveUsers]"
     Private Contact As String = "Craig Tordoff"
     Public Const SolutionName As String = "Query Tool"
+    Public AccessLevel As Integer = 0
+    Public Role As String = vbNullString
 
     Public Sub StartUpCentral()
 
@@ -24,7 +26,10 @@ Module Variables
 
         OverClass.LockCheck()
 
-        OverClass.LoginCheck()
+        Overclass.LoginCheck()
+
+        AccessLevel = Overclass.TempDataTable("SELECT Admin FROM [Users] WHERE UserName='" & Overclass.GetUserName & "'").Rows(0).Item(0)
+        Role = Overclass.TempDataTable("SELECT Role FROM [Users] WHERE UserName='" & Overclass.GetUserName & "'").Rows(0).Item(0)
 
         OverClass.AddAllDataItem(Form1)
 

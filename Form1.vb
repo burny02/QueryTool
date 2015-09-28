@@ -2,10 +2,24 @@
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Me.WindowState = FormWindowState.Maximized
+        Me.Visible = False
+        Me.Hide()
 
         Call StartUpCentral()
 
+        If AccessLevel = 1 Then
+
+            Dim AddQry As New AddQuery
+            AddQry.ShowDialog()
+
+        Else
+
+            Me.Visible = True
+            Me.WindowState = FormWindowState.Maximized
+
+        End If
+
+        
         Try
             Me.Label2.Text = "Query Tool " & vbNewLine & "Developed by David Burnside" & vbNewLine & "Version: " & System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString
         Catch ex As Exception

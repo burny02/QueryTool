@@ -116,6 +116,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddQuery.Designer.vb">
+      <DependentUpon>AddQuery.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AddQuery.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ButtonModule.vb" />
     <Compile Include="ComboModule.vb" />
     <Compile Include="ExportExcelModule.vb" />
@@ -151,6 +157,9 @@
     <Compile Include="Variables.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AddQuery.resx">
+      <DependentUpon>AddQuery.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Deviations.rdlc" />
     <EmbeddedResource Include="DataClean.rdlc" />
     <EmbeddedResource Include="ToolUsage.rdlc" />
@@ -232,6 +241,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="hvivo_logo1_8dY_icon.ico" />
+    <None Include="Resources\TICK.png" />
+    <None Include="Resources\Add1.png" />
+    <None Include="Resources\Add.png" />
   </ItemGroup>
   <ItemGroup>
     <PublishFile Include="Microsoft.ReportViewer.Common">

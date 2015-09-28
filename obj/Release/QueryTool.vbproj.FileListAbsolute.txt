@@ -20,3 +20,4 @@ C:\OK\Databases\Backup\QueryTool\QueryTool\bin\Release\TemplateDB.xml
 C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Release\RdlCompile.cache
 C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Release\RdlCompile.compiled
 C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Release\QueryTool.ReportViewer.resources
+C:\OK\Databases\Backup\QueryTool\QueryTool\obj\Release\QueryTool.AddQuery.resources

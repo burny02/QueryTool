@@ -161,6 +161,11 @@ Module ButtonModule
                                                                                   " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
+            Case "Button16"
+
+                Dim AddQry As New AddQuery
+                AddQry.Visible = True
+
         End Select
 
     End Sub
