@@ -163,8 +163,8 @@ Module ButtonModule
 
             Case "Button16"
 
-                Dim AddQry As New AddQuery
-                AddQry.Visible = True
+                AdQry = New AddQuery
+                AdQry.Visible = True
 
         End Select
 

@@ -103,14 +103,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="QueryTool.exe" size="759784">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="QueryTool.exe" size="763368">
       <assemblyIdentity name="QueryTool" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>3iKs7/0yKLFyefppDOWTy3TRlMRHveyKxH6DpOALTTY=</dsig:DigestValue>
+        <dsig:DigestValue>YTK1OMa35ZybM6o1pCa7L+fsnCZwckVLf4wlQ+O/8j0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

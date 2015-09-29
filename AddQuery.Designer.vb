@@ -29,13 +29,13 @@ Partial Class AddQuery
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.ComboBox2 = New System.Windows.Forms.ComboBox()
-        Me.DataGridView3 = New System.Windows.Forms.DataGridView()
+        Me.NewQueryGrid = New System.Windows.Forms.DataGridView()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         CType(Me.SplitContainer3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
-        CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NewQueryGrid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -54,7 +54,7 @@ Partial Class AddQuery
         '
         'SplitContainer3.Panel2
         '
-        Me.SplitContainer3.Panel2.Controls.Add(Me.DataGridView3)
+        Me.SplitContainer3.Panel2.Controls.Add(Me.NewQueryGrid)
         Me.SplitContainer3.Size = New System.Drawing.Size(509, 331)
         Me.SplitContainer3.SplitterDistance = 25
         Me.SplitContainer3.TabIndex = 3
@@ -96,23 +96,22 @@ Partial Class AddQuery
         Me.ComboBox2.Size = New System.Drawing.Size(161, 24)
         Me.ComboBox2.TabIndex = 0
         '
-        'DataGridView3
+        'NewQueryGrid
         '
-        Me.DataGridView3.AllowUserToDeleteRows = False
+        Me.NewQueryGrid.AllowUserToDeleteRows = False
         DataGridViewCellStyle1.BackColor = System.Drawing.Color.Gainsboro
-        Me.DataGridView3.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
-        Me.DataGridView3.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
-        Me.DataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView3.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
-        Me.DataGridView3.Location = New System.Drawing.Point(0, 0)
-        Me.DataGridView3.Name = "DataGridView3"
-        Me.DataGridView3.ReadOnly = True
-        Me.DataGridView3.RowHeadersVisible = False
-        Me.DataGridView3.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.DataGridView3.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DataGridView3.Size = New System.Drawing.Size(509, 302)
-        Me.DataGridView3.TabIndex = 1
+        Me.NewQueryGrid.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+        Me.NewQueryGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
+        Me.NewQueryGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.NewQueryGrid.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.NewQueryGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
+        Me.NewQueryGrid.Location = New System.Drawing.Point(0, 0)
+        Me.NewQueryGrid.Name = "NewQueryGrid"
+        Me.NewQueryGrid.RowHeadersVisible = False
+        Me.NewQueryGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.NewQueryGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
+        Me.NewQueryGrid.Size = New System.Drawing.Size(509, 302)
+        Me.NewQueryGrid.TabIndex = 1
         '
         'AddQuery
         '
@@ -129,7 +128,7 @@ Partial Class AddQuery
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer3.ResumeLayout(False)
-        CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NewQueryGrid, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -138,6 +137,6 @@ Partial Class AddQuery
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents ComboBox2 As System.Windows.Forms.ComboBox
-    Friend WithEvents DataGridView3 As System.Windows.Forms.DataGridView
+    Friend WithEvents NewQueryGrid As System.Windows.Forms.DataGridView
     Friend WithEvents BindingSource1 As System.Windows.Forms.BindingSource
 End Class

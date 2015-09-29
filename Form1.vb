@@ -9,8 +9,8 @@
 
         If AccessLevel = 1 Then
 
-            Dim AddQry As New AddQuery
-            AddQry.ShowDialog()
+            AdQry = New AddQuery
+            AdQry.ShowDialog()
 
         Else
 

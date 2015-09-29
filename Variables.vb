@@ -13,6 +13,7 @@ Module Variables
     Public Const SolutionName As String = "Query Tool"
     Public AccessLevel As Integer = 0
     Public Role As String = vbNullString
+    Public AdQry As AddQuery
 
     Public Sub StartUpCentral()
 
