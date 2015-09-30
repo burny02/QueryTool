@@ -22,7 +22,7 @@
         'Create and overwrite a custom one if needed (More than 1 table) ...OLEDB Parameters must be added in the order they are used
         Select Case ctl.name
 
-            Case "DataGridView2", "DataGridView3"
+            Case "DataGridView2", "DataGridView3", "NewQueryGrid2", "NewQueryGrid3"
 
                 'SET THE Commands, with Parameters (OLDB Parameters must be added in the order they are used in the statement)
                 Overclass.CurrentDataAdapter.UpdateCommand = New OleDb.OleDbCommand("UPDATE QueryCodes SET SiteCode=@P1, RespondCode=@P2, " & _

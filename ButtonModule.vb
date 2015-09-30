@@ -165,6 +165,8 @@ Module ButtonModule
 
                 AdQry = New AddQuery
                 AdQry.Visible = True
+                AdQry.TabControl1.Controls.Remove(AdQry.TabPage2)
+                AdQry.TabControl1.Controls.Remove(AdQry.TabPage3)
 
         End Select
 
