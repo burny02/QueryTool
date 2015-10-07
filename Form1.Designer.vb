@@ -72,6 +72,7 @@ Partial Class Form1
         Me.Button10 = New System.Windows.Forms.Button()
         Me.Button9 = New System.Windows.Forms.Button()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
+        Me.Button17 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -306,6 +307,7 @@ Partial Class Form1
         Me.DataGridView2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView2.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
         Me.DataGridView2.Location = New System.Drawing.Point(0, 0)
+        Me.DataGridView2.MultiSelect = False
         Me.DataGridView2.Name = "DataGridView2"
         Me.DataGridView2.RowHeadersVisible = False
         Me.DataGridView2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
@@ -391,6 +393,7 @@ Partial Class Form1
         Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView3.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
         Me.DataGridView3.Location = New System.Drawing.Point(0, 0)
+        Me.DataGridView3.MultiSelect = False
         Me.DataGridView3.Name = "DataGridView3"
         Me.DataGridView3.RowHeadersVisible = False
         Me.DataGridView3.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
@@ -424,6 +427,7 @@ Partial Class Form1
         'SplitContainer4.Panel2
         '
         Me.SplitContainer4.Panel2.BackColor = System.Drawing.Color.LightGray
+        Me.SplitContainer4.Panel2.Controls.Add(Me.Button17)
         Me.SplitContainer4.Panel2.Controls.Add(Me.Button6)
         Me.SplitContainer4.Panel2.Controls.Add(Me.Button5)
         Me.SplitContainer4.Panel2.Controls.Add(Me.Button4)
@@ -469,7 +473,7 @@ Partial Class Form1
         'Button6
         '
         Me.Button6.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button6.Location = New System.Drawing.Point(112, 215)
+        Me.Button6.Location = New System.Drawing.Point(112, 162)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(110, 41)
         Me.Button6.TabIndex = 2
@@ -479,7 +483,7 @@ Partial Class Form1
         'Button5
         '
         Me.Button5.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button5.Location = New System.Drawing.Point(112, 132)
+        Me.Button5.Location = New System.Drawing.Point(112, 105)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(110, 41)
         Me.Button5.TabIndex = 1
@@ -669,6 +673,20 @@ Partial Class Form1
         Me.Button9.Text = "QC Teams"
         Me.Button9.UseVisualStyleBackColor = True
         '
+        'Button17
+        '
+        Me.Button17.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Button17.BackgroundImage = Global.QueryTool.My.Resources.Resources.Print
+        Me.Button17.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Button17.FlatAppearance.BorderSize = 0
+        Me.Button17.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Button17.Location = New System.Drawing.Point(112, 219)
+        Me.Button17.Name = "Button17"
+        Me.Button17.Size = New System.Drawing.Size(110, 39)
+        Me.Button17.TabIndex = 15
+        Me.Button17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Button17.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -764,4 +782,5 @@ Partial Class Form1
     Friend WithEvents Button14 As System.Windows.Forms.Button
     Friend WithEvents Button15 As System.Windows.Forms.Button
     Friend WithEvents Button16 As System.Windows.Forms.Button
+    Friend WithEvents Button17 As System.Windows.Forms.Button
 End Class

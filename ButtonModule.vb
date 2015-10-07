@@ -168,6 +168,57 @@ Module ButtonModule
                 AdQry.TabControl1.Controls.Remove(AdQry.TabPage2)
                 AdQry.TabControl1.Controls.Remove(AdQry.TabPage3)
 
+
+            Case "Button17"
+                MsgBox("Only correctly allocated queries will print out")
+
+
+                Dim RVLID As Long = 0
+                Dim InputString As String = vbNullString
+
+                InputString = InputBox("Please input RVLID to print", "RVLID", "123456")
+
+                If InputString = vbNullString Then Exit Sub
+
+                Try
+                    RVLID = CLng(InputString)
+                Catch ex As Exception
+                    Exit Sub
+                End Try
+
+                'SELECT RVLID FROM CURRENTDATA SET
+
+                Try
+
+                    Dim SqlString As String = "SELECT * FROM PrintOut WHERE RVLID='" & RVLID & "'" & _
+                                                                  " AND CreatedByRole='" & Role & "'" & _
+                                                                  " AND Status='Open'"
+
+                    Dim dt As DataTable = Overclass.TempDataTable(SqlString)
+
+                    If dt.Rows.Count = 0 Then
+                        MsgBox("No queries found for volunteer " & RVLID)
+                        Exit Sub
+                    End If
+
+                    'RUN REPORT SEPERATING BY VISIT 
+
+                    Dim OK As New ReportViewer
+                    OK.Visible = True
+                    OK.ReportViewer1.Visible = True
+                    OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.PrintReport.rdlc"
+                    OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
+                                                               dt))
+                    OK.ReportViewer1.RefreshReport()
+
+                Catch ex As Exception
+
+                    MsgBox(ex.Message)
+                    Exit Sub
+
+                End Try
+
+
         End Select
 
     End Sub
