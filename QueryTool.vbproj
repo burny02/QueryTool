@@ -25,7 +25,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>\\retroscreen.com\dfsroot\clinical\VOLUNTEER SCREENING SERVICES\DavidBurnside\Queries\</InstallUrl>
     <PublisherName>David Burnside</PublisherName>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>2.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -124,11 +124,6 @@
     </Compile>
     <Compile Include="ButtonModule.vb" />
     <Compile Include="ComboModule.vb" />
-    <Compile Include="Dave0.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Dave0.xsd</DependentUpon>
-    </Compile>
     <Compile Include="ExportExcelModule.vb" />
     <Compile Include="Form1.Designer.vb">
       <DependentUpon>Form1.vb</DependentUpon>
@@ -189,17 +184,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Dave0.xsc">
-      <DependentUpon>Dave0.xsd</DependentUpon>
-    </None>
-    <None Include="Dave0.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>Dave0.Designer.vb</LastGenOutput>
-    </None>
-    <None Include="Dave0.xss">
-      <DependentUpon>Dave0.xsd</DependentUpon>
-    </None>
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>

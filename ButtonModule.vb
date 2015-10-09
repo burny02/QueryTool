@@ -170,7 +170,16 @@ Module ButtonModule
 
 
             Case "Button17"
-                MsgBox("Only correctly allocated queries will print out")
+
+                Dim RoleCrit As String = vbNullString
+
+                If MsgBox("Only correctly allocated queries will print out." & vbNewLine & vbNewLine & _
+                          "Do you want to print ONLY " & Role & " queries?" _
+                          & vbNewLine & "Click NO for ALL open queries", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+
+                    RoleCrit = " AND CreatedByRole='" & Role & "'"
+
+                End If
 
 
                 Dim RVLID As Long = 0
@@ -191,8 +200,7 @@ Module ButtonModule
                 Try
 
                     Dim SqlString As String = "SELECT * FROM PrintOut WHERE RVLID='" & RVLID & "'" & _
-                                                                  " AND CreatedByRole='" & Role & "'" & _
-                                                                  " AND Status='Open'"
+                                                                  " AND Status='Open'" & RoleCrit
 
                     Dim dt As DataTable = Overclass.TempDataTable(SqlString)
 
