@@ -19,7 +19,7 @@
 
         End If
 
-        
+
         Try
             Me.Label2.Text = "Query Tool " & vbNewLine & "Developed by David Burnside" & vbNewLine & "Version: " & System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString
         Catch ex As Exception
@@ -43,25 +43,25 @@
 
         Overclass.ResetCollection()
 
-        Select Case e.TabPageIndex
+        Select Case e.TabPage.Text
 
-            Case 1
+            Case "Add Queries"
                 ctl = Me.DataGridView1
                 SQLCode = "SELECT DisplayName, UploadDate, UploadPerson FROM Study ORDER BY UploadDate DESC"
-                overclass.CreateDataSet(SQLCode, Bind, ctl)
+                Overclass.CreateDataSet(SQLCode, Bind, ctl)
 
-            Case 2
+            Case "Query Codes"
                 StartCombo(Me.ComboBox1)
-                
-            Case 3
-                StartCombo(Me.ComboBox2)
-                
 
-            Case 4
+            Case "Export"
                 StartCombo(Me.ComboBox3)
 
-            Case 5
+            Case "Reports"
                 Me.DateTimePicker2.Value = Date.Now
+
+            Case "Status"
+                StartCombo(Me.ComboBox2)
+                StartCombo(Me.ComboBox4)
 
         End Select
 
@@ -70,9 +70,9 @@
 
     End Sub
 
-    Private Sub Grid2And3(ctl As Object, Combo As ComboBox, SQLString As String)
+    Private Sub Grid2(ctl As Object, Combo As ComboBox, SQLString As String)
 
-        'Call ResetDataGrid()
+        Overclass.ResetCollection()
         Overclass.CreateDataSet(SQLString, BindingSource1, ctl)
         ctl.columns(0).visible = False
         ctl.columns(1).visible = False
@@ -119,6 +119,43 @@
 
         Select Case ctl.name
 
+            Case "DataGridView3"
+
+                If IsNothing(Me.ComboBox2.SelectedValue) Then Exit Sub
+                If IsNothing(Me.ComboBox4.SelectedValue) Then Exit Sub
+
+                ctl = Me.DataGridView3
+                Dim SQLCode As String = "SELECT RVLID & CHR(13) & CHR(10) & Initials & CHR(13) & CHR(10) & DateOfScreening AS Volunteer, " & _
+                    "* FROM Status " & _
+                    "WHERE Study='" & Me.ComboBox2.SelectedValue.ToString & "'" & _
+                    " AND Site='" & Me.ComboBox4.SelectedValue.ToString & "'" & _
+                    "ORDER BY RVLID DESC"
+                Overclass.CreateDataSet(SQLCode, Me.BindingSource1, ctl)
+                ctl.AllowUserToAddRows = False
+
+                ctl.columns("Study").visible = False
+                ctl.columns("Site").visible = False
+                ctl.columns("RVLID").visible = False
+                ctl.columns("Initials").visible = False
+                ctl.columns("DateOfScreening").visible = False
+                ctl.columns("Status").readonly = True
+                ctl.columns("Volunteer").readonly = True
+                ctl.columns("CheckedStatus").headertext = "Status" & vbNewLine & "Checked"
+                ctl.columns("ScreenAERecorded").headertext = "Screen" & vbNewLine & "AE"
+                ctl.Columns("CheckedStatus").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                ctl.Columns("Status").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                ctl.Columns("ScreenAERecorded").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                ctl.Columns("ScreenAERecorded").displayindex = 7
+                ctl.columns("Day15").headertext = "Day 15"
+                ctl.columns("Day15AE").headertext = "Day 15" & vbNewLine & "AE"
+                ctl.columns("Day15ConMed").headertext = "Day 15" & vbNewLine & "Conmeds"
+                ctl.columns("Day28").headertext = "Day 15"
+                ctl.columns("Day28AE").headertext = "Day 15" & vbNewLine & "AE"
+                ctl.columns("Day28ConMed").headertext = "Day 15" & vbNewLine & "Conmeds"
+                ctl.columns("CIStatus").headertext = "eCRF" & vbNewLine & "Status"
+                ctl.columns("StudyComplete").headertext = "Study" & vbNewLine & "Complete"
+
+
             Case "DataGridView1"
                 ctl.columns(0).headertext = "Study"
                 ctl.columns(1).headertext = "Last Update"
@@ -126,44 +163,59 @@
                 ctl.columns(1).DefaultCellStyle.Format = "dd-MMM-yyyy - HH:mm"
                 ctl.enabled = False
                 ctl.AllowUserToAddRows = False
+
             Case "DataGridView2"
 
-                Dim SQLCode As String = "SELECT a.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " & _
+                If IsNothing(Me.ComboBox1.SelectedValue) Then Exit Sub
+
+                If Me.CheckBox1.Checked = True Then
+
+                    Dim AllowedSite As String = Overclass.CreateCSVString("SELECT Code FROM SiteCODE a INNER JOIN Study b ON a.ListID=b.CodeList " & _
+                                                            "WHERE StudyCode='" & Me.ComboBox1.SelectedValue.ToString & "'")
+                    Dim AllowedResponse As String = Overclass.CreateCSVString("SELECT Code FROM GroupCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
+                                                                "WHERE StudyCode='" & Me.ComboBox1.SelectedValue.ToString & "'")
+                    Dim AllowedType As String = Overclass.CreateCSVString("SELECT Code FROM TypeCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
+                                                                "WHERE StudyCode='" & Me.ComboBox1.SelectedValue.ToString & "'")
+
+                    Dim SQLCode As String = "SELECT a.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " & _
+                                    "FormName, Description, Status FROM QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID " & _
+                                    "WHERE Study='" & Me.ComboBox1.SelectedValue.ToString & "'" & _
+                                    "AND (instr('" & AllowedSite & "',SiteCode)=0" & _
+                                    " OR instr('" & AllowedResponse & "',RespondCode)=0" & _
+                                    " OR instr('" & AllowedType & "',TypeCode)=0" & _
+                                    " OR SiteCode=''" & _
+                                    " OR RespondCode=''" & _
+                                    " OR Person=''" & _
+                                    " OR Person NOT Like '[a-z][a-z-][a-z]'" & _
+                                    " OR isnull(Person)" & _
+                                    " OR isnull(SiteCode)" & _
+                                    " OR isnull(RespondCode)" & _
+                                    " OR isnull(TypeCode)" & _
+                                    " OR len(Person)<>3" & _
+                                    " OR TypeCode='')" & _
+                                    " ORDER BY RVLID ASC"
+
+                    Call Grid2(ctl, Me.ComboBox1, SQLCode)
+
+
+                Else
+
+                    Dim SQLCode As String = "SELECT a.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " & _
                                 "FormName, Description, Status FROM QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID " & _
                                 "WHERE Study='" & Me.ComboBox1.SelectedValue.ToString & "' ORDER BY RVLID ASC"
-                Call Grid2And3(ctl, Me.ComboBox1, SQLCode)
+                    Call Grid2(ctl, Me.ComboBox1, SQLCode)
 
-            Case "DataGridView3"
+                End If
 
-                Dim AllowedSite As String = Overclass.CreateCSVString("SELECT Code FROM SiteCODE a INNER JOIN Study b ON a.ListID=b.CodeList " & _
-                                                            "WHERE StudyCode='" & Me.ComboBox2.SelectedValue.ToString & "'")
-                Dim AllowedResponse As String = Overclass.CreateCSVString("SELECT Code FROM GroupCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
-                                                            "WHERE StudyCode='" & Me.ComboBox2.SelectedValue.ToString & "'")
-                Dim AllowedType As String = Overclass.CreateCSVString("SELECT Code FROM TypeCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
-                                                            "WHERE StudyCode='" & Me.ComboBox2.SelectedValue.ToString & "'")
 
-                Dim SQLCode As String = "SELECT a.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " & _
-                                "FormName, Description, Status FROM QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID " & _
-                                "WHERE Study='" & Me.ComboBox2.SelectedValue.ToString & "'" & _
-                                "AND (instr('" & AllowedSite & "',SiteCode)=0" & _
-                                " OR instr('" & AllowedResponse & "',RespondCode)=0" & _
-                                " OR instr('" & AllowedType & "',TypeCode)=0" & _
-                                " OR SiteCode=''" & _
-                                " OR RespondCode=''" & _
-                                " OR Person=''" & _
-                                " OR Person NOT Like '[a-z][a-z-][a-z]'" & _
-                                " OR isnull(Person)" & _
-                                " OR isnull(SiteCode)" & _
-                                " OR isnull(RespondCode)" & _
-                                " OR isnull(TypeCode)" & _
-                                " OR len(Person)<>3" & _
-                                " OR TypeCode='')" & _
-                                " ORDER BY RVLID ASC"
-                Call Grid2And3(ctl, Me.ComboBox2, SQLCode)
+
 
         End Select
 
 
     End Sub
 
+    Private Sub CheckBox1_CheckStateChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckStateChanged
+        Call Specifics(Me.DataGridView2)
+    End Sub
 End Class

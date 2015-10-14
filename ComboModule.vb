@@ -36,7 +36,7 @@
                 ctl.DisplayMember = "DisplayName"
 
             Case "ComboBox2"
-                ctl.DataSource = overclass.TempDataTable("SELECT DisplayName, StudyCode FROM Study ORDER BY StudyCode ASC")
+                ctl.DataSource = Overclass.TempDataTable("SELECT DisplayName, StudyCode FROM Study ORDER BY StudyCode ASC")
                 ctl.ValueMember = "StudyCode"
                 ctl.DisplayMember = "DisplayName"
 
@@ -44,6 +44,11 @@
                 ctl.DataSource = overclass.TempDataTable("SELECT DisplayName, StudyCode FROM Study ORDER BY StudyCode ASC")
                 ctl.ValueMember = "StudyCode"
                 ctl.DisplayMember = "DisplayName"
+
+            Case "ComboBox4"
+                ctl.DataSource = Overclass.TempDataTable("SELECT Site FROM Status GROUP BY Site ORDER BY Site ASC")
+                ctl.ValueMember = "Site"
+                ctl.DisplayMember = "Site"
 
         End Select
 
@@ -64,6 +69,8 @@
             Case "ComboBox2"
                 Grid = Form1.DataGridView3
 
+            Case "ComboBox4"
+                Grid = Form1.DataGridView3
 
         End Select
 
