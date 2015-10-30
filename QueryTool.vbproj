@@ -25,7 +25,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>\\retroscreen.com\dfsroot\clinical\VOLUNTEER SCREENING SERVICES\DavidBurnside\Queries\</InstallUrl>
     <PublisherName>David Burnside</PublisherName>
-    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>2.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -54,6 +54,7 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <WarningsAsErrors>
     </WarningsAsErrors>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>

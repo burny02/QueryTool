@@ -17,30 +17,28 @@ Module Variables
 
     Public Sub StartUpCentral()
 
-        overclass = New OverClass
-        overclass.SetPrivate(UserTable, _
+        Overclass = New OverClass
+        Overclass.SetPrivate(UserTable, _
                            UserField, _
                            LockTable, _
                            Contact, _
                            Connect2, _
                            ActiveUserTable)
 
-        OverClass.LockCheck()
+        Overclass.LockCheck()
 
         Overclass.LoginCheck()
 
         AccessLevel = Overclass.TempDataTable("SELECT Admin FROM [Users] WHERE UserName='" & Overclass.GetUserName & "'").Rows(0).Item(0)
         Role = Overclass.TempDataTable("SELECT Role FROM [Users] WHERE UserName='" & Overclass.GetUserName & "'").Rows(0).Item(0)
 
-        OverClass.AddAllDataItem(Form1)
+        Overclass.AddAllDataItem(Form1)
 
-        For Each ctl In OverClass.DataItemCollection
+        For Each ctl In Overclass.DataItemCollection
             If (TypeOf ctl Is ComboBox) Then
                 Dim Com As ComboBox = ctl
                 AddHandler Com.SelectionChangeCommitted, AddressOf GenericCombo
             End If
-        Next
-        For Each ctl In OverClass.DataItemCollection
             If (TypeOf ctl Is Button) Then
                 Dim But As Button = ctl
                 AddHandler But.Click, AddressOf ButtonSpecifics

@@ -103,14 +103,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="QueryTool.exe" size="906216">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="QueryTool.exe" size="917992">
       <assemblyIdentity name="QueryTool" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>BMGgJeZ+JF8aL9nsWQx7c8ODlW7bMfprFv1StSXcTWU=</dsig:DigestValue>
+        <dsig:DigestValue>u+9+cnYzZw5iubz85g/i9w1uwX4g9AGTH0zGOvBRqX4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -122,7 +122,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>PwACDv5oW+uRcEr/YjX7ZQbE7vAjqhcg0vlAg8SgNQI=</dsig:DigestValue>
+        <dsig:DigestValue>H5Dr+PAt2eEdSSkBgId37otII5j6LAG3lxYqN1eaArY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

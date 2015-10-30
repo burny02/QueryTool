@@ -164,6 +164,7 @@ Module ButtonModule
             Case "Button16"
 
                 AdQry = New AddQuery
+                AddControls(AdQry)
                 AdQry.Visible = True
                 AdQry.TabControl1.Controls.Remove(AdQry.TabPage2)
                 AdQry.TabControl1.Controls.Remove(AdQry.TabPage3)
@@ -226,6 +227,65 @@ Module ButtonModule
 
                 End Try
 
+            Case "Button101"
+                Call Saver(AddQuery.NewQueryGrid)
+
+            Case "Button102"
+                Call Saver(AddQuery.NewQueryGrid2)
+
+            Case "Button103"
+
+                MsgBox("Only correctly allocated queries will print out. Please ensure queries are saved first")
+
+
+                Dim RVLID As Long = 0
+                Dim InputString As String = vbNullString
+
+                InputString = InputBox("Please input RVLID to print", "RVLID", "123456")
+
+                If InputString = vbNullString Then Exit Sub
+
+                Try
+                    RVLID = CLng(InputString)
+                Catch ex As Exception
+                    Exit Sub
+                End Try
+
+                'SELECT RVLID FROM CURRENTDATA SET
+
+                Try
+
+                    Dim SqlString As String = "SELECT * FROM PrintOut WHERE RVLID='" & RVLID & "'" & _
+                                                                  " AND CreatedByRole='" & Role & "'" & _
+                                                                  " AND Status='Open'"
+
+                    Dim dt As DataTable = Overclass.TempDataTable(SqlString)
+
+                    If dt.Rows.Count = 0 Then
+                        MsgBox("No queries found for volunteer " & RVLID)
+                        Exit Sub
+                    End If
+
+                    'RUN REPORT SEPERATING BY VISIT 
+
+                    Dim OK As New ReportViewer
+                    OK.Visible = True
+                    OK.ReportViewer1.Visible = True
+                    OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.PrintReport.rdlc"
+                    OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
+                                                               dt))
+                    OK.ReportViewer1.RefreshReport()
+
+                Catch ex As Exception
+
+                    MsgBox(ex.Message)
+                    Exit Sub
+
+                End Try
+
+            Case "Button104"
+                Call Saver(AddQuery.NewQueryGrid3)
+
 
         End Select
 
@@ -247,5 +307,30 @@ Module ButtonModule
 
     End Function
 
+    Public Sub AddControls(WhichControl As Control)
+
+        For Each Control In WhichControl.Controls
+
+
+
+            If (TypeOf Control Is ComboBox) Then
+                Dim Com As ComboBox = Control
+                AddHandler Com.SelectionChangeCommitted, AddressOf GenericCombo
+            End If
+
+
+            If (TypeOf Control Is Button) Then
+                Dim But As Button = Control
+                AddHandler But.Click, AddressOf ButtonSpecifics
+            End If
+
+
+            If Control.HasChildren Then
+                AddControls(Control)
+            End If
+
+        Next
+
+    End Sub
 End Module
 

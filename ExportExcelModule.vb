@@ -164,7 +164,7 @@ Module ExportExcelModule
                                         "MAN - " & MSite & "(" & OvMSite & " overdue)" & "<br/>" & _
                                         "WHC - " & WSite & "(" & OvWSite & " overdue)" & "<br/>" & _
                                         "VCU - " & QSite & "(" & OvQSite & " overdue)" & "<br/>" & "<br/>" & "<br/>" & _
-                                        "Please filter by columns B,C,D as required and respond on the portal." & "<br/>" & "<br/>" & _
+                                        "Please filter by columns B,C,D as required." & "<br/>" & "<br/>" & _
                                         "Overdue queries are marked in red." & "<br/>" & "<br/>" & _
                                         "Many thanks"
 

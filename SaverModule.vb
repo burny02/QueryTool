@@ -41,7 +41,7 @@
             Case "NewQueryGrid"
 
                 Dim Status As String = "'Open'"
-                Dim Study As String = "'" & AdQry.ComboBox2.SelectedValue & "'"
+                Dim Study As String = "'" & AdQry.ComboBox101.SelectedValue & "'"
                 Dim FieldName As String = "'Manual'"
                 Dim CreateDate As String = "'" & Format(DateTime.Now, "dd-MMM-yyyy") & "'"
                 Dim CreateTime As String = "'" & Format(DateTime.Now, "HH:mm") & "'"
