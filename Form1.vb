@@ -66,10 +66,6 @@
             Case "Reports"
                 Me.DateTimePicker2.Value = Date.Now
 
-            Case "Status"
-                StartCombo(Me.ComboBox2)
-                StartCombo(Me.ComboBox4)
-
         End Select
 
 
@@ -275,43 +271,6 @@
                 AdQry.NewQueryGrid.Columns("PageNo").HeaderText = "Page No."
                 AdQry.NewQueryGrid.Columns("Description").HeaderText = "Query Description"
                 AdQry.NewQueryGrid.Columns("CreatedBy").HeaderText = "Created By"
-
-            Case "DataGridView3"
-
-                If IsNothing(Me.ComboBox2.SelectedValue) Then Exit Sub
-                If IsNothing(Me.ComboBox4.SelectedValue) Then Exit Sub
-
-                ctl = Me.DataGridView3
-                SqlCode = "SELECT RVLID & CHR(13) & CHR(10) & Initials & CHR(13) & CHR(10) & DateOfScreening AS Volunteer, " & _
-                    "* FROM Status " & _
-                    "WHERE Study='" & Me.ComboBox2.SelectedValue.ToString & "'" & _
-                    " AND Site='" & Me.ComboBox4.SelectedValue.ToString & "'" & _
-                    "ORDER BY RVLID DESC"
-                Overclass.CreateDataSet(SQLCode, Me.BindingSource1, ctl)
-                ctl.AllowUserToAddRows = False
-
-                ctl.columns("Study").visible = False
-                ctl.columns("Site").visible = False
-                ctl.columns("RVLID").visible = False
-                ctl.columns("Initials").visible = False
-                ctl.columns("DateOfScreening").visible = False
-                ctl.columns("Status").readonly = True
-                ctl.columns("Volunteer").readonly = True
-                ctl.columns("CheckedStatus").headertext = "Status" & vbNewLine & "Checked"
-                ctl.columns("ScreenAERecorded").headertext = "Screen" & vbNewLine & "AE"
-                ctl.Columns("CheckedStatus").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-                ctl.Columns("Status").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-                ctl.Columns("ScreenAERecorded").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-                ctl.Columns("ScreenAERecorded").displayindex = 7
-                ctl.columns("Day15").headertext = "Day 15"
-                ctl.columns("Day15AE").headertext = "Day 15" & vbNewLine & "AE"
-                ctl.columns("Day15ConMed").headertext = "Day 15" & vbNewLine & "Conmeds"
-                ctl.columns("Day28").headertext = "Day 15"
-                ctl.columns("Day28AE").headertext = "Day 15" & vbNewLine & "AE"
-                ctl.columns("Day28ConMed").headertext = "Day 15" & vbNewLine & "Conmeds"
-                ctl.columns("CIStatus").headertext = "eCRF" & vbNewLine & "Status"
-                ctl.columns("StudyComplete").headertext = "Study" & vbNewLine & "Complete"
-
 
             Case "DataGridView1"
                 ctl.columns(0).headertext = "Study"

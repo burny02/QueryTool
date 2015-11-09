@@ -8,10 +8,10 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("QueryTool")> 
+<Assembly: AssemblyTitle("Query_Management_Tool")>
 <Assembly: AssemblyDescription("Created by David Burnside")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("QueryTool")> 
+<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyProduct("Query_Management_Tool")>
 <Assembly: AssemblyCopyright("Copyright ©  2015")> 
 <Assembly: AssemblyTrademark("")> 
 

@@ -2,15 +2,15 @@
 Module Variables
 
     Public Overclass As OverClass
-    Private Const TablePath As String = "M:\VOLUNTEER SCREENING SERVICES\DavidBurnside\Queries\Backend3.accdb"
-    Private Const PWord As String = "Crypto*Dave02"
+    Private Const TablePath As String = "M:\VOLUNTEER SCREENING SERVICES\Systems\Query_Management_Tool\Backend.accdb"
+    Private Const PWord As String = "RetroRetro*1"
     Private Const Connect2 As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & TablePath & ";Jet OLEDB:Database Password=" & PWord
     Private Const UserTable As String = "[Users]"
     Private Const UserField As String = "Username"
     Private Const LockTable As String = "[Locker]"
     Private Const ActiveUserTable As String = "[ActiveUsers]"
     Private Contact As String = "Craig Tordoff"
-    Public Const SolutionName As String = "Query Tool"
+    Public Const SolutionName As String = "Query Management Tool"
     Public AccessLevel As Integer = 0
     Public Role As String = vbNullString
     Public AdQry As AddQuery

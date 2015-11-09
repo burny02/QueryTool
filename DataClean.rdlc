@@ -672,7 +672,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DaveO1</rd:DataSetName>
-        <rd:SchemaPath>C:\OK\Databases\Backup\QueryTool\QueryTool\DaveO1.xsd</rd:SchemaPath>
+        <rd:SchemaPath>C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\DaveO1.xsd</rd:SchemaPath>
         <rd:TableName>DataClean</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod />

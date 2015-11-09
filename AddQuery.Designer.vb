@@ -221,7 +221,7 @@ Partial Class AddQuery
         '
         'Button101
         '
-        Me.Button101.BackgroundImage = Global.QueryTool.My.Resources.Resources.SAVER
+        Me.Button101.BackgroundImage = Global.Query_Management_Tool.My.Resources.Resources.SAVER
         Me.Button101.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Button101.Dock = System.Windows.Forms.DockStyle.Left
         Me.Button101.FlatAppearance.BorderSize = 0
@@ -285,7 +285,7 @@ Partial Class AddQuery
         '
         'Button103
         '
-        Me.Button103.BackgroundImage = Global.QueryTool.My.Resources.Resources.Print
+        Me.Button103.BackgroundImage = Global.Query_Management_Tool.My.Resources.Resources.Print
         Me.Button103.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Button103.Dock = System.Windows.Forms.DockStyle.Left
         Me.Button103.FlatAppearance.BorderSize = 0
@@ -299,7 +299,7 @@ Partial Class AddQuery
         '
         'Button102
         '
-        Me.Button102.BackgroundImage = Global.QueryTool.My.Resources.Resources.SAVER
+        Me.Button102.BackgroundImage = Global.Query_Management_Tool.My.Resources.Resources.SAVER
         Me.Button102.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Button102.Dock = System.Windows.Forms.DockStyle.Left
         Me.Button102.FlatAppearance.BorderSize = 0
@@ -386,7 +386,7 @@ Partial Class AddQuery
         '
         'Button104
         '
-        Me.Button104.BackgroundImage = Global.QueryTool.My.Resources.Resources.SAVER
+        Me.Button104.BackgroundImage = Global.Query_Management_Tool.My.Resources.Resources.SAVER
         Me.Button104.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Button104.Dock = System.Windows.Forms.DockStyle.Left
         Me.Button104.FlatAppearance.BorderSize = 0

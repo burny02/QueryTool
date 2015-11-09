@@ -643,7 +643,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>Daveo1</rd:DataSetName>
-        <rd:SchemaPath>C:\OK\Databases\Backup\QueryTool\QueryTool\Daveo1.xsd</rd:SchemaPath>
+        <rd:SchemaPath>C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\Daveo1.xsd</rd:SchemaPath>
         <rd:TableName>QCTeam</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod />

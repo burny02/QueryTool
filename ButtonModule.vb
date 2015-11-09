@@ -14,8 +14,6 @@ Module ButtonModule
             Case "Button2"
                 Call UploadCSV()
 
-            Case "Button3"
-                Call Saver(Form1.DataGridView3)
 
             Case "Button4"
                 Call ExportExcel("SELECT " & _
@@ -58,7 +56,7 @@ Module ButtonModule
                 Dim OK As New ReportViewer
                 OK.Visible = True
                 OK.ReportViewer1.Visible = True
-                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.AvgResponse.rdlc"
+                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.AvgResponse.rdlc"
                 OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
                                                            Overclass.TempDataTable("SELECT * FROM AvgResponse " & _
                                                                                   "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) & _
@@ -70,10 +68,10 @@ Module ButtonModule
                 Dim OK As New ReportViewer
                 OK.Visible = True
                 OK.ReportViewer1.Visible = True
-                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.Totals.rdlc"
-                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
-                                                          Overclass.TempDataTable("SELECT * FROM Totals " & _
-                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) & _
+                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.Totals.rdlc"
+                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
+                                                          Overclass.TempDataTable("SELECT * FROM Totals " &
+                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
                                                                                   " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
@@ -82,10 +80,10 @@ Module ButtonModule
                 Dim OK As New ReportViewer
                 OK.Visible = True
                 OK.ReportViewer1.Visible = True
-                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.QCTeam.rdlc"
-                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
-                                                          Overclass.TempDataTable("SELECT * FROM QCTeam " & _
-                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) & _
+                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.QCTeam.rdlc"
+                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
+                                                          Overclass.TempDataTable("SELECT * FROM QCTeam " &
+                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
                                                                                   " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
@@ -94,10 +92,10 @@ Module ButtonModule
                 Dim OK As New ReportViewer
                 OK.Visible = True
                 OK.ReportViewer1.Visible = True
-                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.Types.rdlc"
-                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
-                                                          Overclass.TempDataTable("SELECT * FROM Types " & _
-                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) & _
+                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.Types.rdlc"
+                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
+                                                          Overclass.TempDataTable("SELECT * FROM Types " &
+                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
                                                                                   " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
@@ -106,10 +104,10 @@ Module ButtonModule
                 Dim OK As New ReportViewer
                 OK.Visible = True
                 OK.ReportViewer1.Visible = True
-                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.Responders.rdlc"
-                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
-                                                          Overclass.TempDataTable("SELECT * FROM Responders " & _
-                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) & _
+                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.Responders.rdlc"
+                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
+                                                          Overclass.TempDataTable("SELECT * FROM Responders " &
+                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
                                                                                   " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
@@ -118,10 +116,10 @@ Module ButtonModule
                 Dim OK As New ReportViewer
                 OK.Visible = True
                 OK.ReportViewer1.Visible = True
-                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.QCIndividual.rdlc"
-                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
-                                                          Overclass.TempDataTable("SELECT * FROM QCIndividual " & _
-                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) & _
+                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.QCIndividual.rdlc"
+                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
+                                                          Overclass.TempDataTable("SELECT * FROM QCIndividual " &
+                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
                                                                                   " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
@@ -130,10 +128,10 @@ Module ButtonModule
                 Dim OK As New ReportViewer
                 OK.Visible = True
                 OK.ReportViewer1.Visible = True
-                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.ToolUsage.rdlc"
-                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
-                                                          Overclass.TempDataTable("SELECT * FROM ToolUsage " & _
-                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) & _
+                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.ToolUsage.rdlc"
+                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
+                                                          Overclass.TempDataTable("SELECT * FROM ToolUsage " &
+                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
                                                                                   " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
@@ -142,10 +140,10 @@ Module ButtonModule
                 Dim OK As New ReportViewer
                 OK.Visible = True
                 OK.ReportViewer1.Visible = True
-                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.Deviations.rdlc"
-                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
-                                                          Overclass.TempDataTable("SELECT * FROM Deviations " & _
-                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) & _
+                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.Deviations.rdlc"
+                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
+                                                          Overclass.TempDataTable("SELECT * FROM Deviations " &
+                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
                                                                                   " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
@@ -154,10 +152,10 @@ Module ButtonModule
                 Dim OK As New ReportViewer
                 OK.Visible = True
                 OK.ReportViewer1.Visible = True
-                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.DataClean.rdlc"
-                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
-                                                          Overclass.TempDataTable("SELECT * FROM DataClean " & _
-                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) & _
+                OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.DataClean.rdlc"
+                OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
+                                                          Overclass.TempDataTable("SELECT * FROM DataClean " &
+                                                                                  "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
                                                                                   " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
@@ -174,7 +172,7 @@ Module ButtonModule
 
                 Dim RoleCrit As String = vbNullString
 
-                If MsgBox("Only correctly allocated queries will print out." & vbNewLine & vbNewLine & _
+                If MsgBox("Only correctly allocated queries will print out." & vbNewLine & vbNewLine &
                           "Do you want to print ONLY " & Role & " queries?" _
                           & vbNewLine & "Click NO for ALL open queries", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
 
@@ -200,7 +198,7 @@ Module ButtonModule
 
                 Try
 
-                    Dim SqlString As String = "SELECT * FROM PrintOut WHERE RVLID='" & RVLID & "'" & _
+                    Dim SqlString As String = "SELECT * FROM PrintOut WHERE RVLID='" & RVLID & "'" &
                                                                   " AND Status='Open'" & RoleCrit
 
                     Dim dt As DataTable = Overclass.TempDataTable(SqlString)
@@ -215,8 +213,8 @@ Module ButtonModule
                     Dim OK As New ReportViewer
                     OK.Visible = True
                     OK.ReportViewer1.Visible = True
-                    OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.PrintReport.rdlc"
-                    OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
+                    OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.PrintReport.rdlc"
+                    OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
                                                                dt))
                     OK.ReportViewer1.RefreshReport()
 
@@ -255,8 +253,8 @@ Module ButtonModule
 
                 Try
 
-                    Dim SqlString As String = "SELECT * FROM PrintOut WHERE RVLID='" & RVLID & "'" & _
-                                                                  " AND CreatedByRole='" & Role & "'" & _
+                    Dim SqlString As String = "SELECT * FROM PrintOut WHERE RVLID='" & RVLID & "'" &
+                                                                  " AND CreatedByRole='" & Role & "'" &
                                                                   " AND Status='Open'"
 
                     Dim dt As DataTable = Overclass.TempDataTable(SqlString)
@@ -271,7 +269,7 @@ Module ButtonModule
                     Dim OK As New ReportViewer
                     OK.Visible = True
                     OK.ReportViewer1.Visible = True
-                    OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "QueryTool.PrintReport.rdlc"
+                    OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.PrintReport.rdlc"
                     OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet", _
                                                                dt))
                     OK.ReportViewer1.RefreshReport()

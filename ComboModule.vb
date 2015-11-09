@@ -226,12 +226,6 @@
         Select Case sender.Name.ToString()
 
 
-            Case "ComboBox2"
-                Grid = Form1.DataGridView3
-
-            Case "ComboBox4"
-                Grid = Form1.DataGridView3
-
             Case "ComboBox107"
                 Grid = AdQry.NewQueryGrid2
 

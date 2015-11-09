@@ -2312,7 +2312,7 @@ Date</Value>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>Dave0</rd:DataSetName>
-        <rd:SchemaPath>C:\OK\Databases\Backup\QueryTool\QueryTool\Dave0.xsd</rd:SchemaPath>
+        <rd:SchemaPath>C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\Dave0.xsd</rd:SchemaPath>
         <rd:TableName>DataTable1</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod />
