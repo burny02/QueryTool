@@ -15,7 +15,10 @@
         fd.FilterIndex = 1
         fd.RestoreDirectory = True
         fd.Multiselect = False
-        fd.ShowDialog()
+
+        If fd.ShowDialog() <> Windows.Forms.DialogResult.OK Then
+            Exit Sub
+        End If
 
         filnam = fd.FileName
 

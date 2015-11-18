@@ -1,0 +1,35 @@
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\Query Management Tool.exe.config
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\Query Management Tool.exe.manifest
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\Query Management Tool.application
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\Query Management Tool.exe
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\Query Management Tool.pdb
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\Query Management Tool.xml
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\Microsoft.ReportViewer.WinForms.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\TemplateDB.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\Microsoft.SqlServer.Types.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\TemplateDB.pdb
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\TemplateDB.xml
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\de\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\es\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\fr\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\it\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\ja\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\ko\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\pt\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\ru\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\zh-Hans\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\Release\zh-Hant\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\Release\Query_Management_Tool.vbprojResolveAssemblyReference.cache
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\Release\Query_Management_Tool.vbproj.ResolveComReference.cache
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\Release\Query_Management_Tool.AddQuery.resources
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\Release\Query_Management_Tool.ReportViewer.resources
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\Release\Query_Management_Tool.Form1.resources
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\Release\Query_Management_Tool.Resources.resources
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\Release\Query_Management_Tool.vbproj.GenerateResource.Cache
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\Release\RdlCompile.cache
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\Release\RdlCompile.compiled
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\Release\Query Management Tool.exe.manifest
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\Release\Query Management Tool.application
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\Release\Query Management Tool.exe
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\Release\Query Management Tool.xml
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\Release\Query Management Tool.pdb

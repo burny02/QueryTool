@@ -20,6 +20,7 @@ C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Relea
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Release\ru\Microsoft.SqlServer.Types.resources.dll
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Release\zh-Hans\Microsoft.SqlServer.Types.resources.dll
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Release\zh-Hant\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Release\Query_Management_Tool.vbprojResolveAssemblyReference.cache
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Release\Query_Management_Tool.AddQuery.resources
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Release\Query_Management_Tool.ReportViewer.resources
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Release\Query_Management_Tool.Form1.resources
@@ -32,4 +33,3 @@ C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Relea
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Release\Query Management Tool.exe
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Release\Query Management Tool.xml
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Release\Query Management Tool.pdb
-C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Release\Query_Management_Tool.vbprojResolveAssemblyReference.cache
