@@ -2,6 +2,8 @@
 
     Public Sub Saver(ctl As Object)
 
+        Dim SaveMessage As Boolean = True
+
         'Get a generic command list first - Ignore errors (Multi table)
         Dim cb As New OleDb.OleDbCommandBuilder(Overclass.CurrentDataAdapter)
 
@@ -120,24 +122,30 @@
 
                 Try
                     Overclass.ExecuteMassSQL()
+                    SaveMessage = False
                 Catch ex As Exception
                     MsgBox(ex.Message)
                     Exit Sub
 
                 End Try
 
-                For Each row In Overclass.CurrentDataSet.Tables(0).Rows
+                For Each row As DataRow In Overclass.CurrentDataSet.Tables(0).Rows
 
-                    If row.RowState = DataRowState.Added Then row.acceptchanges()
+                    If row.RowState = DataRowState.Added Then
+                        row.AcceptChanges()
+                        SaveMessage = False
+                    End If
 
                 Next
+
+                MsgBox("Table Updated")
 
         End Select
 
         
 
         Call Overclass.SetCommandConnection()
-        Call Overclass.UpdateBackend(ctl)
+        Call Overclass.UpdateBackend(ctl, SaveMessage)
 
     End Sub
 

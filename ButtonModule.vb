@@ -94,9 +94,9 @@ Module ButtonModule
                 OK.ReportViewer1.Visible = True
                 OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.Types.rdlc"
                 OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
-                                                          Overclass.TempDataTable("SELECT * FROM Types " &
+                                                          Overclass.TempDataTable("Select * FROM Types " &
                                                                                   "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
-                                                                                  " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
+                                                                                  " And " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
             Case "Button11"
@@ -106,9 +106,9 @@ Module ButtonModule
                 OK.ReportViewer1.Visible = True
                 OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.Responders.rdlc"
                 OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
-                                                          Overclass.TempDataTable("SELECT * FROM Responders " &
+                                                          Overclass.TempDataTable("Select * FROM Responders " &
                                                                                   "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
-                                                                                  " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
+                                                                                  " And " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
             Case "Button12"
@@ -118,9 +118,9 @@ Module ButtonModule
                 OK.ReportViewer1.Visible = True
                 OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.QCIndividual.rdlc"
                 OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
-                                                          Overclass.TempDataTable("SELECT * FROM QCIndividual " &
+                                                          Overclass.TempDataTable("Select * FROM QCIndividual " &
                                                                                   "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
-                                                                                  " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
+                                                                                  " And " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
             Case "Button13"
@@ -130,9 +130,9 @@ Module ButtonModule
                 OK.ReportViewer1.Visible = True
                 OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.ToolUsage.rdlc"
                 OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
-                                                          Overclass.TempDataTable("SELECT * FROM ToolUsage " &
+                                                          Overclass.TempDataTable("Select * FROM ToolUsage " &
                                                                                   "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
-                                                                                  " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
+                                                                                  " And " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
             Case "Button14"
@@ -142,9 +142,9 @@ Module ButtonModule
                 OK.ReportViewer1.Visible = True
                 OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.Deviations.rdlc"
                 OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
-                                                          Overclass.TempDataTable("SELECT * FROM Deviations " &
+                                                          Overclass.TempDataTable("Select * FROM Deviations " &
                                                                                   "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
-                                                                                  " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
+                                                                                  " And " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
             Case "Button15"
@@ -154,9 +154,9 @@ Module ButtonModule
                 OK.ReportViewer1.Visible = True
                 OK.ReportViewer1.LocalReport.ReportEmbeddedResource = "Query_Management_Tool.DataClean.rdlc"
                 OK.ReportViewer1.LocalReport.DataSources.Add(New ReportDataSource("ReportDataSet",
-                                                          Overclass.TempDataTable("SELECT * FROM DataClean " &
+                                                          Overclass.TempDataTable("Select * FROM DataClean " &
                                                                                   "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
-                                                                                  " AND " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
+                                                                                  " And " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
             Case "Button16"
@@ -173,10 +173,10 @@ Module ButtonModule
                 Dim RoleCrit As String = vbNullString
 
                 If MsgBox("Only correctly allocated queries will print out." & vbNewLine & vbNewLine &
-                          "Do you want to print ONLY " & Role & " queries?" _
-                          & vbNewLine & "Click NO for ALL open queries", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                          "Do you want To print ONLY " & Role & " queries?" _
+                          & vbNewLine & "Click NO For ALL open queries", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
 
-                    RoleCrit = " AND CreatedByRole='" & Role & "'"
+                    RoleCrit = " And CreatedByRole='" & Role & "'"
 
                 End If
 

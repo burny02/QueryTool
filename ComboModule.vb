@@ -137,11 +137,11 @@
 
                 If ctl.SelectedValue <> "" Then Exit Sub
 
-                Dim dt As DataTable = Overclass.TempDataTable("SELECT DISTINCT * FROM ( " & _
-                                                              "SELECT '' AS SiteCode FROM Queries " & _
-                                                              "UNION ALL " & _
-                                                              "SELECT SiteCode " & _
-                                            "FROM QueryCodes) ORDER BY SiteCode ASC")
+                Dim dt As DataTable = Overclass.TempDataTable("SELECT DISTINCT * FROM ( " &
+                                                              "SELECT '' AS SiteCode FROM Queries " &
+                                                              "UNION ALL " &
+                                                              "SELECT SiteCode " &
+                                            "FROM QueryCodes WHERE ISNull(SItecode)=False) ORDER BY SiteCode ASC")
 
 
 

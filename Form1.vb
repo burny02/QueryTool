@@ -290,11 +290,14 @@
                 Dim VisitCrit As String = "'%'"
                 Dim SiteCrit As String = "'%'"
 
+
                 If Me.ComboBox8.SelectedValue <> "" Then IDCrit = "'" & Me.ComboBox8.SelectedValue & "'"
                 If Me.ComboBox7.SelectedValue <> "" Then InitCrit = "'" & Me.ComboBox7.SelectedValue & "'"
                 If Me.ComboBox6.SelectedValue <> "" Then StatusCrit = "'" & Me.ComboBox6.SelectedValue & "'"
                 If Me.ComboBox5.SelectedValue <> "" Then VisitCrit = "'" & Me.ComboBox5.SelectedValue & "'"
                 If Me.ComboBox9.SelectedValue <> "" Then SiteCrit = "'" & Me.ComboBox9.SelectedValue & "'"
+
+
 
                 If Me.CheckBox1.Checked = True Then
 
@@ -305,43 +308,44 @@
                     Dim AllowedType As String = Overclass.CreateCSVString("SELECT Code FROM TypeCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
                                                                 "WHERE StudyCode='" & Me.ComboBox1.SelectedValue.ToString & "'")
 
-                    SqlCode = "SELECT a.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " & _
-                                    "VisitName, FormName, Description, Status FROM QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID " & _
-                                    "WHERE Study='" & Me.ComboBox1.SelectedValue.ToString & "'" & _
-                                    " AND a.QueryID LIKE" & IDCrit & _
-                                    " AND Initials LIKE " & InitCrit & _
-                                    " AND Status LIKE " & StatusCrit & _
-                                    " AND VisitName LIKE " & VisitCrit & _
-                                    " AND SiteCode LIKE " & SiteCrit & _
-                                    "AND (instr('" & AllowedSite & "',SiteCode)=0" & _
-                                    " OR instr('" & AllowedResponse & "',RespondCode)=0" & _
-                                    " OR instr('" & AllowedType & "',TypeCode)=0" & _
-                                    " OR SiteCode=''" & _
-                                    " OR RespondCode=''" & _
-                                    " OR Person=''" & _
-                                    " OR Person NOT Like '[a-z][a-z-][a-z]'" & _
-                                    " OR isnull(Person)" & _
-                                    " OR isnull(SiteCode)" & _
-                                    " OR isnull(RespondCode)" & _
-                                    " OR isnull(TypeCode)" & _
-                                    " OR len(Person)<>3" & _
-                                    " OR TypeCode='')" & _
+                    SqlCode = "SELECT Queries.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " &
+                                    "VisitName, FormName, Description, Status FROM QueryCodes INNER JOIN Queries ON QueryCodes.QueryID = Queries.QueryID " &
+                                    "WHERE Study='" & Me.ComboBox1.SelectedValue.ToString & "'" &
+                                    " AND (RVLID LIKE" & IDCrit & " OR RVLID IS NULL)" &
+                                    " AND (Initials LIKE " & InitCrit & " OR Initials IS NULL)" &
+                                    " AND (Status LIKE " & StatusCrit & " OR Status IS NULL)" &
+                                    " AND (VisitName LIKE " & VisitCrit & " OR VisitName IS NULL)" &
+                                    " AND (SiteCode LIKE " & SiteCrit & " OR SiteCode IS NULL)" &
+                                    " AND (instr('" & AllowedSite & "',SiteCode)=0" &
+                                    " OR instr('" & AllowedResponse & "',RespondCode)=0" &
+                                    " OR instr('" & AllowedType & "',TypeCode)=0" &
+                                    " OR SiteCode=''" &
+                                    " OR RespondCode=''" &
+                                    " OR Person=''" &
+                                    " OR Person NOT Like '[a-z][a-z-][a-z]'" &
+                                    " OR isnull(Person)" &
+                                    " OR isnull(SiteCode)" &
+                                    " OR isnull(RespondCode)" &
+                                    " OR isnull(TypeCode)" &
+                                    " OR len(Person)<>3" &
+                                    " OR TypeCode='')" &
                                     " ORDER BY RVLID ASC"
 
 
                 Else
 
-                    SqlCode = "SELECT a.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " & _
-                                "VisitName, FormName, Description, Status FROM QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID " & _
-                                "WHERE Study='" & Me.ComboBox1.SelectedValue.ToString & "'" & _
-                                " AND a.QueryID LIKE" & IDCrit & _
-                                    " AND Initials LIKE " & InitCrit & _
-                                    " AND Status LIKE " & StatusCrit & _
-                                    " AND VisitName LIKE " & VisitCrit & _
-                                    " AND SiteCode LIKE " & SiteCrit & _
-                                "ORDER BY RVLID ASC"
+                    SqlCode = "SELECT Queries.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " &
+                                "VisitName, FormName, Description, Status FROM QueryCodes INNER JOIN Queries ON QueryCodes.QueryID = Queries.QueryID " &
+                                "WHERE Study='" & Me.ComboBox1.SelectedValue.ToString & "'" &
+                                " AND (RVLID LIKE" & IDCrit & " OR RVLID IS NULL)" &
+                                    " AND (Initials LIKE " & InitCrit & " OR Initials IS NULL)" &
+                                    " AND (Status LIKE " & StatusCrit & " OR Status IS NULL)" &
+                                    " AND (VisitName LIKE " & VisitCrit & " OR VisitName IS NULL)" &
+                                    " AND (SiteCode LIKE " & SiteCrit & " OR SiteCode IS NULL)" &
+                                " ORDER BY RVLID ASC"
 
                 End If
+
 
                 Overclass.ResetCollection()
                 Overclass.CreateDataSet(SqlCode, BindingSource1, ctl)
