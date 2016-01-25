@@ -1,25 +1,12 @@
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\Query Management Tool.exe.config
-C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Debug\Query_Management_Tool.vbproj.ResolveComReference.cache
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\Query Management Tool.exe.manifest
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\Query Management Tool.application
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\Query Management Tool.exe
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\Query Management Tool.pdb
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\Query Management Tool.xml
-C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\Microsoft.ReportViewer.WinForms.dll
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\TemplateDB.dll
-C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\Microsoft.SqlServer.Types.dll
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\TemplateDB.pdb
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\TemplateDB.xml
-C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\de\Microsoft.SqlServer.Types.resources.dll
-C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\es\Microsoft.SqlServer.Types.resources.dll
-C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\fr\Microsoft.SqlServer.Types.resources.dll
-C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\it\Microsoft.SqlServer.Types.resources.dll
-C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\ja\Microsoft.SqlServer.Types.resources.dll
-C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\ko\Microsoft.SqlServer.Types.resources.dll
-C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\pt\Microsoft.SqlServer.Types.resources.dll
-C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\ru\Microsoft.SqlServer.Types.resources.dll
-C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\zh-Hans\Microsoft.SqlServer.Types.resources.dll
-C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\zh-Hant\Microsoft.SqlServer.Types.resources.dll
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Debug\Query_Management_Tool.vbprojResolveAssemblyReference.cache
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Debug\Query_Management_Tool.AddQuery.resources
 C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Debug\Query_Management_Tool.ReportViewer.resources
@@ -68,3 +55,15 @@ C:\OK\Other\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86
 C:\OK\Other\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Debug\Query Management Tool.xml
 C:\OK\Other\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Debug\Query Management Tool.pdb
 C:\OK\Other\Databases\Backup\Query_Management_Tool\Query_Management_Tool\obj\x86\Debug\Query_Management_Tool.vbprojResolveAssemblyReference.cache
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\Microsoft.ReportViewer.WinForms.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\Microsoft.SqlServer.Types.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\de\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\es\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\fr\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\it\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\ja\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\ko\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\pt\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\ru\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\zh-Hans\Microsoft.SqlServer.Types.resources.dll
+C:\OK\Databases\Backup\Query_Management_Tool\Query_Management_Tool\bin\x86\Debug\zh-Hant\Microsoft.SqlServer.Types.resources.dll

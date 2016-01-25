@@ -10,11 +10,11 @@
         Dim ColumnHeaderNumber As Integer = 2
 
         fd.Title = "Choose query .xls to upload"
-        fd.InitialDirectory = "C:\"
         fd.Filter = ".xls|*.xls"
         fd.FilterIndex = 1
         fd.RestoreDirectory = True
         fd.Multiselect = False
+        fd.AutoUpgradeEnabled = False
 
         If fd.ShowDialog() <> Windows.Forms.DialogResult.OK Then
             Exit Sub
