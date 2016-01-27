@@ -35,10 +35,10 @@ Module Variables
         Overclass.AddAllDataItem(Form1)
 
         For Each ctl In Overclass.DataItemCollection
-            If (TypeOf ctl Is ComboBox) Then
-                Dim Com As ComboBox = ctl
-                AddHandler Com.SelectionChangeCommitted, AddressOf GenericCombo
-            End If
+            'If (TypeOf ctl Is ComboBox) Then
+            '  Dim Com As ComboBox = ctl
+            '   AddHandler Com.SelectionChangeCommitted, AddressOf GenericCombo
+            'End If
             If (TypeOf ctl Is Button) Then
                 Dim But As Button = ctl
                 AddHandler But.Click, AddressOf ButtonSpecifics

@@ -52,13 +52,12 @@
                 Overclass.CreateDataSet(SQLCode, Bind, ctl)
 
             Case "Query Codes"
-                StartCombo(Me.ComboBox1)
-                Specifics(Me.DataGridView2)
-                StartCombo(Me.ComboBox8)
-                StartCombo(Me.ComboBox7)
-                StartCombo(Me.ComboBox6)
-                StartCombo(Me.ComboBox5)
-                StartCombo(Me.ComboBox9)
+                Specifics(DataGridView2)
+                Overclass.SetupFilterCombo(ComboBox1, "Study,DisplayName")
+                Overclass.SetupFilterCombo(ComboBox8, "RVLID,RVLID")
+                Overclass.SetupFilterCombo(ComboBox6, "Status,Status")
+                Overclass.SetupFilterCombo(ComboBox9, "SiteCode,SiteCode")
+                Overclass.SetupFilterCombo(ComboBox5, "VisitName,VisitName")
 
             Case "Export"
                 StartCombo(Me.ComboBox3)
@@ -88,7 +87,7 @@
                 If IsNothing(AdQry.ComboBox108.SelectedValue) Then Exit Sub
 
 
-                SqlCode = "SELECT a.QueryID, CreatedBy, RVLID, VisitName, FormName, SiteCode, TypeCode, Person, RespondCode, " & _
+                SqlCode = "Select a.QueryID, CreatedBy, RVLID, VisitName, FormName, SiteCode, TypeCode, Person, RespondCode, " & _
                                 "Description FROM QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID " & _
                                 "WHERE Study='" & AdQry.ComboBox108.SelectedValue.ToString & "' AND a.QueryID Like 'MANUAL-%' " & _
                                 "AND CreatedByRole='" & Role & "'" & _
@@ -282,69 +281,18 @@
 
             Case "DataGridView2"
 
-                If IsNothing(Me.ComboBox1.SelectedValue) Then Exit Sub
-
-                Dim IDCrit As String = "'%'"
-                Dim InitCrit As String = "'%'"
-                Dim StatusCrit As String = "'%'"
-                Dim VisitCrit As String = "'%'"
-                Dim SiteCrit As String = "'%'"
-
-
-                If Me.ComboBox8.SelectedValue <> "" Then IDCrit = "'" & Me.ComboBox8.SelectedValue & "'"
-                If Me.ComboBox7.SelectedValue <> "" Then InitCrit = "'" & Me.ComboBox7.SelectedValue & "'"
-                If Me.ComboBox6.SelectedValue <> "" Then StatusCrit = "'" & Me.ComboBox6.SelectedValue & "'"
-                If Me.ComboBox5.SelectedValue <> "" Then VisitCrit = "'" & Me.ComboBox5.SelectedValue & "'"
-                If Me.ComboBox9.SelectedValue <> "" Then SiteCrit = "'" & Me.ComboBox9.SelectedValue & "'"
-
-
-
                 If Me.CheckBox1.Checked = True Then
-
-                    Dim AllowedSite As String = Overclass.CreateCSVString("SELECT Code FROM SiteCODE a INNER JOIN Study b ON a.ListID=b.CodeList " & _
-                                                            "WHERE StudyCode='" & Me.ComboBox1.SelectedValue.ToString & "'")
-                    Dim AllowedResponse As String = Overclass.CreateCSVString("SELECT Code FROM GroupCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
-                                                                "WHERE StudyCode='" & Me.ComboBox1.SelectedValue.ToString & "'")
-                    Dim AllowedType As String = Overclass.CreateCSVString("SELECT Code FROM TypeCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
-                                                                "WHERE StudyCode='" & Me.ComboBox1.SelectedValue.ToString & "'")
-
-                    SqlCode = "SELECT Queries.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " &
-                                    "VisitName, FormName, Description, Status FROM QueryCodes INNER JOIN Queries ON QueryCodes.QueryID = Queries.QueryID " &
-                                    "WHERE Study='" & Me.ComboBox1.SelectedValue.ToString & "'" &
-                                    " AND (RVLID LIKE" & IDCrit & " OR RVLID IS NULL)" &
-                                    " AND (Initials LIKE " & InitCrit & " OR Initials IS NULL)" &
-                                    " AND (Status LIKE " & StatusCrit & " OR Status IS NULL)" &
-                                    " AND (VisitName LIKE " & VisitCrit & " OR VisitName IS NULL)" &
-                                    " AND (SiteCode LIKE " & SiteCrit & " OR SiteCode IS NULL)" &
-                                    " AND (instr('" & AllowedSite & "',SiteCode)=0" &
-                                    " OR instr('" & AllowedResponse & "',RespondCode)=0" &
-                                    " OR instr('" & AllowedType & "',TypeCode)=0" &
-                                    " OR SiteCode=''" &
-                                    " OR RespondCode=''" &
-                                    " OR Person=''" &
-                                    " OR Person NOT Like '[a-z][a-z-][a-z]'" &
-                                    " OR isnull(Person)" &
-                                    " OR isnull(SiteCode)" &
-                                    " OR isnull(RespondCode)" &
-                                    " OR isnull(TypeCode)" &
-                                    " OR len(Person)<>3" &
-                                    " OR TypeCode='')" &
-                                    " ORDER BY RVLID ASC"
-
-
+                    SqlCode = "SELECT Study, DisplayName, QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
+                              "VisitName, FormName, Description, Status, Person FROM IncorrectQueries " &
+                              "ORDER BY RVLID ASC"
                 Else
-
-                    SqlCode = "SELECT Queries.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " &
-                                "VisitName, FormName, Description, Status FROM QueryCodes INNER JOIN Queries ON QueryCodes.QueryID = Queries.QueryID " &
-                                "WHERE Study='" & Me.ComboBox1.SelectedValue.ToString & "'" &
-                                " AND (RVLID LIKE" & IDCrit & " OR RVLID IS NULL)" &
-                                    " AND (Initials LIKE " & InitCrit & " OR Initials IS NULL)" &
-                                    " AND (Status LIKE " & StatusCrit & " OR Status IS NULL)" &
-                                    " AND (VisitName LIKE " & VisitCrit & " OR VisitName IS NULL)" &
-                                    " AND (SiteCode LIKE " & SiteCrit & " OR SiteCode IS NULL)" &
-                                " ORDER BY RVLID ASC"
-
+                    SqlCode = "SELECT Study, DisplayName, Queries.QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
+                              "VisitName, FormName, Description, Status, Person FROM (Queries " &
+                              "INNER JOIN QueryCodes ON QueryCodes.QueryID = Queries.QueryID) " &
+                              "INNER JOIN Study ON Queries.Study=Study.StudyCode " &
+                              "ORDER BY RVLID ASC"
                 End If
+
 
 
                 Overclass.ResetCollection()
@@ -359,29 +307,28 @@
                 ctl.columns("Status").readonly = True
                 ctl.columns("Description").readonly = True
                 ctl.columns("RVLID").readonly = True
+                ctl.columns("Study").visible = False
+                ctl.columns("DisplayName").headertext = "Study"
                 ctl.AllowUserToAddRows = False
                 Dim cmb As New DataGridViewComboBoxColumn()
-                cmb.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & Site AS Display, Code FROM SiteCode a inner join Study b ON a.ListID=b.CodeList " & _
-                                             "WHERE StudyCode='" & Me.ComboBox1.SelectedValue.ToString & "' ORDER BY Code ASC")
-                cmb.DataPropertyName = Overclass.CurrentDataSet.Tables(0).Columns(1).ToString
+                cmb.DataSource = Overclass.TempDataTable("Select DISTINCT Code FROM SiteCode ORDER BY Code ASC")
+                cmb.DataPropertyName = "SiteCode"
                 cmb.ValueMember = "Code"
-                cmb.DisplayMember = "Display"
+                cmb.DisplayMember = "Code"
                 ctl.Columns.Add(cmb)
                 Dim cmb2 As New DataGridViewComboBoxColumn()
-                cmb2.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & ErrorType AS Display, Code FROM TypeCode a inner join Study b ON a.ListID=b.CodeList " & _
-                                             "WHERE StudyCode='" & Me.ComboBox1.SelectedValue.ToString & "' ORDER BY Code ASC")
-                cmb2.DataPropertyName = Overclass.CurrentDataSet.Tables(0).Columns(2).ToString
+                cmb2.DataSource = Overclass.TempDataTable("SELECT DISTINCT Code FROM TypeCode ORDER BY Code ASC")
+                cmb2.DataPropertyName = "TypeCode"
                 cmb2.ValueMember = "Code"
-                cmb2.DisplayMember = "Display"
+                cmb2.DisplayMember = "Code"
                 ctl.Columns.Add(cmb2)
                 Dim cmb3 As New DataGridViewComboBoxColumn()
-                cmb3.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & Group AS Display, Code FROM GroupCode a inner join Study b ON a.ListID=b.CodeList " & _
-                                             "WHERE StudyCode='" & Me.ComboBox1.SelectedValue.ToString & "' ORDER BY Code ASC")
-                cmb3.DataPropertyName = Overclass.CurrentDataSet.Tables(0).Columns(4).ToString
+                cmb3.DataSource = Overclass.TempDataTable("SELECT DISTINCT Code FROM GroupCode ORDER BY Code ASC")
+                cmb3.DataPropertyName = "RespondCode"
                 cmb3.ValueMember = "Code"
-                cmb3.DisplayMember = "Display"
+                cmb3.DisplayMember = "Code"
                 ctl.Columns.Add(cmb3)
-                ctl.columns(3).displayindex = 10
+                ctl.columns("Person").displayindex = 13
                 cmb3.HeaderText = "Respond Code"
                 cmb2.HeaderText = "Type Code"
                 cmb.HeaderText = "Site Code"
@@ -397,5 +344,10 @@
 
     Private Sub CheckBox1_CheckStateChanged_1(sender As Object, e As EventArgs) Handles CheckBox1.CheckStateChanged
         Call Specifics(Me.DataGridView2)
+        ComboBox1.SelectedValue = ""
+        ComboBox8.SelectedValue = ""
+        ComboBox6.SelectedValue = ""
+        ComboBox9.SelectedValue = ""
+        ComboBox5.SelectedValue = ""
     End Sub
 End Class

@@ -17,7 +17,6 @@
 
                 Form1.Specifics(Form1.DataGridView2)
                 StartCombo(Form1.ComboBox8)
-                StartCombo(Form1.ComboBox7)
                 StartCombo(Form1.ComboBox6)
                 StartCombo(Form1.ComboBox5)
                 StartCombo(Form1.ComboBox9)
