@@ -2,39 +2,18 @@
 Module ExportExcelModule
     Public Sub ExportExcel(SQLCode As String, Study As String, Send As Boolean)
 
-        Dim AllowedSite As String = overclass.CreateCSVString("SELECT Code FROM SiteCODE a INNER JOIN Study b ON a.ListID=b.CodeList " & _
-                                                            "WHERE StudyCode='" & Study & "'")
-        Dim AllowedResponse As String = Overclass.CreateCSVString("SELECT Code FROM GroupCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
-                                                    "WHERE StudyCode='" & Study & "'")
-        Dim AllowedType As String = Overclass.CreateCSVString("SELECT Code FROM TypeCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
-                                                    "WHERE StudyCode='" & Study & "'")
-
-        Dim NumberWrong As Long = Overclass.SELECTCount("SELECT a.QueryID, SiteCode, TypeCode, Person, RespondCode, RVLID, " & _
-                        "FormName, Description, Status FROM QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID " & _
-                        "WHERE Study='" & Study & "'" & _
-                        "AND (instr('" & AllowedSite & "',SiteCode)=0" & _
-                        " OR instr('" & AllowedResponse & "',RespondCode)=0" & _
-                        " OR instr('" & AllowedType & "',TypeCode)=0" & _
-                        " OR SiteCode=''" & _
-                        " OR RespondCode=''" & _
-                        " OR Person=''" & _
-                        " OR Person NOT Like '[a-z][a-z-][a-z]'" & _
-                        " OR isnull(Person)" & _
-                        " OR isnull(SiteCode)" & _
-                        " OR isnull(RespondCode)" & _
-                        " OR isnull(TypeCode)" & _
-                        " OR len(Person)<>3" & _
-                        " OR TypeCode='')" & _
-                        " ORDER BY RVLID ASC")
+        Dim NumberWrong As Long = Overclass.SELECTCount("Select Study, DisplayName, QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
+                              "VisitName, FormName, Description, Status, Person FROM IncorrectQueries " &
+                              "Where Study='" & Study & "'")
 
         If NumberWrong <> 0 Then
-            If MsgBox(NumberWrong & " bad/empty codes were found and will be missing from report. Do you wish to proceed?", vbYesNo) = vbNo Then Exit Sub
+            If MsgBox(NumberWrong & " bad/empty codes were found And will be missing from report. Do you wish to proceed?", vbYesNo) = vbNo Then Exit Sub
         End If
 
         Dim WantSend As Boolean = False
 
         If Send = True Then
-            If MsgBox("Would you like to attach the spreadsheet to an email?", vbYesNo) = vbYes Then WantSend = True
+            If MsgBox("Would you Like to attach the spreadsheet to an email?", vbYesNo) = vbYes Then WantSend = True
         End If
 
 
@@ -67,7 +46,7 @@ Module ExportExcelModule
             Next i
 
             xlApp.Cells.EntireColumn.AutoFit()
-            .activesheet.Range("$A$1:$Z$1").AutoFilter()
+            .activesheet.Range("$A$1: $Z$1").AutoFilter()
 
         End With
 

@@ -8,7 +8,7 @@ Module Variables
     Private Const UserTable As String = "[Users]"
     Private Const UserField As String = "Username"
     Private Const LockTable As String = "[Locker]"
-    Private Const ActiveUserTable As String = "[ActiveUsers]"
+    Private Const AuditTable As String = "[Audit]"
     Private Contact As String = "Craig Tordoff"
     Public Const SolutionName As String = "Query Management Tool"
     Public AccessLevel As Integer = 0
@@ -18,12 +18,12 @@ Module Variables
     Public Sub StartUpCentral()
 
         Overclass = New OverClass
-        Overclass.SetPrivate(UserTable, _
-                           UserField, _
-                           LockTable, _
-                           Contact, _
-                           Connect2, _
-                           ActiveUserTable)
+        Overclass.SetPrivate(UserTable,
+                           UserField,
+                           LockTable,
+                           Contact,
+                           Connect2,
+                           AuditTable)
 
         Overclass.LockCheck()
 
@@ -35,10 +35,6 @@ Module Variables
         Overclass.AddAllDataItem(Form1)
 
         For Each ctl In Overclass.DataItemCollection
-            'If (TypeOf ctl Is ComboBox) Then
-            '  Dim Com As ComboBox = ctl
-            '   AddHandler Com.SelectionChangeCommitted, AddressOf GenericCombo
-            'End If
             If (TypeOf ctl Is Button) Then
                 Dim But As Button = ctl
                 AddHandler But.Click, AddressOf ButtonSpecifics

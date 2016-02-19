@@ -37,7 +37,7 @@
         Dim Bind As BindingSource = BindingSource1
         Dim ctl As Object = Nothing
 
-        If overclass.UnloadData() = True Then
+        If Overclass.UnloadData() = True Then
             e.Cancel = True
             Exit Sub
         End If
@@ -53,14 +53,9 @@
 
             Case "Query Codes"
                 Specifics(DataGridView2)
-                Overclass.SetupFilterCombo(ComboBox1, "Study,DisplayName")
-                Overclass.SetupFilterCombo(ComboBox8, "RVLID,RVLID")
-                Overclass.SetupFilterCombo(ComboBox6, "Status,Status")
-                Overclass.SetupFilterCombo(ComboBox9, "SiteCode,SiteCode")
-                Overclass.SetupFilterCombo(ComboBox5, "VisitName,VisitName")
 
             Case "Export"
-                StartCombo(Me.ComboBox3)
+                Overclass.SetupFilterCombo(ComboBox3, "Study", "DisplayName", False, "SELECT StudyCode, DisplayName FROM Study")
 
             Case "Reports"
                 Me.DateTimePicker2.Value = Date.Now
@@ -84,17 +79,19 @@
 
                 AdQry.NewQueryGrid3.Columns.Clear()
 
-                If IsNothing(AdQry.ComboBox108.SelectedValue) Then Exit Sub
 
 
-                SqlCode = "Select a.QueryID, CreatedBy, RVLID, VisitName, FormName, SiteCode, TypeCode, Person, RespondCode, " & _
-                                "Description FROM QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID " & _
-                                "WHERE Study='" & AdQry.ComboBox108.SelectedValue.ToString & "' AND a.QueryID Like 'MANUAL-%' " & _
-                                "AND CreatedByRole='" & Role & "'" & _
+                SqlCode = "Select a.QueryID, CreatedBy, RVLID, VisitName, FormName, SiteCode, TypeCode, Person, RespondCode, " &
+                                "Description FROM (QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID) " &
+                                "INNER JOIN Study ON Queries.Study=Study.StudyCode " &
+                                "WHERE a.QueryID Like 'MANUAL-%' " &
+                                "AND CreatedByRole='" & Role & "'" &
                                 "ORDER BY RVLID ASC"
 
 
                 Overclass.CreateDataSet(SqlCode, AdQry.BindingSource1, AdQry.NewQueryGrid3)
+
+                Overclass.SetupFilterCombo(AdQry.ComboBox108, "Study", "DisplayName", False)
 
                 AdQry.NewQueryGrid3.Columns("QueryID").Visible = False
                 AdQry.NewQueryGrid3.Columns("SiteCode").Visible = False
@@ -107,22 +104,24 @@
                 AdQry.NewQueryGrid3.Columns("FormName").ReadOnly = True
                 AdQry.NewQueryGrid3.Columns("CreatedBy").ReadOnly = True
 
+                If IsNothing(AdQry.ComboBox108.SelectedValue) Then Exit Sub
+
                 Dim cmb As New DataGridViewComboBoxColumn()
-                cmb.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & Site AS Display, Code FROM SiteCode a inner join Study b ON a.ListID=b.CodeList " & _
+                cmb.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & Site AS Display, Code FROM SiteCode a inner join Study b ON a.ListID=b.CodeList " &
                                              "WHERE StudyCode='" & AdQry.ComboBox108.SelectedValue.ToString & "' ORDER BY Code ASC")
                 cmb.DataPropertyName = Overclass.CurrentDataSet.Tables(0).Columns("SiteCode").ToString
                 cmb.ValueMember = "Code"
                 cmb.DisplayMember = "Display"
                 AdQry.NewQueryGrid3.Columns.Add(cmb)
                 Dim cmb2 As New DataGridViewComboBoxColumn()
-                cmb2.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & ErrorType AS Display, Code FROM TypeCode a inner join Study b ON a.ListID=b.CodeList " & _
+                cmb2.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & ErrorType AS Display, Code FROM TypeCode a inner join Study b ON a.ListID=b.CodeList " &
                                              "WHERE StudyCode='" & AdQry.ComboBox108.SelectedValue.ToString & "' ORDER BY Code ASC")
                 cmb2.DataPropertyName = Overclass.CurrentDataSet.Tables(0).Columns("TypeCode").ToString
                 cmb2.ValueMember = "Code"
                 cmb2.DisplayMember = "Display"
                 AdQry.NewQueryGrid3.Columns.Add(cmb2)
                 Dim cmb3 As New DataGridViewComboBoxColumn()
-                cmb3.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & Group AS Display, Code FROM GroupCode a inner join Study b ON a.ListID=b.CodeList " & _
+                cmb3.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & Group AS Display, Code FROM GroupCode a inner join Study b ON a.ListID=b.CodeList " &
                                              "WHERE StudyCode='" & AdQry.ComboBox108.SelectedValue.ToString & "' ORDER BY Code ASC")
                 cmb3.DataPropertyName = Overclass.CurrentDataSet.Tables(0).Columns("RespondCode").ToString
                 cmb3.ValueMember = "Code"
@@ -138,40 +137,21 @@
 
 
 
+
             Case "NewQueryGrid2"
 
                 AdQry.NewQueryGrid2.Columns.Clear()
 
-                If IsNothing(AdQry.ComboBox107.SelectedValue) Then Exit Sub
+                SqlCode = "SELECT Study, DisplayName, QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
+                              "VisitName, FormName, Description, Status, Person FROM IncorrectQueries " &
+                               "WHERE CreatedByRole='" & Role & "'" &
+                               "ORDER BY RVLID ASC"
 
-                Dim AllowedSite As String = Overclass.CreateCSVString("SELECT Code FROM SiteCODE a INNER JOIN Study b ON a.ListID=b.CodeList " & _
-                                                            "WHERE StudyCode='" & AdQry.ComboBox107.SelectedValue.ToString & "'")
-                Dim AllowedResponse As String = Overclass.CreateCSVString("SELECT Code FROM GroupCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
-                                                            "WHERE StudyCode='" & AdQry.ComboBox107.SelectedValue.ToString & "'")
-                Dim AllowedType As String = Overclass.CreateCSVString("SELECT Code FROM TypeCode a INNER JOIN Study b ON a.ListID=b.CodeList " & _
-                                                            "WHERE StudyCode='" & AdQry.ComboBox107.SelectedValue.ToString & "'")
-
-                SqlCode = "SELECT a.QueryID, CreatedBy, RVLID, VisitName, FormName, SiteCode, TypeCode, Person, RespondCode, " & _
-                                "Description FROM QueryCodes as a INNER JOIN Queries as b ON a.QueryID=b.QueryID " & _
-                                "WHERE Study='" & AdQry.ComboBox107.SelectedValue.ToString & "'" & _
-                                " AND a.QueryID Like 'MANUAL-%' " & _
-                                "AND CreatedByRole='" & Role & "'" & _
-                                "AND (instr('" & AllowedSite & "',SiteCode)=0" & _
-                                " OR instr('" & AllowedResponse & "',RespondCode)=0" & _
-                                " OR instr('" & AllowedType & "',TypeCode)=0" & _
-                                " OR SiteCode=''" & _
-                                " OR RespondCode=''" & _
-                                " OR Person=''" & _
-                                " OR Person NOT Like '[a-z][a-z-][a-z]'" & _
-                                " OR isnull(Person)" & _
-                                " OR isnull(SiteCode)" & _
-                                " OR isnull(RespondCode)" & _
-                                " OR isnull(TypeCode)" & _
-                                " OR len(Person)<>3" & _
-                                " OR TypeCode='')" & _
-                                " ORDER BY RVLID ASC"
 
                 Overclass.CreateDataSet(SqlCode, AdQry.BindingSource1, AdQry.NewQueryGrid2)
+                Overclass.SetupFilterCombo(AdQry.ComboBox107, "Study", "DisplayName", False)
+
+
                 AdQry.NewQueryGrid2.Columns("QueryID").Visible = False
                 AdQry.NewQueryGrid2.Columns("SiteCode").Visible = False
                 AdQry.NewQueryGrid2.Columns("TypeCode").Visible = False
@@ -184,22 +164,25 @@
                 AdQry.NewQueryGrid2.Columns("CreatedBy").ReadOnly = True
 
                 AdQry.NewQueryGrid2.AllowUserToAddRows = False
+
+                If IsNothing(AdQry.ComboBox107.SelectedValue) Then Exit Sub
+
                 Dim cmb As New DataGridViewComboBoxColumn()
-                cmb.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & Site AS Display, Code FROM SiteCode a inner join Study b ON a.ListID=b.CodeList " & _
+                cmb.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & Site AS Display, Code FROM SiteCode a inner join Study b ON a.ListID=b.CodeList " &
                                              "WHERE StudyCode='" & AdQry.ComboBox107.SelectedValue.ToString & "' ORDER BY Code ASC")
                 cmb.DataPropertyName = Overclass.CurrentDataSet.Tables(0).Columns("SiteCode").ToString
                 cmb.ValueMember = "Code"
                 cmb.DisplayMember = "Display"
                 AdQry.NewQueryGrid2.Columns.Add(cmb)
                 Dim cmb2 As New DataGridViewComboBoxColumn()
-                cmb2.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & ErrorType AS Display, Code FROM TypeCode a inner join Study b ON a.ListID=b.CodeList " & _
+                cmb2.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & ErrorType AS Display, Code FROM TypeCode a inner join Study b ON a.ListID=b.CodeList " &
                                              "WHERE StudyCode='" & AdQry.ComboBox107.SelectedValue.ToString & "' ORDER BY Code ASC")
                 cmb2.DataPropertyName = Overclass.CurrentDataSet.Tables(0).Columns("TypeCode").ToString
                 cmb2.ValueMember = "Code"
                 cmb2.DisplayMember = "Display"
                 AdQry.NewQueryGrid2.Columns.Add(cmb2)
                 Dim cmb3 As New DataGridViewComboBoxColumn()
-                cmb3.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & Group AS Display, Code FROM GroupCode a inner join Study b ON a.ListID=b.CodeList " & _
+                cmb3.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & Group AS Display, Code FROM GroupCode a inner join Study b ON a.ListID=b.CodeList " &
                                              "WHERE StudyCode='" & AdQry.ComboBox107.SelectedValue.ToString & "' ORDER BY Code ASC")
                 cmb3.DataPropertyName = Overclass.CurrentDataSet.Tables(0).Columns("RespondCode").ToString
                 cmb3.ValueMember = "Code"
@@ -218,26 +201,13 @@
 
                 AdQry.NewQueryGrid.Columns.Clear()
 
-                If IsNothing(AdQry.ComboBox101.SelectedValue) Then Exit Sub
-
-                Dim IDCrit As String = "'%'"
-                Dim InitCrit As String = "'%'"
-                Dim VisitCrit As String = "'%'"
-
-                If AdQry.ComboBox102.SelectedValue <> "" Then IDCrit = "'" & AdQry.ComboBox102.SelectedValue & "'"
-                If AdQry.ComboBox103.SelectedValue <> "" Then InitCrit = "'" & AdQry.ComboBox103.SelectedValue & "'"
-                If AdQry.ComboBox105.SelectedValue <> "" Then VisitCrit = "'" & AdQry.ComboBox105.SelectedValue & "'"
-
-                SqlCode = "SELECT QueryID, CreatedBy, Status, Study, FieldName, CreateDate, CreateTime, CreatedByRole, ClosedDate, ClosedTime, " & _
-                    "ClosedBy, ClosedByRole, RVLID, Initials, VisitName, FormName, PageNo, Description " & _
-                    "FROM Queries " & _
-                    "WHERE Study='" & AdQry.ComboBox101.SelectedValue.ToString & "' " & _
-                    "AND QueryID Like 'MANUAL-%' " & _
-                    "AND CreatedByRole='" & Role & "' " & _
-                    "AND Status='Open' " & _
-                    " AND RVLID LIKE" & IDCrit & _
-                    " AND Initials LIKE " & InitCrit & _
-                    " AND VisitName LIKE " & VisitCrit & _
+                SqlCode = "SELECT DisplayName, QueryID, CreatedBy, Status, FieldName, CreateDate, CreateTime, " &
+                    "CreatedByRole, ClosedDate, ClosedTime, ClosedBy, ClosedByRole, RVLID, Initials, " &
+                    "VisitName, FormName, PageNo, Description, Study " &
+                    "FROM Queries INNER JOIN Study ON Queries.Study=Study.StudyCode " &
+                    "WHERE QueryID Like 'MANUAL-%' " &
+                    "AND CreatedByRole='" & Role & "' " &
+                    "AND Status='Open' " &
                     "ORDER BY RVLID ASC"
 
                 Overclass.CreateDataSet(SqlCode, AdQry.BindingSource1, AdQry.NewQueryGrid)
@@ -261,9 +231,12 @@
                 AdQry.NewQueryGrid.Columns("ClosedTime").Visible = False
                 AdQry.NewQueryGrid.Columns("ClosedBy").Visible = False
                 AdQry.NewQueryGrid.Columns("ClosedByRole").Visible = False
+                AdQry.NewQueryGrid.Columns("DisplayName").Visible = False
 
+                AdQry.NewQueryGrid.Columns("DisplayName").ReadOnly = False
                 AdQry.NewQueryGrid.Columns("Status").ReadOnly = True
                 AdQry.NewQueryGrid.Columns("CreatedBy").ReadOnly = True
+
 
                 AdQry.NewQueryGrid.Columns("VisitName").HeaderText = "Study Visit"
                 AdQry.NewQueryGrid.Columns("FormName").HeaderText = "Assessment/Procedure"
@@ -298,6 +271,12 @@
                 Overclass.ResetCollection()
                 Overclass.CreateDataSet(SqlCode, BindingSource1, ctl)
 
+                Overclass.SetupFilterCombo(ComboBox1, "Study", "DisplayName", False)
+                Overclass.SetupFilterCombo(ComboBox8, "RVLID", "RVLID")
+                Overclass.SetupFilterCombo(ComboBox6, "Status", "Status")
+                Overclass.SetupFilterCombo(ComboBox9, "SiteCode", "SiteCode")
+                Overclass.SetupFilterCombo(ComboBox5, "VisitName", "VisitName")
+
                 ctl.columns("QueryID").visible = False
                 ctl.columns("TypeCode").visible = False
                 ctl.columns("SiteCode").visible = False
@@ -310,23 +289,30 @@
                 ctl.columns("Study").visible = False
                 ctl.columns("DisplayName").headertext = "Study"
                 ctl.AllowUserToAddRows = False
+
+                If IsNothing(ComboBox1.SelectedValue) Then Exit Sub
+
+
                 Dim cmb As New DataGridViewComboBoxColumn()
-                cmb.DataSource = Overclass.TempDataTable("Select DISTINCT Code FROM SiteCode ORDER BY Code ASC")
-                cmb.DataPropertyName = "SiteCode"
+                cmb.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & Site AS Display, Code FROM SiteCode a inner join Study b ON a.ListID=b.CodeList " &
+                                             "WHERE StudyCode='" & ComboBox1.SelectedValue.ToString & "' ORDER BY Code ASC")
+                cmb.DataPropertyName = Overclass.CurrentDataSet.Tables(0).Columns("SiteCode").ToString
                 cmb.ValueMember = "Code"
-                cmb.DisplayMember = "Code"
+                cmb.DisplayMember = "Display"
                 ctl.Columns.Add(cmb)
                 Dim cmb2 As New DataGridViewComboBoxColumn()
-                cmb2.DataSource = Overclass.TempDataTable("SELECT DISTINCT Code FROM TypeCode ORDER BY Code ASC")
-                cmb2.DataPropertyName = "TypeCode"
+                cmb2.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & ErrorType AS Display, Code FROM TypeCode a inner join Study b ON a.ListID=b.CodeList " &
+                                             "WHERE StudyCode='" & ComboBox1.SelectedValue.ToString & "' ORDER BY Code ASC")
+                cmb2.DataPropertyName = Overclass.CurrentDataSet.Tables(0).Columns("TypeCode").ToString
                 cmb2.ValueMember = "Code"
-                cmb2.DisplayMember = "Code"
+                cmb2.DisplayMember = "Display"
                 ctl.Columns.Add(cmb2)
                 Dim cmb3 As New DataGridViewComboBoxColumn()
-                cmb3.DataSource = Overclass.TempDataTable("SELECT DISTINCT Code FROM GroupCode ORDER BY Code ASC")
-                cmb3.DataPropertyName = "RespondCode"
+                cmb3.DataSource = Overclass.TempDataTable("SELECT Code & ' - ' & Group AS Display, Code FROM GroupCode a inner join Study b ON a.ListID=b.CodeList " &
+                                             "WHERE StudyCode='" & ComboBox1.SelectedValue.ToString & "' ORDER BY Code ASC")
+                cmb3.DataPropertyName = Overclass.CurrentDataSet.Tables(0).Columns("RespondCode").ToString
                 cmb3.ValueMember = "Code"
-                cmb3.DisplayMember = "Code"
+                cmb3.DisplayMember = "Display"
                 ctl.Columns.Add(cmb3)
                 ctl.columns("Person").displayindex = 13
                 cmb3.HeaderText = "Respond Code"
@@ -343,8 +329,9 @@
     End Sub
 
     Private Sub CheckBox1_CheckStateChanged_1(sender As Object, e As EventArgs) Handles CheckBox1.CheckStateChanged
+        Dim TempStudy As String = ComboBox1.SelectedValue
         Call Specifics(Me.DataGridView2)
-        ComboBox1.SelectedValue = ""
+        If TempStudy IsNot Nothing Then ComboBox1.SelectedValue = TempStudy
         ComboBox8.SelectedValue = ""
         ComboBox6.SelectedValue = ""
         ComboBox9.SelectedValue = ""

@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class AddQuery
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class AddQuery
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -35,8 +35,6 @@ Partial Class AddQuery
         Me.ComboBox101 = New System.Windows.Forms.ComboBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.ComboBox102 = New System.Windows.Forms.ComboBox()
-        Me.Label8 = New System.Windows.Forms.Label()
-        Me.ComboBox103 = New System.Windows.Forms.ComboBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.ComboBox105 = New System.Windows.Forms.ComboBox()
         Me.Button101 = New System.Windows.Forms.Button()
@@ -147,13 +145,10 @@ Partial Class AddQuery
         '
         'SplitContainer5.Panel2
         '
-        Me.SplitContainer5.Panel2.Controls.Add(Me.Label8)
-        Me.SplitContainer5.Panel2.Controls.Add(Me.ComboBox103)
         Me.SplitContainer5.Panel2.Controls.Add(Me.Label6)
         Me.SplitContainer5.Panel2.Controls.Add(Me.ComboBox105)
         Me.SplitContainer5.Size = New System.Drawing.Size(815, 53)
         Me.SplitContainer5.SplitterDistance = 25
-        Me.SplitContainer5.SplitterWidth = 5
         Me.SplitContainer5.TabIndex = 12
         '
         'Label3
@@ -206,37 +201,12 @@ Partial Class AddQuery
         Me.ComboBox102.Size = New System.Drawing.Size(112, 28)
         Me.ComboBox102.TabIndex = 15
         '
-        'Label8
-        '
-        Me.Label8.AutoSize = True
-        Me.Label8.Dock = System.Windows.Forms.DockStyle.Right
-        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(479, 0)
-        Me.Label8.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(66, 25)
-        Me.Label8.TabIndex = 22
-        Me.Label8.Text = "Initials"
-        '
-        'ComboBox103
-        '
-        Me.ComboBox103.Dock = System.Windows.Forms.DockStyle.Right
-        Me.ComboBox103.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBox103.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ComboBox103.FormattingEnabled = True
-        Me.ComboBox103.Location = New System.Drawing.Point(545, 0)
-        Me.ComboBox103.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
-        Me.ComboBox103.Name = "ComboBox103"
-        Me.ComboBox103.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.ComboBox103.Size = New System.Drawing.Size(72, 28)
-        Me.ComboBox103.TabIndex = 21
-        '
         'Label6
         '
         Me.Label6.AutoSize = True
         Me.Label6.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(617, 0)
+        Me.Label6.Location = New System.Drawing.Point(362, 0)
         Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(49, 25)
@@ -249,11 +219,11 @@ Partial Class AddQuery
         Me.ComboBox105.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox105.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBox105.FormattingEnabled = True
-        Me.ComboBox105.Location = New System.Drawing.Point(666, 0)
+        Me.ComboBox105.Location = New System.Drawing.Point(411, 0)
         Me.ComboBox105.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.ComboBox105.Name = "ComboBox105"
         Me.ComboBox105.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.ComboBox105.Size = New System.Drawing.Size(149, 28)
+        Me.ComboBox105.Size = New System.Drawing.Size(404, 28)
         Me.ComboBox105.TabIndex = 13
         '
         'Button101
@@ -556,12 +526,10 @@ Partial Class AddQuery
     Friend WithEvents NewQueryGrid3 As System.Windows.Forms.DataGridView
     Friend WithEvents Button103 As System.Windows.Forms.Button
     Friend WithEvents SplitContainer5 As System.Windows.Forms.SplitContainer
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents ComboBox101 As System.Windows.Forms.ComboBox
-    Friend WithEvents Label9 As System.Windows.Forms.Label
-    Friend WithEvents ComboBox102 As System.Windows.Forms.ComboBox
-    Friend WithEvents Label6 As System.Windows.Forms.Label
-    Friend WithEvents ComboBox105 As System.Windows.Forms.ComboBox
-    Friend WithEvents Label8 As System.Windows.Forms.Label
-    Friend WithEvents ComboBox103 As System.Windows.Forms.ComboBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents ComboBox101 As ComboBox
+    Friend WithEvents Label9 As Label
+    Friend WithEvents ComboBox102 As ComboBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents ComboBox105 As ComboBox
 End Class

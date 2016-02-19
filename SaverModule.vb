@@ -27,8 +27,8 @@
             Case "DataGridView2", "NewQueryGrid2", "NewQueryGrid3"
 
                 'SET THE Commands, with Parameters (OLDB Parameters must be added in the order they are used in the statement)
-                Overclass.CurrentDataAdapter.UpdateCommand = New OleDb.OleDbCommand("UPDATE QueryCodes SET SiteCode=@P1, RespondCode=@P2, " & _
-                                                                          "Person=@P3, TypeCode=@P4 " & _
+                Overclass.CurrentDataAdapter.UpdateCommand = New OleDb.OleDbCommand("UPDATE QueryCodes SET SiteCode=@P1, RespondCode=@P2, " &
+                                                                          "Person=@P3, TypeCode=@P4 " &
                                                                           "WHERE QueryID=@P5")
 
                 'Add parameters with the source columns in the dataset
@@ -43,7 +43,6 @@
             Case "NewQueryGrid"
 
                 Dim Status As String = "'Open'"
-                Dim Study As String = "'" & AdQry.ComboBox101.SelectedValue & "'"
                 Dim FieldName As String = "'Manual'"
                 Dim CreateDate As String = "'" & Format(DateTime.Now, "dd-MMM-yyyy") & "'"
                 Dim CreateTime As String = "'" & Format(DateTime.Now, "HH:mm") & "'"
@@ -101,16 +100,17 @@
                         Dim PageNo As String = "'" & row.item("PageNo") & "'"
                         Dim Description As String = "'" & row.item("Description") & "'"
                         Dim VisitName As String = "'" & row.item("VisitName") & "'"
+                        Dim Study As String = "'" & row.item("Study") & "'"
 
-                        Dim QueryID As String = "'MANUAL-" & _
+                        Dim QueryID As String = "'MANUAL-" &
                         Overclass.TempDataTable("SELECT Count(QueryID) FROM Queries WHERE QueryID LIKE 'MANUAL-%'").Rows(0).Item(0) + PassNo & "'"
 
                         Dim InsertCmd As OleDb.OleDbCommand
 
                         'SET THE Commands, with Parameters (OLDB Parameters must be added in the order they are used in the statement)
-                        InsertCmd = New OleDb.OleDbCommand("INSERT INTO Queries " & _
-                        "(QueryID, Study, RVLID, Initials, FormName, Status, PageNo, FieldName, Description, CreateDate, CreateTime, CreatedBy, CreatedByRole, VisitName) " & _
-                        "VALUES (" & QueryID & "," & Study & ", " & RVLID & "," & Initials & "," & FormName & "," & Status & "," & PageNo & "," & FieldName & "," & Description & _
+                        InsertCmd = New OleDb.OleDbCommand("INSERT INTO Queries " &
+                        "(QueryID, Study, RVLID, Initials, FormName, Status, PageNo, FieldName, Description, CreateDate, CreateTime, CreatedBy, CreatedByRole, VisitName) " &
+                        "VALUES (" & QueryID & "," & Study & ", " & RVLID & "," & Initials & "," & FormName & "," & Status & "," & PageNo & "," & FieldName & "," & Description &
                         "," & CreateDate & "," & CreateTime & "," & CreatedBy & "," & CreatedByRole & "," & VisitName & ")")
 
 
@@ -140,10 +140,33 @@
 
                 MsgBox("Table Updated")
 
+                Overclass.CurrentDataAdapter.UpdateCommand = New OleDb.OleDbCommand("UPDATE Queries SET  
+                Status=@P1, FieldName=@P2, ClosedDate=@P3, 
+                ClosedTime=@P4, ClosedBy=@P5, ClosedByRole=@P6, 
+                RVLID=@P7, Initials=@P8, VisitName=@P9, 
+                FormName=@10, PageNo=@P11, Description=@P12
+                WHERE QueryID=@P13")
+
+                'Add parameters with the source columns in the dataset
+                With Overclass.CurrentDataAdapter.UpdateCommand.Parameters
+                    .Add("@P1", OleDb.OleDbType.VarChar, 50, "Status")
+                    .Add("@P2", OleDb.OleDbType.VarChar, 255, "FieldName")
+                    .Add("@P3", OleDb.OleDbType.VarChar, 50, "ClosedDate")
+                    .Add("@P4", OleDb.OleDbType.VarChar, 50, "ClosedTime")
+                    .Add("@P5", OleDb.OleDbType.VarChar, 50, "ClosedBy")
+                    .Add("@P6", OleDb.OleDbType.VarChar, 50, "ClosedByRole")
+                    .Add("@P7", OleDb.OleDbType.VarChar, 50, "RVLID")
+                    .Add("@P8", OleDb.OleDbType.VarChar, 50, "Initials")
+                    .Add("@P9", OleDb.OleDbType.VarChar, 255, "VisitName")
+                    .Add("@P10", OleDb.OleDbType.VarChar, 255, "FormName")
+                    .Add("@P11", OleDb.OleDbType.VarChar, 50, "PageNo")
+                    .Add("@P12", OleDb.OleDbType.VarChar, 255, "Description")
+                    .Add("@P13", OleDb.OleDbType.VarChar, 50, "QueryID")
+                End With
 
         End Select
 
-        
+
 
         Call Overclass.SetCommandConnection()
         Call Overclass.UpdateBackend(ctl, SaveMessage)
