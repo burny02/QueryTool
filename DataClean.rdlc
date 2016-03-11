@@ -43,10 +43,12 @@
               <ChartDataPoints>
                 <ChartDataPoint>
                   <ChartDataPointValues>
-                    <Y>=Fields!Perc.Value</Y>
+                    <Y>=Sum(Fields!Perc.Value)</Y>
                   </ChartDataPointValues>
                   <ChartDataLabel>
                     <Style />
+                    <UseValueAsLabel>true</UseValueAsLabel>
+                    <Visible>true</Visible>
                   </ChartDataLabel>
                   <Style />
                   <ChartMarker>
@@ -183,8 +185,8 @@
                   <Length>0.5</Length>
                 </ChartMinorTickMarks>
                 <CrossAt>NaN</CrossAt>
-                <Minimum>0</Minimum>
-                <Maximum>100</Maximum>
+                <Minimum>NaN</Minimum>
+                <Maximum>NaN</Maximum>
                 <ChartAxisScaleBreak>
                   <Style />
                 </ChartAxisScaleBreak>
@@ -353,10 +355,12 @@
               <ChartDataPoints>
                 <ChartDataPoint>
                   <ChartDataPointValues>
-                    <Y>=Fields!Perc.Value</Y>
+                    <Y>=Sum(Fields!Perc.Value)</Y>
                   </ChartDataPointValues>
                   <ChartDataLabel>
                     <Style />
+                    <UseValueAsLabel>true</UseValueAsLabel>
+                    <Visible>true</Visible>
                   </ChartDataLabel>
                   <Style />
                   <ChartMarker>
@@ -493,8 +497,8 @@
                   <Length>0.5</Length>
                 </ChartMinorTickMarks>
                 <CrossAt>NaN</CrossAt>
-                <Minimum>0</Minimum>
-                <Maximum>100</Maximum>
+                <Minimum>NaN</Minimum>
+                <Maximum>NaN</Maximum>
                 <ChartAxisScaleBreak>
                   <Style />
                 </ChartAxisScaleBreak>

@@ -19,22 +19,16 @@ Public Class AddQuery
 
         Me.NewQueryGrid.Columns.Clear()
         Me.NewQueryGrid2.Columns.Clear()
-        Me.NewQueryGrid3.Columns.Clear()
 
         Select Case e.TabPageIndex
 
             Case 0
                 Form1.Specifics(NewQueryGrid)
-                Overclass.SetupFilterCombo(ComboBox101, "Study", "DisplayName", False, "SELECT StudyCode, DisplayName FROM Study")
-                Overclass.SetupFilterCombo(ComboBox102, "RVLID", "RVLID")
-                Overclass.SetupFilterCombo(ComboBox105, "VisitName", "VisitName")
 
             Case 1
                 Form1.Specifics(NewQueryGrid2)
 
-            Case 2
-                Form1.Specifics(NewQueryGrid3)
-                
+
         End Select
 
 
@@ -60,7 +54,7 @@ Public Class AddQuery
             'CLOSE THE QUERY
             If (Me.NewQueryGrid.Item(sender.columns("Status").index, e.RowIndex).Value) = "Closed" Then Exit Sub
 
-            If MsgBox("Are you sure you want to close this query?" & vbNewLine & _
+            If MsgBox("Are you sure you want to close this query?" & vbNewLine &
                     "Please save to commit changes", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
 
                 Me.NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed"
@@ -78,7 +72,21 @@ Public Class AddQuery
 
     End Sub
 
-    Private Sub NewQueryGrid_DefaultValuesNeeded(sender As Object, e As DataGridViewRowEventArgs) Handles NewQueryGrid.DefaultValuesNeeded
-        e.Row.Cells("Study").Value = AdQry.ComboBox101.SelectedValue
+    Private Sub CheckBox201_Click(sender As Object, e As EventArgs) Handles CheckBox201.Click
+
+        If Overclass.UnloadData() = True Then
+            RemoveHandler CheckBox201.Click, AddressOf CheckBox201_Click
+            CheckBox201.Checked = Not CheckBox201.Checked
+            AddHandler CheckBox201.Click, AddressOf CheckBox201_Click
+        End If
+
+        Dim TempStudy As String = FilterCombo50.SelectedValue
+        Call Form1.Specifics(Me.NewQueryGrid2)
+        If TempStudy IsNot Nothing Then FilterCombo50.SelectedValue = TempStudy
+        FilterCombo40.SelectedValue = ""
+        FilterCombo60.SelectedValue = ""
+        FilterCombo70.SelectedValue = ""
+        FilterCombo80.SelectedValue = ""
+
     End Sub
 End Class
