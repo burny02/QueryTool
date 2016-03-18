@@ -94,6 +94,24 @@
                             Exit Sub
                         End If
 
+                        If IsDBNull(row.item("ResolvedBy")) Then
+                            MsgBox("Resolved By missing")
+                            Overclass.CmdList.Clear()
+                            Exit Sub
+                        End If
+
+                        If IsDBNull(row.item("ResolvedDate")) Then
+                            MsgBox("Resolved Date missing")
+                            Overclass.CmdList.Clear()
+                            Exit Sub
+                        End If
+
+                        If IsDBNull(row.item("Priority")) Then
+                            MsgBox("Priority missing")
+                            Overclass.CmdList.Clear()
+                            Exit Sub
+                        End If
+
                         Dim RVLID As String = "'" & row.item("RVLID") & "'"
                         Dim Initials As String = "'" & row.item("Initials") & "'"
                         Dim FormName As String = "'" & row.item("FormName") & "'"
@@ -101,6 +119,9 @@
                         Dim Description As String = "'" & row.item("Description") & "'"
                         Dim VisitName As String = "'" & row.item("VisitName") & "'"
                         Dim Study As String = "'" & row.item("Study") & "'"
+                        Dim ResolvedBy As String = "'" & row.item("ResolvedBy") & "'"
+                        Dim ResolvedDate As String = "'" & row.item("ResolvedDate") & "'"
+                        Dim Priority As String = "'" & row.item("Priority") & "'"
 
                         Dim QueryID As String = "'MANUAL-" &
                         Overclass.TempDataTable("SELECT Count(QueryID) FROM Queries WHERE QueryID LIKE 'MANUAL-%'").Rows(0).Item(0) + PassNo & "'"
@@ -109,9 +130,10 @@
 
                         'SET THE Commands, with Parameters (OLDB Parameters must be added in the order they are used in the statement)
                         InsertCmd = New OleDb.OleDbCommand("INSERT INTO Queries " &
-                        "(QueryID, Study, RVLID, Initials, FormName, Status, PageNo, FieldName, Description, CreateDate, CreateTime, CreatedBy, CreatedByRole, VisitName) " &
+                        "(QueryID, Study, RVLID, Initials, FormName, Status, PageNo, FieldName, Description, CreateDate, CreateTime, CreatedBy, CreatedByRole, VisitName, " &
+                        "Priority, ResolvedBy, ResolvedDate) " &
                         "VALUES (" & QueryID & "," & Study & ", " & RVLID & "," & Initials & "," & FormName & "," & Status & "," & PageNo & "," & FieldName & "," & Description &
-                        "," & CreateDate & "," & CreateTime & "," & CreatedBy & "," & CreatedByRole & "," & VisitName & ")")
+                        "," & CreateDate & "," & CreateTime & "," & CreatedBy & "," & CreatedByRole & "," & VisitName & "," & Priority & "," & ResolvedBy & "," & ResolvedDate & ")")
 
 
                         Overclass.AddToMassSQL(InsertCmd)
@@ -144,8 +166,9 @@
                 Status=@P1, FieldName=@P2, ClosedDate=@P3, 
                 ClosedTime=@P4, ClosedBy=@P5, ClosedByRole=@P6, 
                 RVLID=@P7, Initials=@P8, VisitName=@P9, 
-                FormName=@10, PageNo=@P11, Description=@P12
-                WHERE QueryID=@P13")
+                FormName=@10, PageNo=@P11, Description=@P12, 
+                Priority=@P14, ResolvedBy=@P15, ResolvedDate=@P16
+                WHERE QueryID=@P17")
 
                 'Add parameters with the source columns in the dataset
                 With Overclass.CurrentDataAdapter.UpdateCommand.Parameters
@@ -161,7 +184,10 @@
                     .Add("@P10", OleDb.OleDbType.VarChar, 255, "FormName")
                     .Add("@P11", OleDb.OleDbType.VarChar, 50, "PageNo")
                     .Add("@P12", OleDb.OleDbType.VarChar, 255, "Description")
-                    .Add("@P13", OleDb.OleDbType.VarChar, 50, "QueryID")
+                    .Add("@P14", OleDb.OleDbType.VarChar, 50, "Priority")
+                    .Add("@P15", OleDb.OleDbType.VarChar, 50, "ResolvedBy")
+                    .Add("@P16", OleDb.OleDbType.VarChar, 50, "ResolvedDate")
+                    .Add("@P17", OleDb.OleDbType.VarChar, 50, "QueryID")
                 End With
 
         End Select

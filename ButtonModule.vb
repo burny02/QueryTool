@@ -26,19 +26,6 @@ Module ButtonModule
                                                                                   " And " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
 
-            Case "Button4"
-                Call ExportExcel("SELECT " &
-                         "Person as [Allocated To], Site, Group, RVLID, " &
-                        "FormName, Description " &
-                        "FROM (((((Queries a INNER JOIN Study b ON a.Study=b.StudyCode) " &
-                        "INNER JOIN QueryCodes c ON a.QueryID=c.QueryID) " &
-                        "INNER JOIN GroupCode d ON b.CodeList=d.ListID) " &
-                        "INNER JOIN TypeCode e ON b.CodeList=e.ListID) " &
-                        "INNER JOIN SiteCode f ON b.CodeList=f.ListID) " &
-                        "WHERE Status='Responded' AND Study='" & Form1.FilterCombo6.SelectedValue.ToString & "' " &
-                        " AND f.code=c.SiteCode AND c.RespondCode=d.code AND TypeCode=e.code" _
-                         , Form1.FilterCombo6.SelectedValue.ToString, False)
-
             Case "Button5"
                 Call ExportExcel("SELECT a.*, c.* " &
                         "FROM (((((Queries a INNER JOIN Study b ON a.Study=b.StudyCode) " &
@@ -52,7 +39,7 @@ Module ButtonModule
             Case "Button6"
                 Call ExportExcel("SELECT dateadd('d',QueryAgeLimit,CreateDate) AS DueDate," &
                          "Person as [Allocated To], Site, Group, RVLID, " &
-                        "FormName, Description " &
+                        "FormName, Description, Priority " &
                         "FROM (((((Queries a INNER JOIN Study b ON a.Study=b.StudyCode) " &
                         "INNER JOIN QueryCodes c ON a.QueryID=c.QueryID) " &
                         "INNER JOIN GroupCode d ON b.CodeList=d.ListID) " &

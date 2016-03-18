@@ -144,7 +144,7 @@
 
                 SqlCode = "SELECT DisplayName, QueryID, CreatedBy, Status, FieldName, CreateDate, CreateTime, " &
                     "CreatedByRole, ClosedDate, ClosedTime, ClosedBy, ClosedByRole, RVLID, Initials, " &
-                    "VisitName, FormName, PageNo, Description, Study " &
+                    "VisitName, FormName, PageNo, Description, Priority, ResolvedBy, ResolvedDate, Study " &
                     "FROM Queries INNER JOIN Study ON Queries.Study=Study.StudyCode " &
                     "WHERE QueryID Like 'MANUAL-%' " &
                     "AND CreatedByRole='" & Role & "' " &
@@ -159,15 +159,6 @@
                 AdQry.FilterCombo20.SetAsInternalSource("RVLID", "RVLID", Overclass)
                 AdQry.FilterCombo10.SetAsInternalSource("VisitName", "VisitName", Overclass)
 
-                Dim cmb As New DataGridViewImageColumn
-                cmb.HeaderText = "Close Query"
-                cmb.Image = My.Resources.TICK
-                cmb.ImageLayout = DataGridViewImageCellLayout.Zoom
-                cmb.Name = "CloseQuery"
-
-
-                AdQry.NewQueryGrid.Columns.Add(cmb)
-
                 AdQry.NewQueryGrid.Columns("QueryID").Visible = False
                 AdQry.NewQueryGrid.Columns("Study").Visible = False
                 AdQry.NewQueryGrid.Columns("FieldName").Visible = False
@@ -179,6 +170,7 @@
                 AdQry.NewQueryGrid.Columns("ClosedBy").Visible = False
                 AdQry.NewQueryGrid.Columns("ClosedByRole").Visible = False
                 AdQry.NewQueryGrid.Columns("DisplayName").Visible = False
+                AdQry.NewQueryGrid.Columns("Priority").Visible = False
 
                 AdQry.NewQueryGrid.Columns("DisplayName").ReadOnly = False
                 AdQry.NewQueryGrid.Columns("Status").ReadOnly = True
@@ -190,12 +182,30 @@
                 AdQry.NewQueryGrid.Columns("PageNo").HeaderText = "Page No."
                 AdQry.NewQueryGrid.Columns("Description").HeaderText = "Query Description"
                 AdQry.NewQueryGrid.Columns("CreatedBy").HeaderText = "Created By"
+                AdQry.NewQueryGrid.Columns("ResolvedBy").HeaderText = "Resolved By"
+                AdQry.NewQueryGrid.Columns("ResolvedDate").HeaderText = "Resolved Date"
+
+                Dim clm As New DataGridViewComboBoxColumn
+                clm.HeaderText = "Priority"
+                clm.Items.Add("1 - Data Entry")
+                clm.Items.Add("2 - Non Data Entry")
+                AdQry.NewQueryGrid.Columns.Add(clm)
+                clm.DataPropertyName = "Priority"
+
+                Dim cmb As New DataGridViewImageColumn
+                cmb.HeaderText = "Close Query"
+                cmb.Image = My.Resources.TICK
+                cmb.ImageLayout = DataGridViewImageCellLayout.Zoom
+                cmb.Name = "CloseQuery"
+
+                AdQry.NewQueryGrid.Columns.Add(cmb)
+
 
             Case "DataGridView1"
                 ctl.columns(0).headertext = "Study"
                 ctl.columns(1).headertext = "Last Update"
                 ctl.columns(2).headertext = "Upload Person"
-                ctl.columns(1).DefaultCellStyle.Format = "dd-MMM-yyyy - HH:mm"
+                ctl.columns(1).DefaultCellStyle.Format = "dd-MMM-yyyy - HH: mm"
                 ctl.enabled = False
                 ctl.AllowUserToAddRows = False
 

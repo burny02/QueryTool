@@ -51,7 +51,6 @@ Partial Class Form1
         Me.Button17 = New System.Windows.Forms.Button()
         Me.Button6 = New System.Windows.Forms.Button()
         Me.Button5 = New System.Windows.Forms.Button()
-        Me.Button4 = New System.Windows.Forms.Button()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer5 = New System.Windows.Forms.SplitContainer()
@@ -117,7 +116,7 @@ Partial Class Form1
         Me.TabPage6.Controls.Add(Me.SplitContainer6)
         Me.TabPage6.Location = New System.Drawing.Point(4, 22)
         Me.TabPage6.Name = "TabPage6"
-        Me.TabPage6.Padding = New System.Windows.Forms.Padding(3, 3, 3, 3)
+        Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage6.Size = New System.Drawing.Size(752, 320)
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Reports"
@@ -324,7 +323,6 @@ Partial Class Form1
         Me.SplitContainer4.Panel2.Controls.Add(Me.Button17)
         Me.SplitContainer4.Panel2.Controls.Add(Me.Button6)
         Me.SplitContainer4.Panel2.Controls.Add(Me.Button5)
-        Me.SplitContainer4.Panel2.Controls.Add(Me.Button4)
         Me.SplitContainer4.Size = New System.Drawing.Size(752, 320)
         Me.SplitContainer4.SplitterDistance = 285
         Me.SplitContainer4.TabIndex = 2
@@ -335,7 +333,7 @@ Partial Class Form1
         Me.FilterCombo6.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo6.FormattingEnabled = True
         Me.FilterCombo6.Location = New System.Drawing.Point(83, 205)
-        Me.FilterCombo6.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.FilterCombo6.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo6.Name = "FilterCombo6"
         Me.FilterCombo6.Size = New System.Drawing.Size(115, 25)
         Me.FilterCombo6.TabIndex = 4
@@ -396,16 +394,6 @@ Partial Class Form1
         Me.Button5.TabIndex = 1
         Me.Button5.Text = "All " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Study Queries"
         Me.Button5.UseVisualStyleBackColor = True
-        '
-        'Button4
-        '
-        Me.Button4.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button4.Location = New System.Drawing.Point(173, 49)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(110, 41)
-        Me.Button4.TabIndex = 0
-        Me.Button4.Text = "Responded " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Queries"
-        Me.Button4.UseVisualStyleBackColor = True
         '
         'TabPage3
         '
@@ -513,7 +501,7 @@ Partial Class Form1
         Me.FilterCombo2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo2.FormattingEnabled = True
         Me.FilterCombo2.Location = New System.Drawing.Point(303, 0)
-        Me.FilterCombo2.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.FilterCombo2.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo2.Name = "FilterCombo2"
         Me.FilterCombo2.Size = New System.Drawing.Size(147, 25)
         Me.FilterCombo2.TabIndex = 17
@@ -535,7 +523,7 @@ Partial Class Form1
         Me.FilterCombo1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo1.FormattingEnabled = True
         Me.FilterCombo1.Location = New System.Drawing.Point(534, 0)
-        Me.FilterCombo1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.FilterCombo1.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo1.Name = "FilterCombo1"
         Me.FilterCombo1.Size = New System.Drawing.Size(77, 25)
         Me.FilterCombo1.TabIndex = 2
@@ -557,7 +545,7 @@ Partial Class Form1
         Me.FilterCombo3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo3.FormattingEnabled = True
         Me.FilterCombo3.Location = New System.Drawing.Point(132, 0)
-        Me.FilterCombo3.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.FilterCombo3.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo3.Name = "FilterCombo3"
         Me.FilterCombo3.Size = New System.Drawing.Size(92, 25)
         Me.FilterCombo3.TabIndex = 21
@@ -579,7 +567,7 @@ Partial Class Form1
         Me.FilterCombo4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo4.FormattingEnabled = True
         Me.FilterCombo4.Location = New System.Drawing.Point(263, 0)
-        Me.FilterCombo4.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.FilterCombo4.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo4.Name = "FilterCombo4"
         Me.FilterCombo4.Size = New System.Drawing.Size(234, 25)
         Me.FilterCombo4.TabIndex = 22
@@ -601,7 +589,7 @@ Partial Class Form1
         Me.FilterCombo5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo5.FormattingEnabled = True
         Me.FilterCombo5.Location = New System.Drawing.Point(534, 0)
-        Me.FilterCombo5.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.FilterCombo5.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo5.Name = "FilterCombo5"
         Me.FilterCombo5.Size = New System.Drawing.Size(77, 25)
         Me.FilterCombo5.TabIndex = 23
@@ -642,7 +630,7 @@ Partial Class Form1
         Me.TabPage2.Controls.Add(Me.SplitContainer1)
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3, 3, 3, 3)
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage2.Size = New System.Drawing.Size(752, 320)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Add Queries"
@@ -715,7 +703,7 @@ Partial Class Form1
         Me.TabPage1.Controls.Add(Me.PictureBox2)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3, 3, 3, 3)
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage1.Size = New System.Drawing.Size(752, 320)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Menu"
@@ -829,7 +817,6 @@ Partial Class Form1
     Friend WithEvents Button17 As System.Windows.Forms.Button
     Friend WithEvents Button6 As System.Windows.Forms.Button
     Friend WithEvents Button5 As System.Windows.Forms.Button
-    Friend WithEvents Button4 As System.Windows.Forms.Button
     Friend WithEvents TabPage3 As System.Windows.Forms.TabPage
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents Button1 As System.Windows.Forms.Button

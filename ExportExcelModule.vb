@@ -7,7 +7,7 @@ Module ExportExcelModule
                               "Where Study='" & Study & "'")
 
         If NumberWrong <> 0 Then
-            If MsgBox(NumberWrong & " bad/empty codes were found And will be missing from report. Do you wish to proceed?", vbYesNo) = vbNo Then Exit Sub
+            If MsgBox(NumberWrong & " bad/empty codes were found and will be missing from report. Do you wish to proceed?", vbYesNo) = vbNo Then Exit Sub
         End If
 
         Dim WantSend As Boolean = False
@@ -85,66 +85,31 @@ Module ExportExcelModule
             Dim OutApp = CreateObject("Outlook.Application")
             Dim objOutlookMsg = OutApp.CreateItem(0)
 
-            Dim MSite As Long
-            Dim WSite As Long
-            Dim QSite As Long
-            Dim OvMSite As Long
-            Dim OvWSite As Long
-            Dim OvQSite As Long
-
             OutApp = CreateObject("Outlook.Application")
             objOutlookMsg = OutApp.CreateItem(0)
 
-            MSite = Overclass.SELECTCount("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
-                                "INNER JOIN Study c on b.Study=c.StudyCode) " & _
-                                "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
-                                "WHERE Status='Open' AND Site='MAN' " & _
-                                "AND SiteCode=Code AND Study='" & Study & "'")
+            Dim CountTable As DataTable = Overclass.TempDataTable("SELECT Site, Priority, CountOfQueryID, Type FROM ExportExcelCount WHERE Study='" & Study & "'" &
+                                                                  " ORDER BY Site, Priority, Type DESC")
 
-            WSite = Overclass.SELECTCount("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
-                                "INNER JOIN Study c on b.Study=c.StudyCode) " & _
-                                "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
-                                "WHERE Status='Open' AND Site='WHC' " & _
-                                "AND SiteCode=Code AND Study='" & Study & "'")
+            Dim TableString As String = vbNullString
 
-            QSite = Overclass.SELECTCount("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
-                                "INNER JOIN Study c on b.Study=c.StudyCode) " & _
-                                "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
-                                "WHERE Status='Open' AND Site='Quarantine' " & _
-                                "AND SiteCode=Code AND Study='" & Study & "'")
-
-            OvMSite = Overclass.SELECTCount("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
-                                "INNER JOIN Study c on b.Study=c.StudyCode) " & _
-                                "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
-                                "WHERE Status='Open' AND Site='MAN' " & _
-                                "AND dateadd('d',QueryAgeLimit,CreateDate)<Date()  " & _
-                                "AND SiteCode=Code AND Study='" & Study & "'")
-
-            OvWSite = Overclass.SELECTCount("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
-                                "INNER JOIN Study c on b.Study=c.StudyCode) " & _
-                                "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
-                                "WHERE Status='Open' AND Site='WHC' " & _
-                                "AND dateadd('d',QueryAgeLimit,CreateDate)<Date()  " & _
-                                "AND SiteCode=Code AND Study='" & Study & "'")
-
-            OvQSite = Overclass.SELECTCount("SELECT a.QueryID FROM (((QueryCodes a INNER JOIN Queries b on a.QueryID=b.QueryID) " & _
-                                "INNER JOIN Study c on b.Study=c.StudyCode) " & _
-                                "INNER JOIN SiteCode d on c.Codelist=d.ListID) " & _
-                                "WHERE Status='Open' AND Site='Quarantine' " & _
-                                "AND dateadd('d',QueryAgeLimit,CreateDate)<Date()  " & _
-                                "AND SiteCode=Code AND Study='" & Study & "'")
+            For Each row As DataRow In CountTable.Rows
+                TableString = TableString & row.Item("Site")
+                TableString = TableString & " - Priority " & row.Item("Priority")
+                TableString = TableString & " (" & row.Item("CountOfQueryID")
+                TableString = TableString & " " & row.Item("Type") & ")"
+                TableString = TableString & "<br/>"
+            Next
 
 
 
             objOutlookMsg.Subject = Study & " Queries"
 
-            objOutlookMsg.HTMLBody = "Dear All" & "<br/>" & "<br/>" & _
-                                        "Please find attached the latest query spreadsheet:" & "<br/>" & "<br/>" & "<br/>" & _
-                                        "MAN - " & MSite & "(" & OvMSite & " overdue)" & "<br/>" & _
-                                        "WHC - " & WSite & "(" & OvWSite & " overdue)" & "<br/>" & _
-                                        "VCU - " & QSite & "(" & OvQSite & " overdue)" & "<br/>" & "<br/>" & "<br/>" & _
-                                        "Please filter by columns B,C,D as required." & "<br/>" & "<br/>" & _
-                                        "Overdue queries are marked in red." & "<br/>" & "<br/>" & _
+            objOutlookMsg.HTMLBody = "Dear All" & "<br/>" & "<br/>" &
+                                        "Please find attached the latest query spreadsheet:  " & "<br/>" & "<br/>" &
+                                        TableString & "<br/>" &
+                                        "Please filter by columns allocation, site, group and priority as required." & "<br/>" & "<br/>" &
+                                        "Overdue queries are marked in red." & "<br/>" & "<br/>" &
                                         "Many thanks"
 
 
