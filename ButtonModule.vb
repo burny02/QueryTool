@@ -195,13 +195,12 @@ Module ButtonModule
 
                 Try
 
-                    Dim SqlString As String = "SELECT * FROM PrintOut WHERE RVLID='" & RVLID & "'" &
-                                                                  " AND Status='Open'" & RoleCrit
+                    Dim SqlString As String = "SELECT * FROM PrintOut WHERE RVLID='" & RVLID & "'" & RoleCrit
 
                     Dim dt As DataTable = Overclass.TempDataTable(SqlString)
 
                     If dt.Rows.Count = 0 Then
-                        MsgBox("No queries found for volunteer " & RVLID)
+                        MsgBox("No coded queries found for volunteer " & RVLID)
                         Exit Sub
                     End If
 

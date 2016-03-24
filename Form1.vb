@@ -154,8 +154,11 @@
                 Overclass.CreateDataSet(SqlCode, AdQry.BindingSource1, AdQry.NewQueryGrid)
 
                 AdQry.FilterCombo30.AllowBlanks = False
-                AdQry.FilterCombo30.SetAsInternalSource("Study", "DisplayName", Overclass)
+                AdQry.FilterCombo30.SetAsExternalSource("Study", "DisplayName", "SELECT StudyCode As Study, DisplayName FROM Study ORDER BY DisplayName ASC", Overclass)
                 AdQry.FilterCombo30.SetDGVDefault(ctl, "Study")
+
+
+
                 AdQry.FilterCombo20.SetAsInternalSource("RVLID", "RVLID", Overclass)
                 AdQry.FilterCombo10.SetAsInternalSource("VisitName", "VisitName", Overclass)
 
@@ -185,6 +188,15 @@
                 AdQry.NewQueryGrid.Columns("ResolvedBy").HeaderText = "Resolved By"
                 AdQry.NewQueryGrid.Columns("ResolvedDate").HeaderText = "Resolved Date"
 
+                AdQry.NewQueryGrid.Columns("ResolvedDate").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                AdQry.NewQueryGrid.Columns("CreatedBy").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                AdQry.NewQueryGrid.Columns("ResolvedBy").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                AdQry.NewQueryGrid.Columns("RVLID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                AdQry.NewQueryGrid.Columns("Initials").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                AdQry.NewQueryGrid.Columns("PageNo").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                AdQry.NewQueryGrid.Columns("Status").Visible = False
+
+
                 Dim clm As New DataGridViewComboBoxColumn
                 clm.HeaderText = "Priority"
                 clm.Items.Add("1 - Data Entry")
@@ -193,13 +205,13 @@
                 clm.DataPropertyName = "Priority"
 
                 Dim cmb As New DataGridViewImageColumn
-                cmb.HeaderText = "Close Query"
+                cmb.HeaderText = "Close"
                 cmb.Image = My.Resources.TICK
                 cmb.ImageLayout = DataGridViewImageCellLayout.Zoom
                 cmb.Name = "CloseQuery"
 
                 AdQry.NewQueryGrid.Columns.Add(cmb)
-
+                AdQry.NewQueryGrid.Columns("CloseQuery").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
 
             Case "DataGridView1"
                 ctl.columns(0).headertext = "Study"
@@ -265,6 +277,13 @@
                 ctl.columns("FormName").HeaderText = "Form Name"
                 ctl.columns("VisitName").HeaderText = "Visit Name"
                 ctl.Columns("Person").maxinputlength = 3
+
+                cmb.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                cmb3.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                DataGridView2.Columns("Person").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                DataGridView2.Columns("RVLID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                DataGridView2.Columns("Status").Visible = False
+
 
 
         End Select

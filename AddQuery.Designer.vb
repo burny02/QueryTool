@@ -25,6 +25,8 @@ Partial Class AddQuery
         Me.components = New System.ComponentModel.Container()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AddQuery))
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.TabPage1 = New System.Windows.Forms.TabPage()
@@ -85,7 +87,7 @@ Partial Class AddQuery
         Me.TabPage1.Controls.Add(Me.SplitContainer3)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3, 3, 3, 3)
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage1.Size = New System.Drawing.Size(784, 305)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Open/Close"
@@ -153,7 +155,7 @@ Partial Class AddQuery
         Me.FilterCombo30.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo30.FormattingEnabled = True
         Me.FilterCombo30.Location = New System.Drawing.Point(281, 0)
-        Me.FilterCombo30.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.FilterCombo30.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo30.Name = "FilterCombo30"
         Me.FilterCombo30.Size = New System.Drawing.Size(142, 25)
         Me.FilterCombo30.TabIndex = 20
@@ -175,7 +177,7 @@ Partial Class AddQuery
         Me.FilterCombo20.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo20.FormattingEnabled = True
         Me.FilterCombo20.Location = New System.Drawing.Point(507, 0)
-        Me.FilterCombo20.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.FilterCombo20.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo20.Name = "FilterCombo20"
         Me.FilterCombo20.Size = New System.Drawing.Size(104, 25)
         Me.FilterCombo20.TabIndex = 19
@@ -197,7 +199,7 @@ Partial Class AddQuery
         Me.FilterCombo10.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo10.FormattingEnabled = True
         Me.FilterCombo10.Location = New System.Drawing.Point(295, 0)
-        Me.FilterCombo10.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.FilterCombo10.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo10.Name = "FilterCombo10"
         Me.FilterCombo10.Size = New System.Drawing.Size(316, 25)
         Me.FilterCombo10.TabIndex = 18
@@ -223,11 +225,23 @@ Partial Class AddQuery
         Me.NewQueryGrid.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.NewQueryGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.NewQueryGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.NewQueryGrid.DefaultCellStyle = DataGridViewCellStyle2
         Me.NewQueryGrid.Dock = System.Windows.Forms.DockStyle.Fill
         Me.NewQueryGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
         Me.NewQueryGrid.Location = New System.Drawing.Point(0, 0)
         Me.NewQueryGrid.Name = "NewQueryGrid"
         Me.NewQueryGrid.RowHeadersVisible = False
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.NewQueryGrid.RowsDefaultCellStyle = DataGridViewCellStyle3
+        Me.NewQueryGrid.RowTemplate.DefaultCellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.NewQueryGrid.RowTemplate.Height = 40
         Me.NewQueryGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.NewQueryGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.NewQueryGrid.Size = New System.Drawing.Size(778, 242)
@@ -249,7 +263,7 @@ Partial Class AddQuery
         Me.TabPage2.Controls.Add(Me.SplitContainer2)
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3, 3, 3, 3)
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage2.Size = New System.Drawing.Size(784, 305)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Assign"
@@ -351,7 +365,7 @@ Partial Class AddQuery
         Me.FilterCombo50.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo50.FormattingEnabled = True
         Me.FilterCombo50.Location = New System.Drawing.Point(282, 0)
-        Me.FilterCombo50.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.FilterCombo50.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo50.Name = "FilterCombo50"
         Me.FilterCombo50.Size = New System.Drawing.Size(147, 25)
         Me.FilterCombo50.TabIndex = 19
@@ -373,7 +387,7 @@ Partial Class AddQuery
         Me.FilterCombo40.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo40.FormattingEnabled = True
         Me.FilterCombo40.Location = New System.Drawing.Point(513, 0)
-        Me.FilterCombo40.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.FilterCombo40.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo40.Name = "FilterCombo40"
         Me.FilterCombo40.Size = New System.Drawing.Size(98, 25)
         Me.FilterCombo40.TabIndex = 18
@@ -395,7 +409,7 @@ Partial Class AddQuery
         Me.FilterCombo80.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo80.FormattingEnabled = True
         Me.FilterCombo80.Location = New System.Drawing.Point(185, 0)
-        Me.FilterCombo80.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.FilterCombo80.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo80.Name = "FilterCombo80"
         Me.FilterCombo80.Size = New System.Drawing.Size(102, 25)
         Me.FilterCombo80.TabIndex = 23
@@ -417,7 +431,7 @@ Partial Class AddQuery
         Me.FilterCombo70.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo70.FormattingEnabled = True
         Me.FilterCombo70.Location = New System.Drawing.Point(326, 0)
-        Me.FilterCombo70.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.FilterCombo70.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo70.Name = "FilterCombo70"
         Me.FilterCombo70.Size = New System.Drawing.Size(180, 25)
         Me.FilterCombo70.TabIndex = 22
@@ -439,7 +453,7 @@ Partial Class AddQuery
         Me.FilterCombo60.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo60.FormattingEnabled = True
         Me.FilterCombo60.Location = New System.Drawing.Point(543, 0)
-        Me.FilterCombo60.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.FilterCombo60.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo60.Name = "FilterCombo60"
         Me.FilterCombo60.Size = New System.Drawing.Size(68, 25)
         Me.FilterCombo60.TabIndex = 21
@@ -461,8 +475,8 @@ Partial Class AddQuery
         'NewQueryGrid2
         '
         Me.NewQueryGrid2.AllowUserToDeleteRows = False
-        DataGridViewCellStyle2.BackColor = System.Drawing.Color.Gainsboro
-        Me.NewQueryGrid2.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle4.BackColor = System.Drawing.Color.Gainsboro
+        Me.NewQueryGrid2.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle4
         Me.NewQueryGrid2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.NewQueryGrid2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.NewQueryGrid2.Dock = System.Windows.Forms.DockStyle.Fill

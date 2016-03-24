@@ -94,18 +94,6 @@
                             Exit Sub
                         End If
 
-                        If IsDBNull(row.item("ResolvedBy")) Then
-                            MsgBox("Resolved By missing")
-                            Overclass.CmdList.Clear()
-                            Exit Sub
-                        End If
-
-                        If IsDBNull(row.item("ResolvedDate")) Then
-                            MsgBox("Resolved Date missing")
-                            Overclass.CmdList.Clear()
-                            Exit Sub
-                        End If
-
                         If IsDBNull(row.item("Priority")) Then
                             MsgBox("Priority missing")
                             Overclass.CmdList.Clear()

@@ -43,6 +43,7 @@ Public Class AddQuery
 
     Private Sub NewQueryGrid_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles NewQueryGrid.CellContentClick
 
+        If e.RowIndex < 0 Then Exit Sub
         If e.ColumnIndex = sender.columns("CloseQuery").index Then
 
             If IsDBNull(Me.NewQueryGrid.Item(sender.columns("QueryID").index, e.RowIndex).Value) Then
@@ -89,4 +90,5 @@ Public Class AddQuery
         FilterCombo80.SelectedValue = ""
 
     End Sub
+
 End Class
