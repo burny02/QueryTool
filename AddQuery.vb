@@ -47,7 +47,9 @@ Public Class AddQuery
         If e.ColumnIndex = sender.columns("CloseQuery").index Then
 
             If IsDBNull(Me.NewQueryGrid.Item(sender.columns("QueryID").index, e.RowIndex).Value) Then
-                MsgBox("Please save query first")
+                If MsgBox("Do you want to delete this query? " & vbNewLine & vbNewLine & "To close the query please save it first", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                    NewQueryGrid.Rows.RemoveAt(e.RowIndex)
+                End If
                 Exit Sub
             End If
 
