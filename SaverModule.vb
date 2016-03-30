@@ -112,7 +112,8 @@
                         Dim Priority As String = "'" & row.item("Priority") & "'"
 
                         Dim QueryID As String = "'MANUAL-" &
-                        Overclass.TempDataTable("SELECT Count(QueryID) FROM Queries WHERE QueryID LIKE 'MANUAL-%'").Rows(0).Item(0) + PassNo & "'"
+                        Overclass.TempDataTable("SELECT Max(CLng(Replace([QueryID],'Manual-',''))) AS WhatNo FROM (SELECT Queries.QueryID " &
+                        "FROM Queries Where (((Queries.QueryID) Like 'MANUAL-%')))  AS a").Rows(0).Item(0) + PassNo & "'"
 
                         Dim InsertCmd As OleDb.OleDbCommand
 

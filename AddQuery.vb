@@ -45,33 +45,34 @@ Public Class AddQuery
 
         If e.RowIndex < 0 Then Exit Sub
         If e.ColumnIndex = sender.columns("CloseQuery").index Then
+            If e.RowIndex = NewQueryGrid.NewRowIndex Then Exit Sub
 
             If IsDBNull(Me.NewQueryGrid.Item(sender.columns("QueryID").index, e.RowIndex).Value) Then
-                If MsgBox("Do you want to delete this query? " & vbNewLine & vbNewLine & "To close the query please save it first", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                    NewQueryGrid.Rows.RemoveAt(e.RowIndex)
+                    If MsgBox("Do you want to delete this query? " & vbNewLine & vbNewLine & "To close the query please save it first", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        NewQueryGrid.Rows.RemoveAt(e.RowIndex)
+                    End If
+                    Exit Sub
                 End If
-                Exit Sub
+
+
+                'CLOSE THE QUERY
+                If (Me.NewQueryGrid.Item(sender.columns("Status").index, e.RowIndex).Value) = "Closed" Then Exit Sub
+
+                If MsgBox("Are you sure you want to close this query?" & vbNewLine &
+                        "Please save to commit changes", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+
+                    Me.NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed"
+                    Me.NewQueryGrid.Item("ClosedDate", e.RowIndex).Value = Format(DateTime.Now, "dd-MMM-yyyy")
+                    Me.NewQueryGrid.Item("ClosedTime", e.RowIndex).Value = Format(DateTime.Now, "HH: mm")
+                    Me.NewQueryGrid.Item("ClosedBy", e.RowIndex).Value = Overclass.GetUserName
+                    Me.NewQueryGrid.Item("ClosedByRole", e.RowIndex).Value = Role
+                    sender.CurrentCell = Nothing
+                    sender.Rows(e.RowIndex).Visible = False
+
+
+
+                End If
             End If
-
-
-            'CLOSE THE QUERY
-            If (Me.NewQueryGrid.Item(sender.columns("Status").index, e.RowIndex).Value) = "Closed" Then Exit Sub
-
-            If MsgBox("Are you sure you want to close this query?" & vbNewLine &
-                    "Please save to commit changes", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-
-                Me.NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed"
-                Me.NewQueryGrid.Item("ClosedDate", e.RowIndex).Value = Format(DateTime.Now, "dd-MMM-yyyy")
-                Me.NewQueryGrid.Item("ClosedTime", e.RowIndex).Value = Format(DateTime.Now, "HH: mm")
-                Me.NewQueryGrid.Item("ClosedBy", e.RowIndex).Value = Overclass.GetUserName
-                Me.NewQueryGrid.Item("ClosedByRole", e.RowIndex).Value = Role
-                sender.CurrentCell = Nothing
-                sender.Rows(e.RowIndex).Visible = False
-
-
-
-            End If
-        End If
 
     End Sub
 
