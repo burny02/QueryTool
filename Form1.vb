@@ -188,6 +188,7 @@
                 AdQry.NewQueryGrid.Columns("ResolvedBy").HeaderText = "Resolved By"
                 AdQry.NewQueryGrid.Columns("ResolvedDate").HeaderText = "Resolved Date"
 
+
                 AdQry.NewQueryGrid.Columns("ResolvedDate").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 AdQry.NewQueryGrid.Columns("CreatedBy").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 AdQry.NewQueryGrid.Columns("ResolvedBy").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
@@ -196,13 +197,24 @@
                 AdQry.NewQueryGrid.Columns("PageNo").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 AdQry.NewQueryGrid.Columns("Status").Visible = False
 
-
                 Dim clm As New DataGridViewComboBoxColumn
                 clm.HeaderText = "Priority"
                 clm.Items.Add("1 - Data Entry")
                 clm.Items.Add("2 - Non Data Entry")
                 AdQry.NewQueryGrid.Columns.Add(clm)
                 clm.DataPropertyName = "Priority"
+                clm.Name = "PriorityClm"
+
+                AdQry.NewQueryGrid.Columns("PriorityClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+
+                Dim cmb2 As New DataGridViewImageColumn
+                cmb2.HeaderText = "Copy"
+                cmb2.Image = My.Resources.copy
+                cmb2.ImageLayout = DataGridViewImageCellLayout.Zoom
+                cmb2.Name = "CopyQuery"
+
+                AdQry.NewQueryGrid.Columns.Add(cmb2)
+                AdQry.NewQueryGrid.Columns("CopyQuery").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
 
                 Dim cmb As New DataGridViewImageColumn
                 cmb.HeaderText = "Close"
@@ -212,6 +224,7 @@
 
                 AdQry.NewQueryGrid.Columns.Add(cmb)
                 AdQry.NewQueryGrid.Columns("CloseQuery").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+
 
             Case "DataGridView1"
                 ctl.columns(0).headertext = "Study"

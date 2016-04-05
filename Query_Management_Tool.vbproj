@@ -27,7 +27,7 @@
     <InstallUrl>\\retroscreen.com\dfsroot\clinical\VOLUNTEER SCREENING SERVICES\Systems\Query_Management_Tool\</InstallUrl>
     <ProductName>Query_Management_Tool</ProductName>
     <PublisherName>David Burnside</PublisherName>
-    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationRevision>13</ApplicationRevision>
     <ApplicationVersion>2.4.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -112,7 +112,7 @@
     <DebugType>Full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
@@ -192,7 +192,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Deviations.rdlc" />
     <EmbeddedResource Include="DataClean.rdlc" />
-    <EmbeddedResource Include="PrintReport.rdlc" />
+    <EmbeddedResource Include="PrintReport.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="QueryPerDay.rdlc" />
     <EmbeddedResource Include="ToolUsage.rdlc" />
     <EmbeddedResource Include="QCIndividual.rdlc" />
@@ -262,6 +264,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="hvivo_logo1_8dY_icon.ico" />
+    <None Include="Resources\copy.jpg" />
     <None Include="Resources\Print.png" />
     <None Include="Resources\TICK.png" />
     <None Include="Resources\Add1.png" />

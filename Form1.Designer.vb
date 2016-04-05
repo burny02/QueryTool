@@ -46,6 +46,7 @@ Partial Class Form1
         Me.Button9 = New System.Windows.Forms.Button()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
+        Me.FilterCombo6 = New TemplateDB.FilterCombo()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.Button17 = New System.Windows.Forms.Button()
@@ -57,10 +58,15 @@ Partial Class Form1
         Me.Label3 = New System.Windows.Forms.Label()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Study = New System.Windows.Forms.Label()
+        Me.FilterCombo2 = New TemplateDB.FilterCombo()
         Me.Label9 = New System.Windows.Forms.Label()
+        Me.FilterCombo1 = New TemplateDB.FilterCombo()
         Me.Label7 = New System.Windows.Forms.Label()
+        Me.FilterCombo3 = New TemplateDB.FilterCombo()
         Me.Label6 = New System.Windows.Forms.Label()
+        Me.FilterCombo4 = New TemplateDB.FilterCombo()
         Me.Label10 = New System.Windows.Forms.Label()
+        Me.FilterCombo5 = New TemplateDB.FilterCombo()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.DataGridView2 = New System.Windows.Forms.DataGridView()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
@@ -72,12 +78,6 @@ Partial Class Form1
         Me.Label2 = New System.Windows.Forms.Label()
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
-        Me.FilterCombo2 = New TemplateDB.FilterCombo()
-        Me.FilterCombo1 = New TemplateDB.FilterCombo()
-        Me.FilterCombo3 = New TemplateDB.FilterCombo()
-        Me.FilterCombo4 = New TemplateDB.FilterCombo()
-        Me.FilterCombo5 = New TemplateDB.FilterCombo()
-        Me.FilterCombo6 = New TemplateDB.FilterCombo()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage6.SuspendLayout()
         CType(Me.SplitContainer6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -328,6 +328,17 @@ Partial Class Form1
         Me.SplitContainer4.SplitterDistance = 285
         Me.SplitContainer4.TabIndex = 2
         '
+        'FilterCombo6
+        '
+        Me.FilterCombo6.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.FilterCombo6.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FilterCombo6.FormattingEnabled = True
+        Me.FilterCombo6.Location = New System.Drawing.Point(83, 205)
+        Me.FilterCombo6.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo6.Name = "FilterCombo6"
+        Me.FilterCombo6.Size = New System.Drawing.Size(115, 25)
+        Me.FilterCombo6.TabIndex = 4
+        '
         'Label1
         '
         Me.Label1.Anchor = System.Windows.Forms.AnchorStyles.None
@@ -485,6 +496,17 @@ Partial Class Form1
         Me.Study.TabIndex = 12
         Me.Study.Text = "Study"
         '
+        'FilterCombo2
+        '
+        Me.FilterCombo2.Dock = System.Windows.Forms.DockStyle.Right
+        Me.FilterCombo2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FilterCombo2.FormattingEnabled = True
+        Me.FilterCombo2.Location = New System.Drawing.Point(303, 0)
+        Me.FilterCombo2.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo2.Name = "FilterCombo2"
+        Me.FilterCombo2.Size = New System.Drawing.Size(147, 25)
+        Me.FilterCombo2.TabIndex = 17
+        '
         'Label9
         '
         Me.Label9.AutoSize = True
@@ -495,6 +517,17 @@ Partial Class Form1
         Me.Label9.Size = New System.Drawing.Size(84, 20)
         Me.Label9.TabIndex = 16
         Me.Label9.Text = "Subject ID"
+        '
+        'FilterCombo1
+        '
+        Me.FilterCombo1.Dock = System.Windows.Forms.DockStyle.Right
+        Me.FilterCombo1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FilterCombo1.FormattingEnabled = True
+        Me.FilterCombo1.Location = New System.Drawing.Point(534, 0)
+        Me.FilterCombo1.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo1.Name = "FilterCombo1"
+        Me.FilterCombo1.Size = New System.Drawing.Size(77, 25)
+        Me.FilterCombo1.TabIndex = 2
         '
         'Label7
         '
@@ -507,6 +540,17 @@ Partial Class Form1
         Me.Label7.TabIndex = 16
         Me.Label7.Text = "Status"
         '
+        'FilterCombo3
+        '
+        Me.FilterCombo3.Dock = System.Windows.Forms.DockStyle.Right
+        Me.FilterCombo3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FilterCombo3.FormattingEnabled = True
+        Me.FilterCombo3.Location = New System.Drawing.Point(132, 0)
+        Me.FilterCombo3.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo3.Name = "FilterCombo3"
+        Me.FilterCombo3.Size = New System.Drawing.Size(92, 25)
+        Me.FilterCombo3.TabIndex = 21
+        '
         'Label6
         '
         Me.Label6.AutoSize = True
@@ -518,6 +562,17 @@ Partial Class Form1
         Me.Label6.TabIndex = 14
         Me.Label6.Text = "Visit"
         '
+        'FilterCombo4
+        '
+        Me.FilterCombo4.Dock = System.Windows.Forms.DockStyle.Right
+        Me.FilterCombo4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FilterCombo4.FormattingEnabled = True
+        Me.FilterCombo4.Location = New System.Drawing.Point(263, 0)
+        Me.FilterCombo4.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo4.Name = "FilterCombo4"
+        Me.FilterCombo4.Size = New System.Drawing.Size(234, 25)
+        Me.FilterCombo4.TabIndex = 22
+        '
         'Label10
         '
         Me.Label10.AutoSize = True
@@ -528,6 +583,17 @@ Partial Class Form1
         Me.Label10.Size = New System.Drawing.Size(37, 20)
         Me.Label10.TabIndex = 20
         Me.Label10.Text = "Site"
+        '
+        'FilterCombo5
+        '
+        Me.FilterCombo5.Dock = System.Windows.Forms.DockStyle.Right
+        Me.FilterCombo5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FilterCombo5.FormattingEnabled = True
+        Me.FilterCombo5.Location = New System.Drawing.Point(534, 0)
+        Me.FilterCombo5.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo5.Name = "FilterCombo5"
+        Me.FilterCombo5.Size = New System.Drawing.Size(77, 25)
+        Me.FilterCombo5.TabIndex = 23
         '
         'Button1
         '
@@ -605,9 +671,9 @@ Partial Class Form1
         Me.Button16.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Button16.Dock = System.Windows.Forms.DockStyle.Left
         Me.Button16.FlatAppearance.BorderSize = 0
-        Me.Button16.Location = New System.Drawing.Point(128, 0)
+        Me.Button16.Location = New System.Drawing.Point(141, 0)
         Me.Button16.Name = "Button16"
-        Me.Button16.Size = New System.Drawing.Size(128, 25)
+        Me.Button16.Size = New System.Drawing.Size(142, 25)
         Me.Button16.TabIndex = 11
         Me.Button16.UseVisualStyleBackColor = True
         '
@@ -619,7 +685,7 @@ Partial Class Form1
         Me.Button2.FlatAppearance.BorderSize = 0
         Me.Button2.Location = New System.Drawing.Point(0, 0)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(128, 25)
+        Me.Button2.Size = New System.Drawing.Size(141, 25)
         Me.Button2.TabIndex = 10
         Me.Button2.UseVisualStyleBackColor = True
         '
@@ -690,72 +756,6 @@ Partial Class Form1
         Me.TabControl1.Size = New System.Drawing.Size(760, 346)
         Me.TabControl1.TabIndex = 5
         '
-        'FilterCombo2
-        '
-        Me.FilterCombo2.Dock = System.Windows.Forms.DockStyle.Right
-        Me.FilterCombo2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FilterCombo2.FormattingEnabled = True
-        Me.FilterCombo2.Location = New System.Drawing.Point(303, 0)
-        Me.FilterCombo2.Margin = New System.Windows.Forms.Padding(2)
-        Me.FilterCombo2.Name = "FilterCombo2"
-        Me.FilterCombo2.Size = New System.Drawing.Size(147, 25)
-        Me.FilterCombo2.TabIndex = 17
-        '
-        'FilterCombo1
-        '
-        Me.FilterCombo1.Dock = System.Windows.Forms.DockStyle.Right
-        Me.FilterCombo1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FilterCombo1.FormattingEnabled = True
-        Me.FilterCombo1.Location = New System.Drawing.Point(534, 0)
-        Me.FilterCombo1.Margin = New System.Windows.Forms.Padding(2)
-        Me.FilterCombo1.Name = "FilterCombo1"
-        Me.FilterCombo1.Size = New System.Drawing.Size(77, 25)
-        Me.FilterCombo1.TabIndex = 2
-        '
-        'FilterCombo3
-        '
-        Me.FilterCombo3.Dock = System.Windows.Forms.DockStyle.Right
-        Me.FilterCombo3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FilterCombo3.FormattingEnabled = True
-        Me.FilterCombo3.Location = New System.Drawing.Point(132, 0)
-        Me.FilterCombo3.Margin = New System.Windows.Forms.Padding(2)
-        Me.FilterCombo3.Name = "FilterCombo3"
-        Me.FilterCombo3.Size = New System.Drawing.Size(92, 25)
-        Me.FilterCombo3.TabIndex = 21
-        '
-        'FilterCombo4
-        '
-        Me.FilterCombo4.Dock = System.Windows.Forms.DockStyle.Right
-        Me.FilterCombo4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FilterCombo4.FormattingEnabled = True
-        Me.FilterCombo4.Location = New System.Drawing.Point(263, 0)
-        Me.FilterCombo4.Margin = New System.Windows.Forms.Padding(2)
-        Me.FilterCombo4.Name = "FilterCombo4"
-        Me.FilterCombo4.Size = New System.Drawing.Size(234, 25)
-        Me.FilterCombo4.TabIndex = 22
-        '
-        'FilterCombo5
-        '
-        Me.FilterCombo5.Dock = System.Windows.Forms.DockStyle.Right
-        Me.FilterCombo5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FilterCombo5.FormattingEnabled = True
-        Me.FilterCombo5.Location = New System.Drawing.Point(534, 0)
-        Me.FilterCombo5.Margin = New System.Windows.Forms.Padding(2)
-        Me.FilterCombo5.Name = "FilterCombo5"
-        Me.FilterCombo5.Size = New System.Drawing.Size(77, 25)
-        Me.FilterCombo5.TabIndex = 23
-        '
-        'FilterCombo6
-        '
-        Me.FilterCombo6.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.FilterCombo6.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FilterCombo6.FormattingEnabled = True
-        Me.FilterCombo6.Location = New System.Drawing.Point(83, 205)
-        Me.FilterCombo6.Margin = New System.Windows.Forms.Padding(2)
-        Me.FilterCombo6.Name = "FilterCombo6"
-        Me.FilterCombo6.Size = New System.Drawing.Size(115, 25)
-        Me.FilterCombo6.TabIndex = 4
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -765,6 +765,7 @@ Partial Class Form1
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form1"
         Me.Text = "Form1"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage6.ResumeLayout(False)
         Me.SplitContainer6.Panel1.ResumeLayout(False)

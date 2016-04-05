@@ -56,78 +56,90 @@
 
                     If row.RowState = DataRowState.Added Then
 
+                        If String.IsNullOrWhiteSpace(row.item("RVLID").ToString) And
+                        String.IsNullOrWhiteSpace(row.item("Initials").ToString) And
+                        String.IsNullOrWhiteSpace(row.item("FormName").ToString) And
+                        String.IsNullOrWhiteSpace(row.item("PageNo").ToString) And
+                        String.IsNullOrWhiteSpace(row.item("Description").ToString) And
+                        String.IsNullOrWhiteSpace(row.item("VisitName").ToString) And
+                        String.IsNullOrWhiteSpace(row.item("Priority").ToString) Then
+
+                            Continue For
+
+                        End If
+
                         PassNo = PassNo + 1
 
-                        If IsDBNull(row.item("RVLID")) Then
+                        If String.IsNullOrWhiteSpace(row.item("RVLID").ToString) Then
                             MsgBox("RVL ID missing")
                             Overclass.CmdList.Clear()
                             Exit Sub
                         End If
 
-                        If IsDBNull(row.item("Initials")) Then
+                        If String.IsNullOrWhiteSpace(row.item("Initials").ToString) Then
                             MsgBox("Initials missing")
                             Overclass.CmdList.Clear()
                             Exit Sub
                         End If
 
-                        If IsDBNull(row.item("FormName")) Then
+                        If String.IsNullOrWhiteSpace(row.item("FormName").ToString) Then
                             MsgBox("Form Name missing")
                             Overclass.CmdList.Clear()
                             Exit Sub
                         End If
 
-                        If IsDBNull(row.item("PageNo")) Then
+                        If String.IsNullOrWhiteSpace(row.item("PageNo").ToString) Then
                             MsgBox("Page No missing")
                             Overclass.CmdList.Clear()
                             Exit Sub
                         End If
 
-                        If IsDBNull(row.item("Description")) Then
+                        If String.IsNullOrWhiteSpace(row.item("Description").ToString) Then
                             MsgBox("Description missing")
                             Overclass.CmdList.Clear()
                             Exit Sub
                         End If
 
-                        If IsDBNull(row.item("VisitName")) Then
+                        If String.IsNullOrWhiteSpace(row.item("VisitName").ToString) Then
                             MsgBox("Visit Name missing")
                             Overclass.CmdList.Clear()
                             Exit Sub
                         End If
 
-                        If IsDBNull(row.item("Priority")) Then
+                        If String.IsNullOrWhiteSpace(row.item("Priority").ToString) Then
                             MsgBox("Priority missing")
                             Overclass.CmdList.Clear()
                             Exit Sub
                         End If
 
                         Dim RVLID As String = "'" & row.item("RVLID") & "'"
-                        Dim Initials As String = "'" & row.item("Initials") & "'"
-                        Dim FormName As String = "'" & row.item("FormName") & "'"
-                        Dim PageNo As String = "'" & row.item("PageNo") & "'"
-                        Dim Description As String = "'" & row.item("Description") & "'"
-                        Dim VisitName As String = "'" & row.item("VisitName") & "'"
-                        Dim Study As String = "'" & row.item("Study") & "'"
-                        Dim ResolvedBy As String = "'" & row.item("ResolvedBy") & "'"
-                        Dim ResolvedDate As String = "'" & row.item("ResolvedDate") & "'"
-                        Dim Priority As String = "'" & row.item("Priority") & "'"
+                            Dim Initials As String = "'" & row.item("Initials") & "'"
+                            Dim FormName As String = "'" & row.item("FormName") & "'"
+                            Dim PageNo As String = "'" & row.item("PageNo") & "'"
+                            Dim Description As String = "'" & row.item("Description") & "'"
+                            Dim VisitName As String = "'" & row.item("VisitName") & "'"
+                            Dim Study As String = "'" & row.item("Study") & "'"
+                            Dim ResolvedBy As String = "'" & row.item("ResolvedBy") & "'"
+                            Dim ResolvedDate As String = "'" & row.item("ResolvedDate") & "'"
+                            Dim Priority As String = "'" & row.item("Priority") & "'"
 
-                        Dim QueryID As String = "'MANUAL-" &
+                            Dim QueryID As String = "'MANUAL-" &
                         Overclass.TempDataTable("SELECT Max(CLng(Replace([QueryID],'Manual-',''))) AS WhatNo FROM (SELECT Queries.QueryID " &
                         "FROM Queries Where (((Queries.QueryID) Like 'MANUAL-%')))  AS a").Rows(0).Item(0) + PassNo & "'"
 
-                        Dim InsertCmd As OleDb.OleDbCommand
+                            Dim InsertCmd As OleDb.OleDbCommand
 
-                        'SET THE Commands, with Parameters (OLDB Parameters must be added in the order they are used in the statement)
-                        InsertCmd = New OleDb.OleDbCommand("INSERT INTO Queries " &
+                            'SET THE Commands, with Parameters (OLDB Parameters must be added in the order they are used in the statement)
+                            InsertCmd = New OleDb.OleDbCommand("INSERT INTO Queries " &
                         "(QueryID, Study, RVLID, Initials, FormName, Status, PageNo, FieldName, Description, CreateDate, CreateTime, CreatedBy, CreatedByRole, VisitName, " &
                         "Priority, ResolvedBy, ResolvedDate) " &
                         "VALUES (" & QueryID & "," & Study & ", " & RVLID & "," & Initials & "," & FormName & "," & Status & "," & PageNo & "," & FieldName & "," & Description &
                         "," & CreateDate & "," & CreateTime & "," & CreatedBy & "," & CreatedByRole & "," & VisitName & "," & Priority & "," & ResolvedBy & "," & ResolvedDate & ")")
 
 
-                        Overclass.AddToMassSQL(InsertCmd)
+                            Overclass.AddToMassSQL(InsertCmd)
 
-                    End If
+                        End If
 
                 Next
 

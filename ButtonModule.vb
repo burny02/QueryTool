@@ -165,42 +165,41 @@ Module ButtonModule
                 AdQry.TabControl1.Controls.Remove(AdQry.TabPage2)
 
 
+
             Case "Button17"
 
-                Dim RoleCrit As String = vbNullString
-
-                If MsgBox("Only correctly allocated queries will print out." & vbNewLine & vbNewLine &
-                          "Do you want To print ONLY " & Role & " queries?" _
-                          & vbNewLine & "Click NO For ALL open queries", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-
-                    RoleCrit = " And CreatedByRole='" & Role & "'"
-
-                End If
-
-
-                Dim RVLID As Long = 0
-                Dim InputString As String = vbNullString
-
-                InputString = InputBox("Please input Subject ID to print", "Subject ID", "123456")
-
-                If InputString = vbNullString Then Exit Sub
+                'SELECT RVLID FROM CURRENTDATA SET
+                Dim RVLID As Long
 
                 Try
-                    RVLID = CLng(InputString)
+                    RVLID = InputBox("Please input a volunteers subject ID ", "Subject ID")
                 Catch ex As Exception
+                    MsgBox("Error - Expected number")
                     Exit Sub
                 End Try
 
-                'SELECT RVLID FROM CURRENTDATA SET
 
                 Try
 
-                    Dim SqlString As String = "SELECT * FROM PrintOut WHERE RVLID='" & RVLID & "'" & RoleCrit
+                    Dim TotalCount As Long = Overclass.SELECTCount("SELECT 1 FROM Queries WHERE Status='Open' AND RVLID='" &
+                                                                   RVLID & "'")
+                    Dim PrintCount As Long = Overclass.SELECTCount("SELECT * FROM PrintOut WHERE Status='Open' AND RVLID='" &
+                                                                   RVLID & "'")
+
+                    If TotalCount <> PrintCount Then
+                        If MsgBox(TotalCount - PrintCount & " queries were found to be incorrectly coded. Do you want to proceed?",
+                                  MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                            Exit Sub
+                        End If
+                    End If
+
+                    Dim SqlString As String = "SELECT * FROM PrintOut WHERE Status='Open' AND RVLID='" &
+                                                                   RVLID & "'"
 
                     Dim dt As DataTable = Overclass.TempDataTable(SqlString)
 
                     If dt.Rows.Count = 0 Then
-                        MsgBox("No coded queries found for volunteer " & RVLID)
+                        MsgBox("No open coded queries found for volunteer")
                         Exit Sub
                     End If
 
