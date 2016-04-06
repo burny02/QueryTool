@@ -91,12 +91,12 @@ Public Class AddQuery
                 If MsgBox("Are you sure you want to close this query?" & vbNewLine &
                         "Please save to commit changes", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
 
-                    Me.NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed"
-                    Me.NewQueryGrid.Item("ClosedDate", e.RowIndex).Value = Format(DateTime.Now, "dd-MMM-yyyy")
-                    Me.NewQueryGrid.Item("ClosedTime", e.RowIndex).Value = Format(DateTime.Now, "HH: mm")
-                    Me.NewQueryGrid.Item("ClosedBy", e.RowIndex).Value = Overclass.GetUserName
-                    Me.NewQueryGrid.Item("ClosedByRole", e.RowIndex).Value = Role
-                    sender.CurrentCell = Nothing
+                Me.NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed"
+                Me.NewQueryGrid.Item("ClosedDate", e.RowIndex).Value = Format(DateTime.Now, "dd-MMM-yyyy")
+                Me.NewQueryGrid.Item("ClosedTime", e.RowIndex).Value = Format(DateTime.Now, "HH:mm")
+                Me.NewQueryGrid.Item("ClosedBy", e.RowIndex).Value = Overclass.GetUserName
+                Me.NewQueryGrid.Item("ClosedByRole", e.RowIndex).Value = Role
+                sender.CurrentCell = Nothing
                 sender.Rows(e.RowIndex).Visible = False
                 Try
                     NewQueryGrid.CurrentCell = NewQueryGrid.Item("RVLID", e.RowIndex - 1)

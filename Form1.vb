@@ -157,7 +157,7 @@
                 AdQry.FilterCombo30.SetAsExternalSource("Study", "DisplayName", "SELECT StudyCode As Study, DisplayName FROM Study ORDER BY DisplayName ASC", Overclass)
                 AdQry.FilterCombo30.SetDGVDefault(ctl, "Study")
 
-
+                AdQry.FilterCombo90.SetAsInternalSource("Initials", "Initials", Overclass)
 
                 AdQry.FilterCombo20.SetAsInternalSource("RVLID", "RVLID", Overclass)
                 AdQry.FilterCombo10.SetAsInternalSource("VisitName", "VisitName", Overclass)
