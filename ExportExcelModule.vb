@@ -1,19 +1,21 @@
 ﻿Imports System.IO
 Module ExportExcelModule
-    Public Sub ExportExcel(SQLCode As String, Study As String, Send As Boolean)
+    Public Sub ExportExcel(SQLCode As String, Study As String, Send As Boolean, Optional Check As Boolean = True)
 
-        Dim NumberWrong As Long = Overclass.SELECTCount("Select Study, DisplayName, QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
+        Dim NumberWrong As Long
+        If Check = True Then
+            NumberWrong = Overclass.SELECTCount("Select Study, DisplayName, QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
                               "VisitName, FormName, Description, Status, Person FROM IncorrectQueries " &
                               "Where Study='" & Study & "'")
 
-        If NumberWrong <> 0 Then
-            If MsgBox(NumberWrong & " bad/empty codes were found and will be missing from report. Do you wish to proceed?", vbYesNo) = vbNo Then Exit Sub
+            If NumberWrong <> 0 Then
+                If MsgBox(NumberWrong & " bad/empty codes were found and will be missing from report. Do you wish to proceed?", vbYesNo) = vbNo Then Exit Sub
+            End If
+
         End If
 
-        Dim WantSend As Boolean = False
-
         If Send = True Then
-            If MsgBox("Would you Like to attach the spreadsheet to an email?", vbYesNo) = vbYes Then WantSend = True
+            If MsgBox("Would you Like to attach the spreadsheet to an email?", vbYesNo) = vbNo Then Send = False
         End If
 
 
@@ -56,15 +58,13 @@ Module ExportExcelModule
         dt = Nothing
         da = Nothing
 
-        If WantSend = False Then xlApp.Visible = True
+        If Send = False Then xlApp.Visible = True
 
-        If WantSend = True Then
+        If Send = True Then
 
             For r = 2 To numrow
                 If xlApp.activesheet.Range("$A$" & r).Value < Date.Now Then
                     xlApp.activesheet.Range("$A$" & r & ":$Z$" & r).Font.ColorIndex = 3
-                Else
-                    Exit For
                 End If
 
             Next r

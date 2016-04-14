@@ -53,8 +53,8 @@ Public Class AddQuery
                 NewRow.Item("FormName") = NewQueryGrid.Item("FormName", e.RowIndex).Value
                 NewRow.Item("PageNo") = NewQueryGrid.Item("PageNo", e.RowIndex).Value
                 NewRow.Item("Description") = NewQueryGrid.Item("Description", e.RowIndex).Value
-                NewRow.Item("Priority") = NewQueryGrid.Item("Priority", e.RowIndex).Value
-                NewRow.Item("Study") = NewQueryGrid.Item("Study", e.RowIndex).Value
+                NewRow.Item("Priority") = Trim(NewQueryGrid.Item("Priority", e.RowIndex).Value)
+                NewRow.Item("Study") = Trim(NewQueryGrid.Item("Study", e.RowIndex).Value)
                 NewRow.Item("RVLID") = NewQueryGrid.Item("RVLID", e.RowIndex).Value
                 NewRow.Item("Initials") = NewQueryGrid.Item("Initials", e.RowIndex).Value
                 NewRow.Item("Status") = "Open"
@@ -64,52 +64,6 @@ Public Class AddQuery
 
             End If
         End If
-        If e.ColumnIndex = sender.columns("CloseQuery").index Then
-            If e.RowIndex = NewQueryGrid.NewRowIndex Then Exit Sub
-
-            If IsDBNull(Me.NewQueryGrid.Item(sender.columns("QueryID").index, e.RowIndex).Value) Then
-                If MsgBox("Do you want to delete this query? " & vbNewLine & vbNewLine & "To close the query please save it first", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                    NewQueryGrid.Rows.RemoveAt(e.RowIndex)
-                    Try
-                        NewQueryGrid.CurrentCell = NewQueryGrid.Item("RVLID", e.RowIndex - 1)
-                    Catch ex As Exception
-                        Try
-                            NewQueryGrid.CurrentCell = NewQueryGrid.Item("RVLID", e.RowIndex + 1)
-                        Catch ex2 As Exception
-                            NewQueryGrid.CurrentCell = NewQueryGrid.Item("RVLID", NewQueryGrid.NewRowIndex)
-                        End Try
-                    End Try
-
-                End If
-                Exit Sub
-                End If
-
-
-                'CLOSE THE QUERY
-                If (Me.NewQueryGrid.Item(sender.columns("Status").index, e.RowIndex).Value) = "Closed" Then Exit Sub
-
-                If MsgBox("Are you sure you want to close this query?" & vbNewLine &
-                        "Please save to commit changes", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-
-                Me.NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed"
-                Me.NewQueryGrid.Item("ClosedDate", e.RowIndex).Value = Format(DateTime.Now, "dd-MMM-yyyy")
-                Me.NewQueryGrid.Item("ClosedTime", e.RowIndex).Value = Format(DateTime.Now, "HH:mm")
-                Me.NewQueryGrid.Item("ClosedBy", e.RowIndex).Value = Overclass.GetUserName
-                Me.NewQueryGrid.Item("ClosedByRole", e.RowIndex).Value = Role
-                sender.CurrentCell = Nothing
-                sender.Rows(e.RowIndex).Visible = False
-                Try
-                    NewQueryGrid.CurrentCell = NewQueryGrid.Item("RVLID", e.RowIndex - 1)
-                Catch ex As Exception
-                    Try
-                        NewQueryGrid.CurrentCell = NewQueryGrid.Item("RVLID", e.RowIndex + 1)
-                    Catch ex2 As Exception
-                        NewQueryGrid.CurrentCell = NewQueryGrid.Item("RVLID", NewQueryGrid.NewRowIndex)
-                    End Try
-                End Try
-
-            End If
-            End If
 
     End Sub
 
@@ -133,20 +87,31 @@ Public Class AddQuery
 
     Private Sub NewQueryGrid_CellEnter(sender As Object, e As DataGridViewCellEventArgs) Handles NewQueryGrid.CellEnter
 
-        If String.IsNullOrWhiteSpace(AdQry.NewQueryGrid.Item("QueryID", e.RowIndex).FormattedValue) Then
+        On Error Resume Next
+
+        If String.IsNullOrWhiteSpace(NewQueryGrid.Item("QueryID", e.RowIndex).FormattedValue) Then
             NewQueryGrid.Columns("CreatedBy").ReadOnly = True
+            NewQueryGrid.Columns("StatusCmb").ReadOnly = True
             Exit Sub
         End If
 
-        On Error Resume Next
+
+        If (NewQueryGrid.Item(sender.columns("Status").index, e.RowIndex).Value) = "Closed" Then
+            If e.ColumnIndex <> AdQry.NewQueryGrid.Columns("ResolvedBy").Index And
+            e.ColumnIndex <> AdQry.NewQueryGrid.Columns("ResolvedDate").Index Then
+                NewQueryGrid.Item(e.ColumnIndex, e.RowIndex).ReadOnly = True
+                Exit Sub
+            End If
+        End If
+
         If e.ColumnIndex = AdQry.NewQueryGrid.Columns("RVLID").Index Or
-            e.ColumnIndex = AdQry.NewQueryGrid.Columns("VisitName").Index Or
-            e.ColumnIndex = AdQry.NewQueryGrid.Columns("FormName").Index Or
-            e.ColumnIndex = AdQry.NewQueryGrid.Columns("PageNo").Index Or
-            e.ColumnIndex = AdQry.NewQueryGrid.Columns("Description").Index Or
-            e.ColumnIndex = AdQry.NewQueryGrid.Columns("Initials").Index Or
-            e.ColumnIndex = AdQry.NewQueryGrid.Columns("PriorityClm").Index Or
-            e.ColumnIndex = AdQry.NewQueryGrid.Columns("CreatedBy").Index Then
+        e.ColumnIndex = AdQry.NewQueryGrid.Columns("VisitName").Index Or
+        e.ColumnIndex = AdQry.NewQueryGrid.Columns("FormName").Index Or
+        e.ColumnIndex = AdQry.NewQueryGrid.Columns("PageNo").Index Or
+        e.ColumnIndex = AdQry.NewQueryGrid.Columns("Description").Index Or
+        e.ColumnIndex = AdQry.NewQueryGrid.Columns("Initials").Index Or
+        e.ColumnIndex = AdQry.NewQueryGrid.Columns("PriorityClm").Index Or
+        e.ColumnIndex = AdQry.NewQueryGrid.Columns("CreatedBy").Index Then
 
             AdQry.NewQueryGrid.Item(e.ColumnIndex, e.RowIndex).ReadOnly = True
         Else
@@ -156,11 +121,30 @@ Public Class AddQuery
 
     End Sub
 
-    Private Sub NewQueryGrid_RowPostPaint(sender As Object, e As DataGridViewRowPostPaintEventArgs) Handles NewQueryGrid.RowPostPaint
+    Private Sub NewQueryGrid_DefaultValuesNeeded(sender As Object, e As DataGridViewRowEventArgs) Handles NewQueryGrid.DefaultValuesNeeded
+        NewQueryGrid.Item("Status", e.Row.Index).Value = "Open"
+    End Sub
 
-        If NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then
-            NewQueryGrid.Rows(e.RowIndex).Visible = False
+    Private Sub NewQueryGrid_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles NewQueryGrid.CellEndEdit
+
+        If e.ColumnIndex = NewQueryGrid.Columns("StatusCmb").Index And e.RowIndex >= 0 Then
+            If NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then
+                Me.NewQueryGrid.Item("ClosedDate", e.RowIndex).Value = Format(DateTime.Now, "dd-MMM-yyyy")
+                Me.NewQueryGrid.Item("ClosedTime", e.RowIndex).Value = Format(DateTime.Now, "HH:mm")
+                Me.NewQueryGrid.Item("ClosedBy", e.RowIndex).Value = Overclass.GetUserName
+                Me.NewQueryGrid.Item("ClosedByRole", e.RowIndex).Value = Role
+
+            ElseIf NewQueryGrid.Item("Status", e.RowIndex).Value = "Open" Then
+                Me.NewQueryGrid.Item("ClosedDate", e.RowIndex).Value = ""
+                Me.NewQueryGrid.Item("ClosedTime", e.RowIndex).Value = ""
+                Me.NewQueryGrid.Item("ClosedBy", e.RowIndex).Value = ""
+                Me.NewQueryGrid.Item("ClosedByRole", e.RowIndex).Value = ""
+            End If
         End If
+
+    End Sub
+
+    Private Sub NewQueryGrid_DataError(sender As Object, e As DataGridViewDataErrorEventArgs) Handles NewQueryGrid.DataError
 
     End Sub
 End Class

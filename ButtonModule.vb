@@ -27,14 +27,7 @@ Module ButtonModule
                 OK.ReportViewer1.RefreshReport()
 
             Case "Button5"
-                Call ExportExcel("SELECT a.*, c.* " &
-                        "FROM (((((Queries a INNER JOIN Study b ON a.Study=b.StudyCode) " &
-                        "INNER JOIN QueryCodes c ON a.QueryID=c.QueryID) " &
-                        "INNER JOIN GroupCode d ON b.CodeList=d.ListID) " &
-                        "INNER JOIN TypeCode e ON b.CodeList=e.ListID) " &
-                        "INNER JOIN SiteCode f ON b.CodeList=f.ListID) " &
-                        "WHERE f.code=c.SiteCode AND c.RespondCode=d.code AND TypeCode=e.code" &
-                        " AND Study='" & Form1.FilterCombo6.SelectedValue.ToString & "'", Form1.FilterCombo6.SelectedValue.ToString, False)
+                Call ExportExcel("SELECT * FROM AllQueries", Nothing, False, False)
 
             Case "Button6"
                 Call ExportExcel("SELECT dateadd('d',QueryAgeLimit,CreateDate) AS DueDate," &
@@ -161,8 +154,9 @@ Module ButtonModule
 
                 AdQry = New AddQuery
                 AddControls(AdQry)
-                AdQry.Visible = True
                 AdQry.TabControl1.Controls.Remove(AdQry.TabPage2)
+                AdQry.ShowDialog()
+
 
 
 

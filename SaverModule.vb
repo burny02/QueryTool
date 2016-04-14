@@ -61,8 +61,7 @@
                         String.IsNullOrWhiteSpace(row.item("FormName").ToString) And
                         String.IsNullOrWhiteSpace(row.item("PageNo").ToString) And
                         String.IsNullOrWhiteSpace(row.item("Description").ToString) And
-                        String.IsNullOrWhiteSpace(row.item("VisitName").ToString) And
-                        String.IsNullOrWhiteSpace(row.item("Priority").ToString) Then
+                        String.IsNullOrWhiteSpace(row.item("VisitName").ToString) Then
 
                             Continue For
 

@@ -142,14 +142,13 @@
 
                 AdQry.NewQueryGrid.Columns.Clear()
 
-                SqlCode = "SELECT DisplayName, QueryID, CreatedBy, Status, FieldName, CreateDate, CreateTime, " &
+                SqlCode = "SELECT Status, DisplayName, QueryID, CreatedBy, FieldName, CreateDate, CreateTime, " &
                     "CreatedByRole, ClosedDate, ClosedTime, ClosedBy, ClosedByRole, RVLID, Initials, " &
                     "VisitName, FormName, PageNo, Description, Priority, ResolvedBy, ResolvedDate, Study " &
                     "FROM Queries INNER JOIN Study ON Queries.Study=Study.StudyCode " &
                     "WHERE QueryID Like 'MANUAL-%' " &
                     "AND CreatedByRole='" & Role & "' " &
-                    "AND Status='Open' " &
-                    "ORDER BY RVLID ASC"
+                    "ORDER BY Status DESC, RVLID ASC"
 
                 Overclass.CreateDataSet(SqlCode, AdQry.BindingSource1, AdQry.NewQueryGrid)
 
@@ -158,6 +157,7 @@
                 AdQry.FilterCombo30.SetDGVDefault(ctl, "Study")
 
                 AdQry.FilterCombo90.SetAsInternalSource("Initials", "Initials", Overclass)
+                AdQry.FilterCombo100.SetAsInternalSource("Status", "Status", Overclass)
 
                 AdQry.FilterCombo20.SetAsInternalSource("RVLID", "RVLID", Overclass)
                 AdQry.FilterCombo10.SetAsInternalSource("VisitName", "VisitName", Overclass)
@@ -174,6 +174,7 @@
                 AdQry.NewQueryGrid.Columns("ClosedByRole").Visible = False
                 AdQry.NewQueryGrid.Columns("DisplayName").Visible = False
                 AdQry.NewQueryGrid.Columns("Priority").Visible = False
+                AdQry.NewQueryGrid.Columns("Status").Visible = False
 
                 AdQry.NewQueryGrid.Columns("DisplayName").ReadOnly = False
                 AdQry.NewQueryGrid.Columns("Status").ReadOnly = True
@@ -195,7 +196,6 @@
                 AdQry.NewQueryGrid.Columns("RVLID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 AdQry.NewQueryGrid.Columns("Initials").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 AdQry.NewQueryGrid.Columns("PageNo").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                AdQry.NewQueryGrid.Columns("Status").Visible = False
 
                 Dim clm As New DataGridViewComboBoxColumn
                 clm.HeaderText = "Priority"
@@ -207,6 +207,16 @@
 
                 AdQry.NewQueryGrid.Columns("PriorityClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
 
+                Dim cmb As New DataGridViewComboBoxColumn
+                cmb.HeaderText = "Status"
+                cmb.Items.Add("Open")
+                cmb.Items.Add("Closed")
+                cmb.DataPropertyName = "Status"
+                cmb.Name = "StatusCmb"
+
+                AdQry.NewQueryGrid.Columns.Add(cmb)
+                AdQry.NewQueryGrid.Columns("StatusCmb").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+
                 Dim cmb2 As New DataGridViewImageColumn
                 cmb2.HeaderText = "Copy"
                 cmb2.Image = My.Resources.copy
@@ -215,15 +225,6 @@
 
                 AdQry.NewQueryGrid.Columns.Add(cmb2)
                 AdQry.NewQueryGrid.Columns("CopyQuery").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-
-                Dim cmb As New DataGridViewImageColumn
-                cmb.HeaderText = "Close"
-                cmb.Image = My.Resources.TICK
-                cmb.ImageLayout = DataGridViewImageCellLayout.Zoom
-                cmb.Name = "CloseQuery"
-
-                AdQry.NewQueryGrid.Columns.Add(cmb)
-                AdQry.NewQueryGrid.Columns("CloseQuery").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
 
 
             Case "DataGridView1"
