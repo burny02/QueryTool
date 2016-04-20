@@ -88,16 +88,15 @@ Module ExportExcelModule
             OutApp = CreateObject("Outlook.Application")
             objOutlookMsg = OutApp.CreateItem(0)
 
-            Dim CountTable As DataTable = Overclass.TempDataTable("SELECT Site, Priority, CountOfQueryID, Type FROM ExportExcelCount WHERE Study='" & Study & "'" &
-                                                                  " ORDER BY Site, Priority, Type DESC")
+            Dim CountTable As DataTable = Overclass.TempDataTable("SELECT Site, Priority, Queriess, Overdue FROM ExportExcelCount WHERE a.Study='" & Study & "'" &
+                                                                  " ORDER BY Site, Priority")
 
             Dim TableString As String = vbNullString
 
             For Each row As DataRow In CountTable.Rows
                 TableString = TableString & row.Item("Site")
                 TableString = TableString & " - Priority " & row.Item("Priority")
-                TableString = TableString & " (" & row.Item("CountOfQueryID")
-                TableString = TableString & " " & row.Item("Type") & ")"
+                TableString = TableString & " (" & row.Item("Queriess") & " - " & row.Item("Overdue") & ")"
                 TableString = TableString & "<br/>"
             Next
 

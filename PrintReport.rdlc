@@ -1912,6 +1912,7 @@ Date</Value>
             <TablixMember>
               <Group Name="Priority">
                 <GroupExpressions>
+                  <GroupExpression>=Fields!VisitName.Value</GroupExpression>
                   <GroupExpression>=Fields!Priority.Value</GroupExpression>
                 </GroupExpressions>
                 <PageBreak>
@@ -1919,6 +1920,9 @@ Date</Value>
                 </PageBreak>
               </Group>
               <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!VisitName.Value</Value>
+                </SortExpression>
                 <SortExpression>
                   <Value>=Fields!Priority.Value</Value>
                 </SortExpression>
@@ -2239,7 +2243,7 @@ Date</Value>
         <RepeatRowHeaders>true</RepeatRowHeaders>
         <DataSetName>ReportDataSet</DataSetName>
         <Height>4.33229cm</Height>
-        <Width>27.19543cm</Width>
+        <Width>27.19544cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2250,7 +2254,7 @@ Date</Value>
     <Height>1.70563in</Height>
     <Style />
   </Body>
-  <Width>10.70686in</Width>
+  <Width>10.70687in</Width>
   <Page>
     <PageHeader>
       <Height>0.02646cm</Height>
