@@ -65,6 +65,20 @@ Public Class AddQuery
             End If
         End If
 
+        If e.ColumnIndex = sender.columns("StatusCmb").index Then
+
+            If Me.NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then Exit Sub
+
+            If MsgBox("Are you sure you want to close this query?", vbYesNo) = vbYes Then
+                Me.NewQueryGrid.Item("ClosedDate", e.RowIndex).Value = Format(DateTime.Now, "dd-MMM-yyyy")
+                Me.NewQueryGrid.Item("ClosedTime", e.RowIndex).Value = Format(DateTime.Now, "HH:mm")
+                Me.NewQueryGrid.Item("ClosedBy", e.RowIndex).Value = Overclass.GetUserName
+                Me.NewQueryGrid.Item("ClosedByRole", e.RowIndex).Value = Role
+                Me.NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed"
+                BindingSource1.EndEdit()
+            End If
+        End If
+
     End Sub
 
     Private Sub CheckBox201_Click(sender As Object, e As EventArgs) Handles CheckBox201.Click
@@ -73,6 +87,7 @@ Public Class AddQuery
             RemoveHandler CheckBox201.Click, AddressOf CheckBox201_Click
             CheckBox201.Checked = Not CheckBox201.Checked
             AddHandler CheckBox201.Click, AddressOf CheckBox201_Click
+
         End If
 
         Dim TempStudy As String = FilterCombo50.SelectedValue
@@ -125,26 +140,15 @@ Public Class AddQuery
         NewQueryGrid.Item("Status", e.Row.Index).Value = "Open"
     End Sub
 
-    Private Sub NewQueryGrid_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles NewQueryGrid.CellEndEdit
-
-        If e.ColumnIndex = NewQueryGrid.Columns("StatusCmb").Index And e.RowIndex >= 0 Then
-            If NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then
-                Me.NewQueryGrid.Item("ClosedDate", e.RowIndex).Value = Format(DateTime.Now, "dd-MMM-yyyy")
-                Me.NewQueryGrid.Item("ClosedTime", e.RowIndex).Value = Format(DateTime.Now, "HH:mm")
-                Me.NewQueryGrid.Item("ClosedBy", e.RowIndex).Value = Overclass.GetUserName
-                Me.NewQueryGrid.Item("ClosedByRole", e.RowIndex).Value = Role
-
-            ElseIf NewQueryGrid.Item("Status", e.RowIndex).Value = "Open" Then
-                Me.NewQueryGrid.Item("ClosedDate", e.RowIndex).Value = ""
-                Me.NewQueryGrid.Item("ClosedTime", e.RowIndex).Value = ""
-                Me.NewQueryGrid.Item("ClosedBy", e.RowIndex).Value = ""
-                Me.NewQueryGrid.Item("ClosedByRole", e.RowIndex).Value = ""
-            End If
-        End If
+    Private Sub NewQueryGrid_DataError(sender As Object, e As DataGridViewDataErrorEventArgs) Handles NewQueryGrid.DataError
 
     End Sub
 
-    Private Sub NewQueryGrid_DataError(sender As Object, e As DataGridViewDataErrorEventArgs) Handles NewQueryGrid.DataError
+    Private Sub NewQueryGrid_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles NewQueryGrid.CellFormatting
+
+        If e.RowIndex <= -1 Then Exit Sub
+        On Error Resume Next
+        If e.ColumnIndex = Me.NewQueryGrid.Columns("StatusCmb").Index And Me.NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then e.Value = My.Resources.hyphen
 
     End Sub
 End Class

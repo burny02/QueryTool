@@ -207,16 +207,6 @@
 
                 AdQry.NewQueryGrid.Columns("PriorityClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
 
-                Dim cmb As New DataGridViewComboBoxColumn
-                cmb.HeaderText = "Status"
-                cmb.Items.Add("Open")
-                cmb.Items.Add("Closed")
-                cmb.DataPropertyName = "Status"
-                cmb.Name = "StatusCmb"
-
-                AdQry.NewQueryGrid.Columns.Add(cmb)
-                AdQry.NewQueryGrid.Columns("StatusCmb").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-
                 Dim cmb2 As New DataGridViewImageColumn
                 cmb2.HeaderText = "Copy"
                 cmb2.Image = My.Resources.copy
@@ -225,6 +215,15 @@
 
                 AdQry.NewQueryGrid.Columns.Add(cmb2)
                 AdQry.NewQueryGrid.Columns("CopyQuery").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+
+                Dim cmb As New DataGridViewImageColumn
+                cmb.HeaderText = "Close"
+                cmb.Image = My.Resources.TICK
+                cmb.ImageLayout = DataGridViewImageCellLayout.Zoom
+                cmb.Name = "StatusCmb"
+
+                AdQry.NewQueryGrid.Columns.Add(cmb)
+                AdQry.NewQueryGrid.Columns("StatusCmb").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
 
 
             Case "DataGridView1"
