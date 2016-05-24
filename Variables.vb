@@ -14,32 +14,36 @@ Module Variables
     Public AccessLevel As Integer = 0
     Public Role As String = vbNullString
     Public AdQry As AddQuery
+    Public RespView As ResponseView
+    Public RespondCommands As New List(Of OleDb.OleDbCommand)
 
     Public Sub StartUpCentral()
 
         Overclass = New OverClass
         Overclass.SetPrivate(UserTable,
                            UserField,
-                           LockTable,
                            Contact,
                            Connect2,
                            AuditTable)
 
-        Overclass.LockCheck()
+        Dim SQLString(0) As String
+        SQLString(0) = "SELECT Admin, Role FROM [Users] WHERE UserName='" & Overclass.GetUserName & "'"
 
-        Overclass.LoginCheck()
+        Dim dt() As DataTable = Overclass.LoginCheck(SQLString)
 
-        AccessLevel = Overclass.TempDataTable("SELECT Admin FROM [Users] WHERE UserName='" & Overclass.GetUserName & "'").Rows(0).Item(0)
-        Role = Overclass.TempDataTable("SELECT Role FROM [Users] WHERE UserName='" & Overclass.GetUserName & "'").Rows(0).Item(0)
+        AccessLevel = dt(1).Rows(0).Item(0)
+        Role = dt(1).Rows(0).Item(1)
 
-        Overclass.AddAllDataItem(Form1)
+        If AccessLevel <> 0 Then
+            Overclass.AddAllDataItem(Form1)
 
-        For Each ctl In Overclass.DataItemCollection
-            If (TypeOf ctl Is Button) Then
-                Dim But As Button = ctl
-                AddHandler But.Click, AddressOf ButtonSpecifics
-            End If
-        Next
+            For Each ctl In Overclass.DataItemCollection
+                If (TypeOf ctl Is Button) Then
+                    Dim But As Button = ctl
+                    AddHandler But.Click, AddressOf ButtonSpecifics
+                End If
+            Next
+        End If
 
     End Sub
 End Module

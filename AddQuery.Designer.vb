@@ -89,10 +89,11 @@ Partial Class AddQuery
         'TabPage1
         '
         Me.TabPage1.Controls.Add(Me.SplitContainer3)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage1.Margin = New System.Windows.Forms.Padding(4)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(784, 305)
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(4)
+        Me.TabPage1.Size = New System.Drawing.Size(1048, 378)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Open/Close"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -102,7 +103,8 @@ Partial Class AddQuery
         Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
         Me.SplitContainer3.IsSplitterFixed = True
-        Me.SplitContainer3.Location = New System.Drawing.Point(3, 3)
+        Me.SplitContainer3.Location = New System.Drawing.Point(4, 4)
+        Me.SplitContainer3.Margin = New System.Windows.Forms.Padding(4)
         Me.SplitContainer3.Name = "SplitContainer3"
         Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
@@ -114,15 +116,17 @@ Partial Class AddQuery
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.NewQueryGrid)
-        Me.SplitContainer3.Size = New System.Drawing.Size(778, 299)
+        Me.SplitContainer3.Size = New System.Drawing.Size(1040, 370)
         Me.SplitContainer3.SplitterDistance = 53
+        Me.SplitContainer3.SplitterWidth = 5
         Me.SplitContainer3.TabIndex = 4
         '
         'SplitContainer5
         '
         Me.SplitContainer5.Dock = System.Windows.Forms.DockStyle.Right
         Me.SplitContainer5.IsSplitterFixed = True
-        Me.SplitContainer5.Location = New System.Drawing.Point(167, 0)
+        Me.SplitContainer5.Location = New System.Drawing.Point(225, 0)
+        Me.SplitContainer5.Margin = New System.Windows.Forms.Padding(4)
         Me.SplitContainer5.Name = "SplitContainer5"
         Me.SplitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
@@ -141,9 +145,8 @@ Partial Class AddQuery
         Me.SplitContainer5.Panel2.Controls.Add(Me.FilterCombo100)
         Me.SplitContainer5.Panel2.Controls.Add(Me.Label6)
         Me.SplitContainer5.Panel2.Controls.Add(Me.FilterCombo10)
-        Me.SplitContainer5.Size = New System.Drawing.Size(611, 53)
+        Me.SplitContainer5.Size = New System.Drawing.Size(815, 53)
         Me.SplitContainer5.SplitterDistance = 25
-        Me.SplitContainer5.SplitterWidth = 3
         Me.SplitContainer5.TabIndex = 12
         '
         'Label3
@@ -151,9 +154,10 @@ Partial Class AddQuery
         Me.Label3.AutoSize = True
         Me.Label3.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(98, 0)
+        Me.Label3.Location = New System.Drawing.Point(155, 0)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(50, 20)
+        Me.Label3.Size = New System.Drawing.Size(63, 25)
         Me.Label3.TabIndex = 18
         Me.Label3.Text = "Study"
         '
@@ -162,10 +166,10 @@ Partial Class AddQuery
         Me.FilterCombo30.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo30.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo30.FormattingEnabled = True
-        Me.FilterCombo30.Location = New System.Drawing.Point(148, 0)
-        Me.FilterCombo30.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo30.Location = New System.Drawing.Point(218, 0)
+        Me.FilterCombo30.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.FilterCombo30.Name = "FilterCombo30"
-        Me.FilterCombo30.Size = New System.Drawing.Size(142, 25)
+        Me.FilterCombo30.Size = New System.Drawing.Size(188, 28)
         Me.FilterCombo30.TabIndex = 20
         '
         'Label5
@@ -173,9 +177,10 @@ Partial Class AddQuery
         Me.Label5.AutoSize = True
         Me.Label5.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(290, 0)
+        Me.Label5.Location = New System.Drawing.Point(406, 0)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(54, 20)
+        Me.Label5.Size = New System.Drawing.Size(66, 25)
         Me.Label5.TabIndex = 21
         Me.Label5.Text = "Initials"
         '
@@ -184,10 +189,10 @@ Partial Class AddQuery
         Me.FilterCombo90.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo90.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo90.FormattingEnabled = True
-        Me.FilterCombo90.Location = New System.Drawing.Point(344, 0)
-        Me.FilterCombo90.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo90.Location = New System.Drawing.Point(472, 0)
+        Me.FilterCombo90.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.FilterCombo90.Name = "FilterCombo90"
-        Me.FilterCombo90.Size = New System.Drawing.Size(79, 25)
+        Me.FilterCombo90.Size = New System.Drawing.Size(104, 28)
         Me.FilterCombo90.TabIndex = 22
         '
         'Label9
@@ -195,9 +200,10 @@ Partial Class AddQuery
         Me.Label9.AutoSize = True
         Me.Label9.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(423, 0)
+        Me.Label9.Location = New System.Drawing.Point(576, 0)
+        Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(84, 20)
+        Me.Label9.Size = New System.Drawing.Size(102, 25)
         Me.Label9.TabIndex = 16
         Me.Label9.Text = "Subject ID"
         '
@@ -206,10 +212,10 @@ Partial Class AddQuery
         Me.FilterCombo20.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo20.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo20.FormattingEnabled = True
-        Me.FilterCombo20.Location = New System.Drawing.Point(507, 0)
-        Me.FilterCombo20.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo20.Location = New System.Drawing.Point(678, 0)
+        Me.FilterCombo20.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.FilterCombo20.Name = "FilterCombo20"
-        Me.FilterCombo20.Size = New System.Drawing.Size(104, 25)
+        Me.FilterCombo20.Size = New System.Drawing.Size(137, 28)
         Me.FilterCombo20.TabIndex = 19
         '
         'Label8
@@ -217,9 +223,10 @@ Partial Class AddQuery
         Me.Label8.AutoSize = True
         Me.Label8.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(121, 0)
+        Me.Label8.Location = New System.Drawing.Point(135, 0)
+        Me.Label8.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(56, 20)
+        Me.Label8.Size = New System.Drawing.Size(68, 25)
         Me.Label8.TabIndex = 23
         Me.Label8.Text = "Status"
         '
@@ -228,10 +235,10 @@ Partial Class AddQuery
         Me.FilterCombo100.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo100.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo100.FormattingEnabled = True
-        Me.FilterCombo100.Location = New System.Drawing.Point(177, 0)
-        Me.FilterCombo100.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo100.Location = New System.Drawing.Point(203, 0)
+        Me.FilterCombo100.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.FilterCombo100.Name = "FilterCombo100"
-        Me.FilterCombo100.Size = New System.Drawing.Size(79, 25)
+        Me.FilterCombo100.Size = New System.Drawing.Size(143, 28)
         Me.FilterCombo100.TabIndex = 24
         '
         'Label6
@@ -239,9 +246,10 @@ Partial Class AddQuery
         Me.Label6.AutoSize = True
         Me.Label6.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(256, 0)
+        Me.Label6.Location = New System.Drawing.Point(346, 0)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(39, 20)
+        Me.Label6.Size = New System.Drawing.Size(49, 25)
         Me.Label6.TabIndex = 14
         Me.Label6.Text = "Visit"
         '
@@ -250,10 +258,10 @@ Partial Class AddQuery
         Me.FilterCombo10.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo10.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo10.FormattingEnabled = True
-        Me.FilterCombo10.Location = New System.Drawing.Point(295, 0)
-        Me.FilterCombo10.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo10.Location = New System.Drawing.Point(395, 0)
+        Me.FilterCombo10.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.FilterCombo10.Name = "FilterCombo10"
-        Me.FilterCombo10.Size = New System.Drawing.Size(316, 25)
+        Me.FilterCombo10.Size = New System.Drawing.Size(420, 28)
         Me.FilterCombo10.TabIndex = 18
         '
         'Button101
@@ -264,8 +272,9 @@ Partial Class AddQuery
         Me.Button101.FlatAppearance.BorderSize = 0
         Me.Button101.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Button101.Location = New System.Drawing.Point(0, 0)
+        Me.Button101.Margin = New System.Windows.Forms.Padding(4)
         Me.Button101.Name = "Button101"
-        Me.Button101.Size = New System.Drawing.Size(130, 53)
+        Me.Button101.Size = New System.Drawing.Size(173, 53)
         Me.Button101.TabIndex = 8
         Me.Button101.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Button101.UseVisualStyleBackColor = True
@@ -288,6 +297,7 @@ Partial Class AddQuery
         Me.NewQueryGrid.Dock = System.Windows.Forms.DockStyle.Fill
         Me.NewQueryGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
         Me.NewQueryGrid.Location = New System.Drawing.Point(0, 0)
+        Me.NewQueryGrid.Margin = New System.Windows.Forms.Padding(4)
         Me.NewQueryGrid.Name = "NewQueryGrid"
         Me.NewQueryGrid.RowHeadersVisible = False
         DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
@@ -296,7 +306,7 @@ Partial Class AddQuery
         Me.NewQueryGrid.RowTemplate.Height = 40
         Me.NewQueryGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.NewQueryGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.NewQueryGrid.Size = New System.Drawing.Size(778, 242)
+        Me.NewQueryGrid.Size = New System.Drawing.Size(1040, 312)
         Me.NewQueryGrid.TabIndex = 1
         '
         'TabControl1
@@ -305,18 +315,20 @@ Partial Class AddQuery
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
+        Me.TabControl1.Margin = New System.Windows.Forms.Padding(4)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(792, 331)
+        Me.TabControl1.Size = New System.Drawing.Size(1056, 407)
         Me.TabControl1.TabIndex = 0
         '
         'TabPage2
         '
         Me.TabPage2.Controls.Add(Me.SplitContainer2)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage2.Margin = New System.Windows.Forms.Padding(4)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(784, 305)
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(4)
+        Me.TabPage2.Size = New System.Drawing.Size(1048, 378)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Assign"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -326,7 +338,8 @@ Partial Class AddQuery
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
         Me.SplitContainer2.IsSplitterFixed = True
-        Me.SplitContainer2.Location = New System.Drawing.Point(3, 3)
+        Me.SplitContainer2.Location = New System.Drawing.Point(4, 4)
+        Me.SplitContainer2.Margin = New System.Windows.Forms.Padding(4)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
@@ -338,15 +351,17 @@ Partial Class AddQuery
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.NewQueryGrid2)
-        Me.SplitContainer2.Size = New System.Drawing.Size(778, 299)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1040, 370)
         Me.SplitContainer2.SplitterDistance = 58
+        Me.SplitContainer2.SplitterWidth = 5
         Me.SplitContainer2.TabIndex = 2
         '
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Right
         Me.SplitContainer1.IsSplitterFixed = True
-        Me.SplitContainer1.Location = New System.Drawing.Point(167, 0)
+        Me.SplitContainer1.Location = New System.Drawing.Point(225, 0)
+        Me.SplitContainer1.Margin = New System.Windows.Forms.Padding(4)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
@@ -367,8 +382,9 @@ Partial Class AddQuery
         Me.SplitContainer1.Panel2.Controls.Add(Me.FilterCombo70)
         Me.SplitContainer1.Panel2.Controls.Add(Me.Label10)
         Me.SplitContainer1.Panel2.Controls.Add(Me.FilterCombo60)
-        Me.SplitContainer1.Size = New System.Drawing.Size(611, 58)
+        Me.SplitContainer1.Size = New System.Drawing.Size(815, 58)
         Me.SplitContainer1.SplitterDistance = 25
+        Me.SplitContainer1.SplitterWidth = 5
         Me.SplitContainer1.TabIndex = 11
         '
         'Label1
@@ -376,9 +392,10 @@ Partial Class AddQuery
         Me.Label1.AutoSize = True
         Me.Label1.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(110, 0)
+        Me.Label1.Location = New System.Drawing.Point(175, 0)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(107, 20)
+        Me.Label1.Size = New System.Drawing.Size(133, 25)
         Me.Label1.TabIndex = 14
         Me.Label1.Text = "Incorrect Only"
         '
@@ -391,10 +408,11 @@ Partial Class AddQuery
         Me.CheckBox201.Dock = System.Windows.Forms.DockStyle.Right
         Me.CheckBox201.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckBox201.ImageAlign = System.Drawing.ContentAlignment.TopRight
-        Me.CheckBox201.Location = New System.Drawing.Point(217, 0)
+        Me.CheckBox201.Location = New System.Drawing.Point(308, 0)
+        Me.CheckBox201.Margin = New System.Windows.Forms.Padding(4)
         Me.CheckBox201.Name = "CheckBox201"
         Me.CheckBox201.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.CheckBox201.Size = New System.Drawing.Size(15, 25)
+        Me.CheckBox201.Size = New System.Drawing.Size(18, 25)
         Me.CheckBox201.TabIndex = 13
         Me.CheckBox201.TextAlign = System.Drawing.ContentAlignment.TopRight
         Me.CheckBox201.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
@@ -405,9 +423,10 @@ Partial Class AddQuery
         Me.Study.AutoSize = True
         Me.Study.Dock = System.Windows.Forms.DockStyle.Right
         Me.Study.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Study.Location = New System.Drawing.Point(232, 0)
+        Me.Study.Location = New System.Drawing.Point(326, 0)
+        Me.Study.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Study.Name = "Study"
-        Me.Study.Size = New System.Drawing.Size(50, 20)
+        Me.Study.Size = New System.Drawing.Size(63, 25)
         Me.Study.TabIndex = 12
         Me.Study.Text = "Study"
         '
@@ -416,10 +435,10 @@ Partial Class AddQuery
         Me.FilterCombo50.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo50.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo50.FormattingEnabled = True
-        Me.FilterCombo50.Location = New System.Drawing.Point(282, 0)
-        Me.FilterCombo50.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo50.Location = New System.Drawing.Point(389, 0)
+        Me.FilterCombo50.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.FilterCombo50.Name = "FilterCombo50"
-        Me.FilterCombo50.Size = New System.Drawing.Size(147, 25)
+        Me.FilterCombo50.Size = New System.Drawing.Size(195, 28)
         Me.FilterCombo50.TabIndex = 19
         '
         'Label2
@@ -427,9 +446,10 @@ Partial Class AddQuery
         Me.Label2.AutoSize = True
         Me.Label2.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(429, 0)
+        Me.Label2.Location = New System.Drawing.Point(584, 0)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(84, 20)
+        Me.Label2.Size = New System.Drawing.Size(102, 25)
         Me.Label2.TabIndex = 16
         Me.Label2.Text = "Subject ID"
         '
@@ -438,10 +458,10 @@ Partial Class AddQuery
         Me.FilterCombo40.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo40.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo40.FormattingEnabled = True
-        Me.FilterCombo40.Location = New System.Drawing.Point(513, 0)
-        Me.FilterCombo40.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo40.Location = New System.Drawing.Point(686, 0)
+        Me.FilterCombo40.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.FilterCombo40.Name = "FilterCombo40"
-        Me.FilterCombo40.Size = New System.Drawing.Size(98, 25)
+        Me.FilterCombo40.Size = New System.Drawing.Size(129, 28)
         Me.FilterCombo40.TabIndex = 18
         '
         'Label7
@@ -449,9 +469,10 @@ Partial Class AddQuery
         Me.Label7.AutoSize = True
         Me.Label7.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(129, 0)
+        Me.Label7.Location = New System.Drawing.Point(189, 0)
+        Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(56, 20)
+        Me.Label7.Size = New System.Drawing.Size(68, 25)
         Me.Label7.TabIndex = 16
         Me.Label7.Text = "Status"
         '
@@ -460,10 +481,10 @@ Partial Class AddQuery
         Me.FilterCombo80.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo80.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo80.FormattingEnabled = True
-        Me.FilterCombo80.Location = New System.Drawing.Point(185, 0)
-        Me.FilterCombo80.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo80.Location = New System.Drawing.Point(257, 0)
+        Me.FilterCombo80.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.FilterCombo80.Name = "FilterCombo80"
-        Me.FilterCombo80.Size = New System.Drawing.Size(102, 25)
+        Me.FilterCombo80.Size = New System.Drawing.Size(135, 28)
         Me.FilterCombo80.TabIndex = 23
         '
         'Label4
@@ -471,9 +492,10 @@ Partial Class AddQuery
         Me.Label4.AutoSize = True
         Me.Label4.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(287, 0)
+        Me.Label4.Location = New System.Drawing.Point(392, 0)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(39, 20)
+        Me.Label4.Size = New System.Drawing.Size(49, 25)
         Me.Label4.TabIndex = 14
         Me.Label4.Text = "Visit"
         '
@@ -482,10 +504,10 @@ Partial Class AddQuery
         Me.FilterCombo70.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo70.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo70.FormattingEnabled = True
-        Me.FilterCombo70.Location = New System.Drawing.Point(326, 0)
-        Me.FilterCombo70.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo70.Location = New System.Drawing.Point(441, 0)
+        Me.FilterCombo70.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.FilterCombo70.Name = "FilterCombo70"
-        Me.FilterCombo70.Size = New System.Drawing.Size(180, 25)
+        Me.FilterCombo70.Size = New System.Drawing.Size(239, 28)
         Me.FilterCombo70.TabIndex = 22
         '
         'Label10
@@ -493,9 +515,10 @@ Partial Class AddQuery
         Me.Label10.AutoSize = True
         Me.Label10.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(506, 0)
+        Me.Label10.Location = New System.Drawing.Point(680, 0)
+        Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(37, 20)
+        Me.Label10.Size = New System.Drawing.Size(46, 25)
         Me.Label10.TabIndex = 20
         Me.Label10.Text = "Site"
         '
@@ -504,10 +527,10 @@ Partial Class AddQuery
         Me.FilterCombo60.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo60.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo60.FormattingEnabled = True
-        Me.FilterCombo60.Location = New System.Drawing.Point(543, 0)
-        Me.FilterCombo60.Margin = New System.Windows.Forms.Padding(2)
+        Me.FilterCombo60.Location = New System.Drawing.Point(726, 0)
+        Me.FilterCombo60.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.FilterCombo60.Name = "FilterCombo60"
-        Me.FilterCombo60.Size = New System.Drawing.Size(68, 25)
+        Me.FilterCombo60.Size = New System.Drawing.Size(89, 28)
         Me.FilterCombo60.TabIndex = 21
         '
         'Button202
@@ -518,8 +541,9 @@ Partial Class AddQuery
         Me.Button202.FlatAppearance.BorderSize = 0
         Me.Button202.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Button202.Location = New System.Drawing.Point(0, 0)
+        Me.Button202.Margin = New System.Windows.Forms.Padding(4)
         Me.Button202.Name = "Button202"
-        Me.Button202.Size = New System.Drawing.Size(130, 58)
+        Me.Button202.Size = New System.Drawing.Size(173, 58)
         Me.Button202.TabIndex = 8
         Me.Button202.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Button202.UseVisualStyleBackColor = True
@@ -534,20 +558,22 @@ Partial Class AddQuery
         Me.NewQueryGrid2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.NewQueryGrid2.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
         Me.NewQueryGrid2.Location = New System.Drawing.Point(0, 0)
+        Me.NewQueryGrid2.Margin = New System.Windows.Forms.Padding(4)
         Me.NewQueryGrid2.Name = "NewQueryGrid2"
         Me.NewQueryGrid2.RowHeadersVisible = False
         Me.NewQueryGrid2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.NewQueryGrid2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.NewQueryGrid2.Size = New System.Drawing.Size(778, 237)
+        Me.NewQueryGrid2.Size = New System.Drawing.Size(1040, 307)
         Me.NewQueryGrid2.TabIndex = 1
         '
         'AddQuery
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(792, 331)
+        Me.ClientSize = New System.Drawing.Size(1056, 407)
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "AddQuery"
         Me.Text = "Query Tool"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized

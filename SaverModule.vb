@@ -190,6 +190,12 @@
                     .Add("@P17", OleDb.OleDbType.VarChar, 50, "QueryID")
                 End With
 
+                For Each cmd As OleDb.OleDbCommand In RespondCommands
+                    Overclass.AddToMassSQL(cmd)
+                Next
+
+                Overclass.ExecuteMassSQL()
+
         End Select
 
 

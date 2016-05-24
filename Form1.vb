@@ -13,6 +13,60 @@
             AddControls(AdQry)
             AdQry.ShowDialog()
 
+        ElseIf AccessLevel = 0 Then
+
+            RespView = New ResponseView
+            Dim SQL As String
+            SQL = "SELECT a.QueryID, Study, Person, " &
+            "Priority, Initials & ' ' & RVLID AS Volunteer, VisitName, FormName, PageNo, Description, SiteCode, RespondCode " &
+            "FROM Queries a INNER JOIN QueryCodes b ON a.QueryID=b.QueryID WHERE Status ='Open' ORDER BY Initials"
+            Overclass.CreateDataSet(SQL, RespView.BindingSource1, RespView.DataGridView1)
+            With RespView.DataGridView1
+                .ReadOnly = True
+                .Columns("QueryID").Visible = False
+                .Columns("Study").Visible = False
+                .Columns("SiteCode").Visible = False
+                .Columns("RespondCode").Visible = False
+                .Columns("Priority").Visible = False
+                .Columns("VisitName").HeaderText = "Study Visit"
+                .Columns("FormName").HeaderText = "Assessment/Procedure"
+                .Columns("PageNo").HeaderText = "Page No"
+                .Columns("Person").HeaderText = "Assigned"
+                Dim clm1 As New DataGridViewImageColumn
+                clm1.HeaderText = "History"
+                clm1.Name = "ViewClm"
+                clm1.ImageLayout = DataGridViewImageCellLayout.Zoom
+                clm1.Image = My.Resources.PreviousHistory
+                .Columns.Add(clm1)
+                Dim clm2 As New DataGridViewImageColumn
+                clm2.HeaderText = "Respond"
+                clm2.Name = "RespondClm"
+                clm2.ImageLayout = DataGridViewImageCellLayout.Zoom
+                clm2.Image = My.Resources.speech
+                .Columns.Add(clm2)
+                .Columns("RespondClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                .Columns("ViewClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                .Columns("PageNo").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                .Columns("Person").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                .Columns("Volunteer").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+            End With
+
+            With RespView
+                .FilterCombo3.AllowBlanks = False
+                .FilterCombo3.SetAsInternalSource("Study", "Study", Overclass)
+                .FilterCombo30.SetAsInternalSource("Priority", "Priority", Overclass)
+                .FilterCombo90.SetAsInternalSource("Volunteer", "Volunteer", Overclass)
+                .FilterCombo1.LiveData = False
+                .FilterCombo1.SetAsExternalSource("SiteCode", "Site", "SELECT DISTINCT Code AS SiteCode, Site FROM SiteCode", Overclass)
+                .FilterCombo2.LiveData = False
+                .FilterCombo2.SetAsExternalSource("RespondCode", "Group", "SELECT DISTINCT Code AS RespondCode, Group FROM GroupCode", Overclass)
+                .DataGridView1.Columns("QueryID").Visible = False
+            End With
+
+            RespView.Text = SolutionName
+            RespView.ShowDialog()
+            Application.Exit()
+
         Else
 
             Me.Visible = True
@@ -22,7 +76,7 @@
 
 
         Try
-            Me.Label2.Text = "Query Tool " & vbNewLine & "Developed by David Burnside" & vbNewLine & "Version: " & System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString
+            Me.Label2.Text = "Query Tool " & vbNewLine & "Developed by David Burnside" & vbNewLine & "Version:     " & System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString
         Catch ex As Exception
             Me.Label2.Text = "Query Tool " & vbNewLine & "Developed by David Burnside"
         End Try
@@ -215,6 +269,22 @@
 
                 AdQry.NewQueryGrid.Columns.Add(cmb2)
                 AdQry.NewQueryGrid.Columns("CopyQuery").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+
+                Dim clm1 As New DataGridViewImageColumn
+                clm1.HeaderText = "History"
+                clm1.Name = "ViewClm"
+                clm1.ImageLayout = DataGridViewImageCellLayout.Zoom
+                clm1.Image = My.Resources.PreviousHistory
+                AdQry.NewQueryGrid.Columns.Add(clm1)
+                AdQry.NewQueryGrid.Columns("ViewClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+
+                Dim clm2 As New DataGridViewImageColumn
+                clm2.HeaderText = "Respond"
+                clm2.Name = "RespondClm"
+                clm2.ImageLayout = DataGridViewImageCellLayout.Zoom
+                clm2.Image = My.Resources.speech
+                AdQry.NewQueryGrid.Columns.Add(clm2)
+                AdQry.NewQueryGrid.Columns("RespondClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
 
                 Dim cmb As New DataGridViewImageColumn
                 cmb.HeaderText = "Close"

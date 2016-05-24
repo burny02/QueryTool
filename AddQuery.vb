@@ -7,6 +7,7 @@ Public Class AddQuery
         If Overclass.UnloadData = True Then
             e.Cancel = True
         Else
+            RespondCommands.Clear()
             If AccessLevel = 1 Then
                 Overclass.CloseCon()
                 Application.Exit()
@@ -79,6 +80,45 @@ Public Class AddQuery
             End If
         End If
 
+        If e.ColumnIndex = sender.columns("RespondClm").index Then
+
+            If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Responded" Then Exit Sub
+
+            Dim QueryID As String
+            QueryID = NewQueryGrid.Item("QueryID", e.RowIndex).Value
+            Dim Response = InputBox("Please input response to query", "Query Response")
+            If Response = "" Then
+                Exit Sub
+            Else
+                Dim SQL As String
+                'NewQueryGrid.Item("Status", e.RowIndex).Value = "Open"
+                Dim foundRows() As DataRow
+                foundRows = Overclass.CurrentDataSet.Tables(0).Select("QueryID='" & QueryID & "'")
+                foundRows(0).Item("Status") = "Open"
+                foundRows(0).EndEdit()
+                SQL = "INSERT INTO Response(QueryID,Response_Text,Response_Person) " &
+                "VALUES ('" & QueryID & "', '" & Response & "', '" & Overclass.GetUserName & "')"
+
+                Dim Cmd As OleDb.OleDbCommand
+                Cmd = New OleDb.OleDbCommand(SQL)
+                Overclass.SetCommandConnection(Cmd)
+                RespondCommands.Add(Cmd)
+
+
+            End If
+        End If
+
+        If e.ColumnIndex = sender.columns("ViewClm").index Then
+            Dim QueryID As String
+            QueryID = NewQueryGrid.Item("QueryID", e.RowIndex).Value
+            Dim CSVString As String = Overclass.CreateCSVString(
+            "SELECT format(Response_Timestamp,'dd-MMM-yyyy HH:mm') & ' (' & response_Person & ')  -  ' " &
+            "& replace(response_text,',',';') FROM Response WHERE QueryID='" & QueryID & "'")
+            CSVString = Replace(CSVString, ",", vbNewLine & vbNewLine)
+            If CSVString = "" Then CSVString = "No history found"
+            MsgBox(" " & CSVString)
+        End If
+
     End Sub
 
     Private Sub CheckBox201_Click(sender As Object, e As EventArgs) Handles CheckBox201.Click
@@ -149,6 +189,6 @@ Public Class AddQuery
         If e.RowIndex <= -1 Then Exit Sub
         On Error Resume Next
         If e.ColumnIndex = Me.NewQueryGrid.Columns("StatusCmb").Index And Me.NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then e.Value = My.Resources.hyphen
-
+        If e.ColumnIndex = Me.NewQueryGrid.Columns("RespondClm").Index And Me.NewQueryGrid.Item("Status", e.RowIndex).Value <> "Responded" Then e.Value = My.Resources.hyphen
     End Sub
 End Class

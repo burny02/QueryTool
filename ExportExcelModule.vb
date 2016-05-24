@@ -15,72 +15,53 @@ Module ExportExcelModule
         End If
 
         If Send = True Then
-            If MsgBox("Would you Like to attach the spreadsheet to an email?", vbYesNo) = vbNo Then Send = False
+            If MsgBox("Would you to email queries?", vbYesNo) = vbNo Then Send = False
         End If
 
+        If Send = False Then
+            Dim dt As New DataTable
+            Dim da As OleDb.OleDbDataAdapter = Overclass.NewDataAdapter(SQLCode)
+            da.Fill(dt)
 
-        Dim dt As New DataTable
-        Dim da As OleDb.OleDbDataAdapter = Overclass.NewDataAdapter(SQLCode)
-        da.Fill(dt)
+            da = Nothing
 
-        da = Nothing
+            Dim i As Integer
+            Dim j As Integer
 
-        Dim i As Integer
-        Dim j As Integer
+            Dim xlApp As Object
+            xlApp = CreateObject("Excel.Application")
+            With xlApp
+                .Visible = False
+                .Workbooks.Add()
+                .Sheets("Sheet1").Select()
 
-        Dim xlApp As Object
-        xlApp = CreateObject("Excel.Application")
-        With xlApp
-            .Visible = False
-            .Workbooks.Add()
-            .Sheets("Sheet1").Select()
+                'Add column heading
+                For i = 1 To dt.Columns.Count
+                    xlApp.activesheet.Cells(1, i).Value = dt.Columns(i - 1).ColumnName
+                Next i
 
-            'Add column heading
-            For i = 1 To dt.Columns.Count
-                xlApp.activesheet.Cells(1, i).Value = dt.Columns(i - 1).ColumnName
-            Next i
+                'Add Rows
+                For i = 0 To dt.Rows.Count - 1
+                    For j = 0 To dt.Columns.Count - 1
+                        xlApp.activesheet.Cells(i + 2, j + 1) = dt.Rows(i).Item(j)
+                    Next j
+                Next i
 
-            'Add Rows
-            For i = 0 To dt.Rows.Count - 1
-                For j = 0 To dt.Columns.Count - 1
-                    xlApp.activesheet.Cells(i + 2, j + 1) = dt.Rows(i).Item(j)
-                Next j
-            Next i
+                xlApp.Cells.EntireColumn.AutoFit()
+                .activesheet.Range("$A$1: $Z$1").AutoFilter()
 
-            xlApp.Cells.EntireColumn.AutoFit()
-            .activesheet.Range("$A$1: $Z$1").AutoFilter()
+            End With
 
-        End With
+            Dim numrow As Long
+            numrow = dt.Rows.Count + 1
+            dt = Nothing
+            da = Nothing
 
-        Dim numrow As Long
-        Dim r As Long
-        numrow = dt.Rows.Count + 1
-        dt = Nothing
-        da = Nothing
+            xlApp.Visible = True
 
-        If Send = False Then xlApp.Visible = True
+        End If
 
         If Send = True Then
-
-            For r = 2 To numrow
-                If xlApp.activesheet.Range("$A$" & r).Value < Date.Now Then
-                    xlApp.activesheet.Range("$A$" & r & ":$Z$" & r).Font.ColorIndex = 3
-                End If
-
-            Next r
-
-            Dim Namer As String
-
-            Namer = Study & " Queries " & Format(Now(), "dd-mmm-yyyy")
-
-            If Not Directory.Exists("C:\DBS") Then MkDir("C:\DBS")
-
-            xlApp.DisplayAlerts = False
-
-            'SAVES FILE USING THE VARIABLE BOOKNAME AS FILENAME
-            xlApp.ActiveWorkbook.SaveAs("C:\DBS\" & Namer & ".xlsx")
-
-            xlApp.DisplayAlerts = True
 
             Dim OutApp = CreateObject("Outlook.Application")
             Dim objOutlookMsg = OutApp.CreateItem(0)
@@ -101,22 +82,21 @@ Module ExportExcelModule
             Next
 
 
+            Dim Link As String = "<a href='M:\VOLUNTEER SCREENING SERVICES\Systems\Query_Management_Tool\Query Management Tool.application'>" &
+                                    "Ctrl + Click Here</a>"
 
             objOutlookMsg.Subject = Study & " Queries"
 
             objOutlookMsg.HTMLBody = "Dear All" & "<br/>" & "<br/>" &
-                                        "Please find attached the latest query spreadsheet:  " & "<br/>" & "<br/>" &
+                                        "The following queries are currently open:  " & "<br/>" & "<br/>" &
                                         TableString & "<br/>" &
-                                        "Please filter by columns allocation, site, group and priority as required." & "<br/>" & "<br/>" &
-                                        "Overdue queries are marked in red." & "<br/>" & "<br/>" &
+                                        "Link to Query Tool: " & Link & "<br/>" & "<br/>" &
                                         "Many thanks"
 
 
             objOutlookMsg.Display()
-            objOutlookMsg.Attachments.Add(xlApp.ActiveWorkbook.fullname.ToString)
 
             OutApp = Nothing
-            xlApp.Quit()
 
         End If
 
