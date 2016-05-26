@@ -281,7 +281,7 @@
             <FilterExpression>=Fields!WhoDid.Value</FilterExpression>
             <Operator>Equal</Operator>
             <FilterValues>
-              <FilterValue>QC</FilterValue>
+              <FilterValue>Monitor</FilterValue>
             </FilterValues>
           </Filter>
         </Filters>
@@ -575,7 +575,7 @@
             <FilterExpression>=Fields!WhoDid.Value</FilterExpression>
             <Operator>Equal</Operator>
             <FilterValues>
-              <FilterValue>NonQC</FilterValue>
+              <FilterValue>Data Manager</FilterValue>
             </FilterValues>
           </Filter>
         </Filters>

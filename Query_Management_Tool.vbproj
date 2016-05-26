@@ -206,16 +206,11 @@
     <EmbeddedResource Include="ResponseView.resx">
       <DependentUpon>ResponseView.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ToolUsage.rdlc" />
-    <EmbeddedResource Include="QCIndividual.rdlc" />
-    <EmbeddedResource Include="Responders.rdlc" />
     <EmbeddedResource Include="Types.rdlc" />
-    <EmbeddedResource Include="QCTeam.rdlc" />
     <EmbeddedResource Include="ReportViewer.resx">
       <DependentUpon>ReportViewer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Totals.rdlc" />
-    <EmbeddedResource Include="AvgResponse.rdlc" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
     </EmbeddedResource>

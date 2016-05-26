@@ -4,7 +4,7 @@ Module ExportExcelModule
 
         Dim NumberWrong As Long
         If Check = True Then
-            NumberWrong = Overclass.SELECTCount("Select Study, DisplayName, QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
+            NumberWrong = Overclass.SELECTCount("Select Study, QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
                               "VisitName, FormName, Description, Status, Person FROM IncorrectQueries " &
                               "Where Study='" & Study & "'")
 

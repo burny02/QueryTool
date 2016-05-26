@@ -27,7 +27,7 @@
             Case "DataGridView2", "NewQueryGrid2"
 
                 'SET THE Commands, with Parameters (OLDB Parameters must be added in the order they are used in the statement)
-                Overclass.CurrentDataAdapter.UpdateCommand = New OleDb.OleDbCommand("UPDATE QueryCodes SET SiteCode=@P1, RespondCode=@P2, " &
+                Overclass.CurrentDataAdapter.UpdateCommand = New OleDb.OleDbCommand("UPDATE Queries SET SiteCode=@P1, RespondCode=@P2, " &
                                                                           "Person=@P3, TypeCode=@P4 " &
                                                                           "WHERE QueryID=@P5")
 
@@ -117,10 +117,8 @@
                             Dim PageNo As String = "'" & row.item("PageNo") & "'"
                             Dim Description As String = "'" & row.item("Description") & "'"
                             Dim VisitName As String = "'" & row.item("VisitName") & "'"
-                            Dim Study As String = "'" & row.item("Study") & "'"
-                            Dim ResolvedBy As String = "'" & row.item("ResolvedBy") & "'"
-                            Dim ResolvedDate As String = "'" & row.item("ResolvedDate") & "'"
-                            Dim Priority As String = "'" & row.item("Priority") & "'"
+                        Dim Study As String = "'" & row.item("Study") & "'"
+                        Dim Priority As String = "'" & row.item("Priority") & "'"
 
                             Dim QueryID As String = "'MANUAL-" &
                         Overclass.TempDataTable("SELECT Max(CLng(Replace([QueryID],'Manual-',''))) AS WhatNo FROM (SELECT Queries.QueryID " &
@@ -128,15 +126,15 @@
 
                             Dim InsertCmd As OleDb.OleDbCommand
 
-                            'SET THE Commands, with Parameters (OLDB Parameters must be added in the order they are used in the statement)
-                            InsertCmd = New OleDb.OleDbCommand("INSERT INTO Queries " &
+                        'SET THE Commands, with Parameters (OLDB Parameters must be added in the order they are used in the statement)
+                        InsertCmd = New OleDb.OleDbCommand("INSERT INTO Queries " &
                         "(QueryID, Study, RVLID, Initials, FormName, Status, PageNo, FieldName, Description, CreateDate, CreateTime, CreatedBy, CreatedByRole, VisitName, " &
-                        "Priority, ResolvedBy, ResolvedDate) " &
+                        "Priority ) " &
                         "VALUES (" & QueryID & "," & Study & ", " & RVLID & "," & Initials & "," & FormName & "," & Status & "," & PageNo & "," & FieldName & "," & Description &
-                        "," & CreateDate & "," & CreateTime & "," & CreatedBy & "," & CreatedByRole & "," & VisitName & "," & Priority & "," & ResolvedBy & "," & ResolvedDate & ")")
+                        "," & CreateDate & "," & CreateTime & "," & CreatedBy & "," & CreatedByRole & "," & VisitName & "," & Priority & ")")
 
 
-                            Overclass.AddToMassSQL(InsertCmd)
+                        Overclass.AddToMassSQL(InsertCmd)
 
                         End If
 
@@ -167,7 +165,7 @@
                 ClosedTime=@P4, ClosedBy=@P5, ClosedByRole=@P6, 
                 RVLID=@P7, Initials=@P8, VisitName=@P9, 
                 FormName=@10, PageNo=@P11, Description=@P12, 
-                Priority=@P14, ResolvedBy=@P15, ResolvedDate=@P16
+                Priority=@P14
                 WHERE QueryID=@P17")
 
                 'Add parameters with the source columns in the dataset
@@ -185,8 +183,6 @@
                     .Add("@P11", OleDb.OleDbType.VarChar, 50, "PageNo")
                     .Add("@P12", OleDb.OleDbType.VarChar, 255, "Description")
                     .Add("@P14", OleDb.OleDbType.VarChar, 50, "Priority")
-                    .Add("@P15", OleDb.OleDbType.VarChar, 50, "ResolvedBy")
-                    .Add("@P16", OleDb.OleDbType.VarChar, 50, "ResolvedDate")
                     .Add("@P17", OleDb.OleDbType.VarChar, 50, "QueryID")
                 End With
 

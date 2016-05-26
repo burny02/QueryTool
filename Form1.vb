@@ -17,9 +17,9 @@
 
             RespView = New ResponseView
             Dim SQL As String
-            SQL = "SELECT a.QueryID, Study, Person, " &
+            SQL = "SELECT QueryID, Study, Person, " &
             "Priority, Initials & ' ' & RVLID AS Volunteer, VisitName, FormName, PageNo, Description, SiteCode, RespondCode " &
-            "FROM Queries a INNER JOIN QueryCodes b ON a.QueryID=b.QueryID WHERE Status ='Open' ORDER BY Initials"
+            "FROM Queries INNER JOIN Study ON Queries.Study=Study.StudyCode WHERE Hidden=False AND Status ='Open' ORDER BY Initials"
             Overclass.CreateDataSet(SQL, RespView.BindingSource1, RespView.DataGridView1)
             With RespView.DataGridView1
                 .ReadOnly = True
@@ -102,7 +102,7 @@
 
             Case "Add Queries"
                 ctl = Me.DataGridView1
-                SQLCode = "SELECT DisplayName, UploadDate, UploadPerson FROM Study ORDER BY UploadDate DESC"
+                SQLCode = "SELECT StudyCode, UploadDate, UploadPerson FROM Study ORDER BY UploadDate DESC"
                 Overclass.CreateDataSet(SQLCode, Bind, ctl)
 
             Case "Query Codes"
@@ -110,7 +110,7 @@
 
             Case "Export"
                 FilterCombo6.AllowBlanks = False
-                FilterCombo6.SetAsExternalSource("StudyCode", "DisplayName", "SELECT StudyCode, DisplayName FROM Study", Overclass)
+                FilterCombo6.SetAsExternalSource("StudyCode", "StudyCode", "SELECT StudyCode FROM Study", Overclass)
 
             Case "Reports"
                 Me.DateTimePicker2.Value = Date.Now
@@ -134,16 +134,14 @@
             Case "NewQueryGrid2"
 
                 If AdQry.CheckBox201.Checked = True Then
-                    SqlCode = "SELECT Study, DisplayName, QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
+                    SqlCode = "SELECT Study, QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
                               "VisitName, FormName, Description, Status, Person FROM IncorrectQueries " &
                               "WHERE CreatedByRole='" & Role & "'" &
                               "ORDER BY RVLID ASC"
                 Else
-                    SqlCode = "SELECT Study, DisplayName, Queries.QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
-                              "VisitName, FormName, Description, Status, Person FROM (Queries " &
-                              "INNER JOIN QueryCodes ON QueryCodes.QueryID = Queries.QueryID) " &
-                              "INNER JOIN Study ON Queries.Study=Study.StudyCode " &
-                              "WHERE CreatedByRole='" & Role & "'" &
+                    SqlCode = "SELECT Study, Queries.QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
+                              "VisitName, FormName, Description, Status, Person FROM Queries INNER JOIN Study ON queries.Study=Study.StudyCode " &
+                              "WHERE Hidden=false AND CreatedByRole='" & Role & "'" &
                               "ORDER BY RVLID ASC"
                 End If
 
@@ -153,7 +151,7 @@
                 Overclass.CreateDataSet(SqlCode, BindingSource1, ctl)
 
                 AdQry.FilterCombo50.AllowBlanks = False
-                AdQry.FilterCombo50.SetAsInternalSource("Study", "DisplayName", Overclass)
+                AdQry.FilterCombo50.SetAsInternalSource("Study", "Study", Overclass)
                 AdQry.FilterCombo40.SetAsInternalSource("RVLID", "RVLID", Overclass)
                 AdQry.FilterCombo80.SetAsInternalSource("Status", "Status", Overclass)
                 AdQry.FilterCombo70.SetAsInternalSource("VisitName", "VisitName", Overclass)
@@ -168,8 +166,6 @@
                 ctl.columns("Status").readonly = True
                 ctl.columns("Description").readonly = True
                 ctl.columns("RVLID").readonly = True
-                ctl.columns("Study").visible = False
-                ctl.columns("DisplayName").headertext = "Study"
                 ctl.columns("RVLID").headertext = "Subject ID"
                 ctl.AllowUserToAddRows = False
 
@@ -196,18 +192,19 @@
 
                 AdQry.NewQueryGrid.Columns.Clear()
 
-                SqlCode = "SELECT Status, DisplayName, QueryID, CreatedBy, FieldName, CreateDate, CreateTime, " &
+                SqlCode = "SELECT Status, Study, QueryID, CreatedBy, FieldName, CreateDate, CreateTime, " &
                     "CreatedByRole, ClosedDate, ClosedTime, ClosedBy, ClosedByRole, RVLID, Initials, " &
-                    "VisitName, FormName, PageNo, Description, Priority, ResolvedBy, ResolvedDate, Study " &
-                    "FROM Queries INNER JOIN Study ON Queries.Study=Study.StudyCode " &
-                    "WHERE QueryID Like 'MANUAL-%' " &
+                    "VisitName, FormName, PageNo, Description, Priority " &
+                    "FROM Queries INNER JOIN Study On queries.Study=Study.StudyCode " &
+                    "WHERE Hidden=false AND QueryID Like 'MANUAL-%' " &
                     "AND CreatedByRole='" & Role & "' " &
                     "ORDER BY Status DESC, RVLID ASC"
 
                 Overclass.CreateDataSet(SqlCode, AdQry.BindingSource1, AdQry.NewQueryGrid)
 
                 AdQry.FilterCombo30.AllowBlanks = False
-                AdQry.FilterCombo30.SetAsExternalSource("Study", "DisplayName", "SELECT StudyCode As Study, DisplayName FROM Study ORDER BY DisplayName ASC", Overclass)
+                AdQry.FilterCombo30.SetAsExternalSource("Study", "Study", "SELECT StudyCode As Study FROM Study " &
+                "WHERE Hidden=False ORDER BY StudyCode ASC", Overclass)
                 AdQry.FilterCombo30.SetDGVDefault(ctl, "Study")
 
                 AdQry.FilterCombo90.SetAsInternalSource("Initials", "Initials", Overclass)
@@ -226,11 +223,11 @@
                 AdQry.NewQueryGrid.Columns("ClosedTime").Visible = False
                 AdQry.NewQueryGrid.Columns("ClosedBy").Visible = False
                 AdQry.NewQueryGrid.Columns("ClosedByRole").Visible = False
-                AdQry.NewQueryGrid.Columns("DisplayName").Visible = False
+                AdQry.NewQueryGrid.Columns("Study").Visible = False
                 AdQry.NewQueryGrid.Columns("Priority").Visible = False
                 AdQry.NewQueryGrid.Columns("Status").Visible = False
 
-                AdQry.NewQueryGrid.Columns("DisplayName").ReadOnly = False
+                AdQry.NewQueryGrid.Columns("Study").ReadOnly = False
                 AdQry.NewQueryGrid.Columns("Status").ReadOnly = True
                 AdQry.NewQueryGrid.Columns("CreatedBy").ReadOnly = True
 
@@ -240,13 +237,8 @@
                 AdQry.NewQueryGrid.Columns("PageNo").HeaderText = "Page No."
                 AdQry.NewQueryGrid.Columns("Description").HeaderText = "Query Description"
                 AdQry.NewQueryGrid.Columns("CreatedBy").HeaderText = "Created By"
-                AdQry.NewQueryGrid.Columns("ResolvedBy").HeaderText = "Resolved By"
-                AdQry.NewQueryGrid.Columns("ResolvedDate").HeaderText = "Resolved Date"
 
-
-                AdQry.NewQueryGrid.Columns("ResolvedDate").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 AdQry.NewQueryGrid.Columns("CreatedBy").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                AdQry.NewQueryGrid.Columns("ResolvedBy").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 AdQry.NewQueryGrid.Columns("RVLID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 AdQry.NewQueryGrid.Columns("Initials").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 AdQry.NewQueryGrid.Columns("PageNo").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
@@ -307,15 +299,13 @@
             Case "DataGridView2"
 
                 If Me.CheckBox1.Checked = True Then
-                    SqlCode = "SELECT Study, DisplayName, QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
+                    SqlCode = "SELECT Study, QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
                               "VisitName, FormName, Description, Status, Person FROM IncorrectQueries " &
                               "ORDER BY RVLID ASC"
                 Else
-                    SqlCode = "SELECT Study, DisplayName, Queries.QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
-                              "VisitName, FormName, Description, Status, Person FROM (Queries " &
-                              "INNER JOIN QueryCodes ON QueryCodes.QueryID = Queries.QueryID) " &
-                              "INNER JOIN Study ON Queries.Study=Study.StudyCode " &
-                              "ORDER BY RVLID ASC"
+                    SqlCode = "SELECT Study, Queries.QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
+                              "VisitName, FormName, Description, Status, Person FROM Queries INNER JOIN Study ON queries.Study=Study.StudyCode " &
+                              "WHERE Hidden=false ORDER BY RVLID ASC"
                 End If
 
 
@@ -324,7 +314,7 @@
                 Overclass.CreateDataSet(SqlCode, BindingSource1, ctl)
 
                 FilterCombo2.AllowBlanks = False
-                FilterCombo2.SetAsInternalSource("Study", "DisplayName", Overclass)
+                FilterCombo2.SetAsInternalSource("Study", "Study", Overclass)
                 FilterCombo1.SetAsInternalSource("RVLID", "RVLID", Overclass)
                 FilterCombo3.SetAsInternalSource("Status", "Status", Overclass)
                 FilterCombo4.SetAsInternalSource("VisitName", "VisitName", Overclass)
@@ -341,7 +331,6 @@
                 ctl.columns("RVLID").readonly = True
                 ctl.columns("RVLID").headertext = "Subject ID"
                 ctl.columns("Study").visible = False
-                ctl.columns("DisplayName").visible = False
                 ctl.AllowUserToAddRows = False
 
                 Dim cmb As TemplateDB.MyCmbColumn = Overclass.SetUpNewComboColumn("SELECT Code & ' - ' & Site AS Display, Code FROM SiteCode " &
