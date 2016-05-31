@@ -109,14 +109,16 @@ Public Class AddQuery
         End If
 
         If e.ColumnIndex = sender.columns("ViewClm").index Then
-            Dim QueryID As String
-            QueryID = NewQueryGrid.Item("QueryID", e.RowIndex).Value
-            Dim CSVString As String = Overclass.CreateCSVString(
-            "SELECT format(Response_Timestamp,'dd-MMM-yyyy HH:mm') & ' (' & response_Person & ')  -  ' " &
-            "& replace(response_text,',',';') FROM Response WHERE QueryID='" & QueryID & "'")
-            CSVString = Replace(CSVString, ",", vbNewLine & vbNewLine)
-            If CSVString = "" Then CSVString = "No history found"
-            MsgBox(" " & CSVString)
+            If IsDBNull(NewQueryGrid.Item("QueryID", e.RowIndex).Value) = False Then
+                Dim QueryID As String
+                QueryID = NewQueryGrid.Item("QueryID", e.RowIndex).Value
+                Dim CSVString As String = Overclass.CreateCSVString(
+                "SELECT format(Response_Timestamp,'dd-MMM-yyyy HH:mm') & ' (' & response_Person & ')  -  ' " &
+                "& replace(response_text,',',';') FROM Response WHERE QueryID='" & QueryID & "'")
+                CSVString = Replace(CSVString, ",", vbNewLine & vbNewLine)
+                If CSVString = "" Then CSVString = "No history found"
+                MsgBox(" " & CSVString)
+            End If
         End If
 
     End Sub
