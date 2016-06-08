@@ -27,7 +27,7 @@ Module ButtonModule
                 Call ExportExcel("SELECT * FROM AllQueries", Nothing, False, False)
 
             Case "Button6"
-                Call ExportExcel("SELECT * FROM AllQueries WHERE Study='" & Form1.FilterCombo6.SelectedValue.ToString &
+                Call ExportExcel("SELECT * FROM AllQueries WHERE Status='Open' AND Study='" & Form1.FilterCombo6.SelectedValue.ToString &
                                  "'", Form1.FilterCombo6.SelectedValue.ToString, True)
 
             Case "Button8"

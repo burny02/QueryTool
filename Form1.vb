@@ -101,7 +101,6 @@
 
                 Try
                     CurrentFilter = (Overclass.CurrentDataSet.Tables(0).DefaultView.RowFilter)
-                    MsgBox(CurrentFilter)
                 Catch ex As Exception
                 End Try
 
@@ -175,7 +174,6 @@
                     .StaffQueryGrid.Columns("QueryID").Visible = False
                 End With
 
-                MsgBox(CurrentFilter)
                 If CurrentFilter <> "" Then Overclass.CurrentDataSet.Tables(0).DefaultView.RowFilter = CurrentFilter
                 RespView.FilterCombo1.Text = Filter1
                 RespView.FilterCombo2.Text = Filter2

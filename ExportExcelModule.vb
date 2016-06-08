@@ -83,7 +83,7 @@ Module ExportExcelModule
 
 
             Dim Link As String = "<a href='M:\VOLUNTEER SCREENING SERVICES\Systems\Query_Management_Tool\Query Management Tool.application'>" &
-                                    "Ctrl + Click Here</a>"
+                                    "Click Here</a>"
 
             objOutlookMsg.Subject = Study & " Queries"
 
