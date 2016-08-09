@@ -24,7 +24,7 @@
         'Create and overwrite a custom one if needed (More than 1 table) ...OLEDB Parameters must be added in the order they are used
         Select Case ctl.name
 
-            Case "DataGridView2", "NewQueryGrid2"
+            Case "DataGridView2"
 
                 'SET THE Commands, with Parameters (OLDB Parameters must be added in the order they are used in the statement)
                 Overclass.CurrentDataAdapter.UpdateCommand = New OleDb.OleDbCommand("UPDATE Queries SET SiteCode=@P1, RespondCode=@P2, " &
@@ -43,135 +43,42 @@
             Case "NewQueryGrid"
 
                 Dim Status As String = "'Open'"
-                Dim FieldName As String = "'Manual'"
                 Dim CreateDate As String = "'" & Format(DateTime.Now, "dd-MMM-yyyy") & "'"
                 Dim CreateTime As String = "'" & Format(DateTime.Now, "HH:mm") & "'"
                 Dim CreatedBy As String = "'" & Overclass.GetUserName & "'"
                 Dim CreatedByRole As String = "'" & Role & "'"
-                Dim PassNo As Double = 0
+                Dim Combine As String = Status & "," & CreateDate & "," & CreateTime & "," & CreatedBy & "," & CreatedByRole
 
-                Overclass.CmdList.Clear()
+                Overclass.CurrentDataAdapter.InsertCommand = New OleDb.OleDbCommand("INSERT INTO Queries " &
+                "(Status, CreateDate, CreateTime, CreatedBy, CreatedByRole, Study, RVLID, " &
+                "Initials, FormName, PageNo, Description, VisitName, Priority, SiteCode, RespondCode, Person, TypeCode, AssCode) " &
+                "VALUES (" & Combine & ",@P0, @P1, @P2, @P3, @P4, @P5, @P6, @P7, @P8, @P9, @P10, @P11, @P12)")
 
-                For Each row In Overclass.CurrentDataSet.Tables(0).Rows
-
-                    If row.RowState = DataRowState.Added Then
-
-                        If String.IsNullOrWhiteSpace(row.item("RVLID").ToString) And
-                        String.IsNullOrWhiteSpace(row.item("Initials").ToString) And
-                        String.IsNullOrWhiteSpace(row.item("FormName").ToString) And
-                        String.IsNullOrWhiteSpace(row.item("PageNo").ToString) And
-                        String.IsNullOrWhiteSpace(row.item("Description").ToString) And
-                        String.IsNullOrWhiteSpace(row.item("VisitName").ToString) Then
-
-                            Continue For
-
-                        End If
-
-                        PassNo = PassNo + 1
-
-                        If String.IsNullOrWhiteSpace(row.item("RVLID").ToString) Then
-                            MsgBox("RVL ID missing")
-                            Overclass.CmdList.Clear()
-                            Exit Sub
-                        End If
-
-                        If String.IsNullOrWhiteSpace(row.item("Initials").ToString) Then
-                            MsgBox("Initials missing")
-                            Overclass.CmdList.Clear()
-                            Exit Sub
-                        End If
-
-                        If String.IsNullOrWhiteSpace(row.item("FormName").ToString) Then
-                            MsgBox("Form Name missing")
-                            Overclass.CmdList.Clear()
-                            Exit Sub
-                        End If
-
-                        If String.IsNullOrWhiteSpace(row.item("PageNo").ToString) Then
-                            MsgBox("Page No missing")
-                            Overclass.CmdList.Clear()
-                            Exit Sub
-                        End If
-
-                        If String.IsNullOrWhiteSpace(row.item("Description").ToString) Then
-                            MsgBox("Description missing")
-                            Overclass.CmdList.Clear()
-                            Exit Sub
-                        End If
-
-                        If String.IsNullOrWhiteSpace(row.item("VisitName").ToString) Then
-                            MsgBox("Visit Name missing")
-                            Overclass.CmdList.Clear()
-                            Exit Sub
-                        End If
-
-                        If String.IsNullOrWhiteSpace(row.item("Priority").ToString) Then
-                            MsgBox("Priority missing")
-                            Overclass.CmdList.Clear()
-                            Exit Sub
-                        End If
-
-                        Dim RVLID As String = "'" & row.item("RVLID") & "'"
-                            Dim Initials As String = "'" & row.item("Initials") & "'"
-                            Dim FormName As String = "'" & row.item("FormName") & "'"
-                            Dim PageNo As String = "'" & row.item("PageNo") & "'"
-                            Dim Description As String = "'" & row.item("Description") & "'"
-                            Dim VisitName As String = "'" & row.item("VisitName") & "'"
-                        Dim Study As String = "'" & row.item("Study") & "'"
-                        Dim Priority As String = "'" & row.item("Priority") & "'"
-
-                            Dim QueryID As String = "'MANUAL-" &
-                        Overclass.TempDataTable("SELECT Max(CLng(Replace([QueryID],'Manual-',''))) AS WhatNo FROM (SELECT Queries.QueryID " &
-                        "FROM Queries Where (((Queries.QueryID) Like 'MANUAL-%')))  AS a").Rows(0).Item(0) + PassNo & "'"
-
-                            Dim InsertCmd As OleDb.OleDbCommand
-
-                        'SET THE Commands, with Parameters (OLDB Parameters must be added in the order they are used in the statement)
-                        InsertCmd = New OleDb.OleDbCommand("INSERT INTO Queries " &
-                        "(QueryID, Study, RVLID, Initials, FormName, Status, PageNo, FieldName, Description, CreateDate, CreateTime, CreatedBy, CreatedByRole, VisitName, " &
-                        "Priority ) " &
-                        "VALUES (" & QueryID & "," & Study & ", " & RVLID & "," & Initials & "," & FormName & "," & Status & "," & PageNo & "," & FieldName & "," & Description &
-                        "," & CreateDate & "," & CreateTime & "," & CreatedBy & "," & CreatedByRole & "," & VisitName & "," & Priority & ")")
-
-
-                        Overclass.AddToMassSQL(InsertCmd)
-
-                        End If
-
-                Next
-
-                Try
-                    Overclass.ExecuteMassSQL()
-                    SaveMessage = False
-                Catch ex As Exception
-                    MsgBox(ex.Message)
-                    Exit Sub
-
-                End Try
-
-                For Each row As DataRow In Overclass.CurrentDataSet.Tables(0).Rows
-
-                    If row.RowState = DataRowState.Added Then
-                        row.AcceptChanges()
-                        SaveMessage = False
-                    End If
-
-                Next
-
-                MsgBox("Table Updated")
+                With Overclass.CurrentDataAdapter.InsertCommand.Parameters
+                    .Add("@P0", OleDb.OleDbType.VarChar, 50, "Study")
+                    .Add("@P1", OleDb.OleDbType.VarChar, 50, "RVLID")
+                    .Add("@P2", OleDb.OleDbType.VarChar, 50, "Initials")
+                    .Add("@P3", OleDb.OleDbType.VarChar, 255, "FormName")
+                    .Add("@P4", OleDb.OleDbType.VarChar, 50, "PageNo")
+                    .Add("@P5", OleDb.OleDbType.VarChar, 50, "Description")
+                    .Add("@P6", OleDb.OleDbType.VarChar, 255, "VisitName")
+                    .Add("@P7", OleDb.OleDbType.VarChar, 50, "Priority")
+                    .Add("@P8", OleDb.OleDbType.VarChar, 3, "SiteCode")
+                    .Add("@P9", OleDb.OleDbType.VarChar, 3, "RespondCode")
+                    .Add("@P10", OleDb.OleDbType.VarChar, 3, "Person")
+                    .Add("@P11", OleDb.OleDbType.VarChar, 3, "TypeCode")
+                    .Add("@P12", OleDb.OleDbType.VarChar, 3, "AssCode")
+                End With
 
                 Overclass.CurrentDataAdapter.UpdateCommand = New OleDb.OleDbCommand("UPDATE Queries SET  
-                Status=@P1, FieldName=@P2, ClosedDate=@P3, 
-                ClosedTime=@P4, ClosedBy=@P5, ClosedByRole=@P6, 
-                RVLID=@P7, Initials=@P8, VisitName=@P9, 
-                FormName=@10, PageNo=@P11, Description=@P12, 
-                Priority=@P14
-                WHERE QueryID=@P17")
+                Status=@P1, ClosedDate=@P3, ClosedTime=@P4, ClosedBy=@P5, ClosedByRole=@P6, 
+                RVLID=@P7, Initials=@P8, VisitName=@P9, FormName=@10, PageNo=@P11, Description=@P12, 
+                Priority=@P14, Bounced=@P15, SiteCode=@P16, RespondCode=@P17, Person=@P18, TypeCode=@P19, AssCode=@P20
+                WHERE QueryID=@P21")
 
                 'Add parameters with the source columns in the dataset
                 With Overclass.CurrentDataAdapter.UpdateCommand.Parameters
                     .Add("@P1", OleDb.OleDbType.VarChar, 50, "Status")
-                    .Add("@P2", OleDb.OleDbType.VarChar, 255, "FieldName")
                     .Add("@P3", OleDb.OleDbType.VarChar, 50, "ClosedDate")
                     .Add("@P4", OleDb.OleDbType.VarChar, 50, "ClosedTime")
                     .Add("@P5", OleDb.OleDbType.VarChar, 50, "ClosedBy")
@@ -183,14 +90,16 @@
                     .Add("@P11", OleDb.OleDbType.VarChar, 50, "PageNo")
                     .Add("@P12", OleDb.OleDbType.VarChar, 255, "Description")
                     .Add("@P14", OleDb.OleDbType.VarChar, 50, "Priority")
-                    .Add("@P17", OleDb.OleDbType.VarChar, 50, "QueryID")
+                    .Add("@P15", OleDb.OleDbType.Boolean, 50, "Bounced")
+                    .Add("@P16", OleDb.OleDbType.VarChar, 3, "SiteCode")
+                    .Add("@P17", OleDb.OleDbType.VarChar, 3, "RespondCode")
+                    .Add("@P18", OleDb.OleDbType.VarChar, 3, "Person")
+                    .Add("@P19", OleDb.OleDbType.VarChar, 3, "TypeCode")
+                    .Add("@P20", OleDb.OleDbType.VarChar, 3, "AssCode")
+                    .Add("@P21", OleDb.OleDbType.VarChar, 50, "QueryID")
                 End With
 
-                For Each cmd As OleDb.OleDbCommand In RespondCommands
-                    Overclass.AddToMassSQL(cmd)
-                Next
 
-                Overclass.ExecuteMassSQL()
 
         End Select
 
@@ -198,6 +107,11 @@
 
         Call Overclass.SetCommandConnection()
         Call Overclass.UpdateBackend(ctl, SaveMessage)
+        For Each cmd As OleDb.OleDbCommand In RespondCommands
+            Overclass.AddToMassSQL(cmd)
+        Next
+        Overclass.ExecuteMassSQL()
+        RespondCommands.Clear()
 
     End Sub
 

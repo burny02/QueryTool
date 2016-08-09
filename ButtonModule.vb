@@ -8,8 +8,8 @@ Module ButtonModule
 
         Select Case sender.name.ToString
 
-            Case "Button1"
-                Call Saver(Form1.DataGridView2)
+            Case "Button2"
+                Call ExportExcel("SELECT * FROM ResponsePerPerson", False)
 
             Case "Button3"
                 CheckDates()
@@ -24,11 +24,10 @@ Module ButtonModule
                 OK.ReportViewer1.RefreshReport()
 
             Case "Button5"
-                Call ExportExcel("SELECT * FROM AllQueries", Nothing, False, False)
+                Call ExportExcel("SELECT * FROM AllQueries", False)
 
             Case "Button6"
-                Call ExportExcel("SELECT * FROM AllQueries WHERE Status='Open' AND Study='" & Form1.FilterCombo6.SelectedValue.ToString &
-                                 "'", Form1.FilterCombo6.SelectedValue.ToString, True)
+                Call ExportExcel("SELECT * FROM AllQueries WHERE Status='Open'", True)
 
             Case "Button8"
                 CheckDates()
@@ -77,14 +76,6 @@ Module ButtonModule
                                                                                   "WHERE FilterDate Between " & Overclass.SQLDate(Form1.DateTimePicker1.Value) &
                                                                                   " And " & Overclass.SQLDate(Form1.DateTimePicker2.Value))))
                 OK.ReportViewer1.RefreshReport()
-
-            Case "Button16"
-
-                AdQry = New AddQuery
-                AddControls(AdQry)
-                AdQry.TabControl1.Controls.Remove(AdQry.TabPage2)
-                AdQry.ShowDialog()
-
 
 
 
@@ -143,10 +134,7 @@ Module ButtonModule
                 End Try
 
             Case "Button101"
-                Call Saver(AddQuery.NewQueryGrid)
-
-            Case "Button202"
-                Call Saver(AddQuery.NewQueryGrid2)
+                Call Saver(Form1.NewQueryGrid)
 
         End Select
 

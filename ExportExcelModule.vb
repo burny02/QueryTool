@@ -1,18 +1,6 @@
 ﻿Imports System.IO
 Module ExportExcelModule
-    Public Sub ExportExcel(SQLCode As String, Study As String, Send As Boolean, Optional Check As Boolean = True)
-
-        Dim NumberWrong As Long
-        If Check = True Then
-            NumberWrong = Overclass.SELECTCount("Select Study, QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
-                              "VisitName, FormName, Description, Status, Person FROM IncorrectQueries " &
-                              "Where Study='" & Study & "'")
-
-            If NumberWrong <> 0 Then
-                If MsgBox(NumberWrong & " bad/empty codes were found and will be missing from report. Do you wish to proceed?", vbYesNo) = vbNo Then Exit Sub
-            End If
-
-        End If
+    Public Sub ExportExcel(SQLCode As String, Send As Boolean)
 
         If Send = True Then
             If MsgBox("Would you to email queries?", vbYesNo) = vbNo Then Send = False
@@ -69,27 +57,48 @@ Module ExportExcelModule
             OutApp = CreateObject("Outlook.Application")
             objOutlookMsg = OutApp.CreateItem(0)
 
-            Dim CountTable As DataTable = Overclass.TempDataTable("SELECT Site, Priority, Queriess, Overdue FROM ExportExcelCount WHERE a.Study='" & Study & "'" &
-                                                                  " ORDER BY Site, Priority")
+            Dim CountTable As DataTable = Overclass.TempDataTable("SELECT * FROM ExportExcelCount ORDER BY a.Study, Site")
 
-            Dim TableString As String = vbNullString
+            Dim TableView As String = vbNullString
+
+            TableView = "<head>
+                         <title>HTML Table Cellpadding</title>
+                        </head>
+                        <body>
+                        <table border = ""1"" cellpadding=""5"" cellspacing=""5"">
+                        <tr>
+                        <th>Study</th>
+                        <th>Site</th>
+                        <th>Total Queries</th>
+                        <th>Overdue Queries</th>
+                        <th>Priority 1</th>
+                        <th>Priority 2</th>
+                        </tr>"
 
             For Each row As DataRow In CountTable.Rows
-                TableString = TableString & row.Item("Site")
-                TableString = TableString & " - Priority " & row.Item("Priority")
-                TableString = TableString & " (" & row.Item("Queriess") & " - " & row.Item("Overdue") & ")"
-                TableString = TableString & "<br/>"
+                TableView = TableView &
+                            "<tr>
+                            <td>" & row.Item("a.Study") & "</td>
+                            <td>" & row.Item("Site") & "</td>
+                            <td>" & row.Item("Tot_No") & "</td>
+                            <td>" & row.Item("Overdue") & "</td>
+                            <td>" & row.Item("PriorityOne") & "</td>
+                            <td>" & row.Item("PriorityTwo") & "</td>
+                            </tr>"
             Next
+
+            TableView = TableView & "</table>
+                                    </body>"
 
 
             Dim Link As String = "<a href='M:\VOLUNTEER SCREENING SERVICES\Systems\Query_Management_Tool\Query Management Tool.application'>" &
                                     "Click Here</a>"
 
-            objOutlookMsg.Subject = Study & " Queries"
+            objOutlookMsg.Subject = "Open Queries"
 
             objOutlookMsg.HTMLBody = "Dear All" & "<br/>" & "<br/>" &
                                         "The following queries are currently open:  " & "<br/>" & "<br/>" &
-                                        TableString & "<br/>" &
+                                        TableView & "<br/>" &
                                         "Link to Query Tool: " & Link & "<br/>" & "<br/>" &
                                         "Many thanks"
 

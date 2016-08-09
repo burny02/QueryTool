@@ -1,4 +1,5 @@
 ﻿Public Class Form1
+    Private AssTable As DataTable
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -7,13 +8,7 @@
 
         Call StartUpCentral()
 
-        If AccessLevel = 1 Then
-
-            AdQry = New AddQuery
-            AddControls(AdQry)
-            AdQry.ShowDialog()
-
-        ElseIf AccessLevel = 0 Then
+        If AccessLevel = 0 Then
 
             RespView = New ResponseView
             Specifics(RespView)
@@ -58,20 +53,14 @@
         End If
 
         Overclass.ResetCollection()
+        RespondCommands.Clear()
 
         Select Case e.TabPage.Text
 
+
             Case "Add Queries"
-                ctl = Me.DataGridView1
-                SQLCode = "SELECT StudyCode, UploadDate, UploadPerson FROM Study ORDER BY UploadDate DESC"
-                Overclass.CreateDataSet(SQLCode, Bind, ctl)
-
-            Case "Query Codes"
-                Specifics(DataGridView2)
-
-            Case "Export"
-                FilterCombo6.AllowBlanks = False
-                FilterCombo6.SetAsExternalSource("StudyCode", "StudyCode", "SELECT StudyCode FROM Study", Overclass)
+                NewQueryGrid.Columns.Clear()
+                Specifics(NewQueryGrid)
 
             Case "Reports"
                 Me.DateTimePicker2.Value = Date.Now
@@ -131,13 +120,14 @@
 
                 RespView.StaffQueryGrid.Columns.Clear()
                 SqlCode = "SELECT QueryID, Study, Person, " &
-                "Priority, Initials & ' ' & RVLID AS Volunteer, VisitName, FormName, PageNo, Description, SiteCode, RespondCode " &
+                "Priority, Initials & ' ' & RVLID AS Volunteer, VisitName, FormName, PageNo, Description, SiteCode, RespondCode, Bounced " &
                 "FROM Queries INNER JOIN Study ON Queries.Study=Study.StudyCode WHERE Hidden=False AND Status ='Open' ORDER BY Initials"
                 Overclass.CreateDataSet(SqlCode, RespView.BindingSource1, RespView.StaffQueryGrid)
 
                 With RespView.StaffQueryGrid
                     .ReadOnly = True
                     .Columns("QueryID").Visible = False
+                    .Columns("Bounced").Visible = False
                     .Columns("Study").Visible = False
                     .Columns("SiteCode").Visible = False
                     .Columns("RespondCode").Visible = False
@@ -146,12 +136,6 @@
                     .Columns("FormName").HeaderText = "Assessment/Procedure"
                     .Columns("PageNo").HeaderText = "Page No"
                     .Columns("Person").HeaderText = "Assigned"
-                    Dim clm1 As New DataGridViewImageColumn
-                    clm1.HeaderText = "History"
-                    clm1.Name = "ViewClm"
-                    clm1.ImageLayout = DataGridViewImageCellLayout.Zoom
-                    clm1.Image = My.Resources.PreviousHistory
-                    .Columns.Add(clm1)
                     Dim clm2 As New DataGridViewImageColumn
                     clm2.HeaderText = "Respond"
                     clm2.Name = "RespondClm"
@@ -159,7 +143,6 @@
                     clm2.Image = My.Resources.speech
                     .Columns.Add(clm2)
                     .Columns("RespondClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                    .Columns("ViewClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                     .Columns("PageNo").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                     .Columns("Person").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                     .Columns("Volunteer").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
@@ -181,127 +164,101 @@
                 RespView.FilterCombo30.Text = Filter4
                 RespView.FilterCombo90.Text = Filter5
 
-            Case "NewQueryGrid2"
-
-                If AdQry.CheckBox201.Checked = True Then
-                    SqlCode = "SELECT Study, QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
-                              "VisitName, FormName, Description, Status, Person FROM IncorrectQueries " &
-                              "WHERE CreatedByRole='" & Role & "'" &
-                              "ORDER BY RVLID ASC"
-                Else
-                    SqlCode = "SELECT Study, Queries.QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
-                              "VisitName, FormName, Description, Status, Person FROM Queries INNER JOIN Study ON queries.Study=Study.StudyCode " &
-                              "WHERE Hidden=false AND CreatedByRole='" & Role & "'" &
-                              "ORDER BY RVLID ASC"
-                End If
-
-
-
-                Overclass.ResetCollection()
-                Overclass.CreateDataSet(SqlCode, BindingSource1, ctl)
-
-                AdQry.FilterCombo50.AllowBlanks = False
-                AdQry.FilterCombo50.SetAsInternalSource("Study", "Study", Overclass)
-                AdQry.FilterCombo40.SetAsInternalSource("RVLID", "RVLID", Overclass)
-                AdQry.FilterCombo80.SetAsInternalSource("Status", "Status", Overclass)
-                AdQry.FilterCombo70.SetAsInternalSource("VisitName", "VisitName", Overclass)
-                AdQry.FilterCombo60.SetAsInternalSource("SiteCode", "SiteCode", Overclass)
-
-                ctl.columns("QueryID").visible = False
-                ctl.columns("TypeCode").visible = False
-                ctl.columns("SiteCode").visible = False
-                ctl.columns("RespondCode").visible = False
-                ctl.columns("VisitName").readonly = True
-                ctl.columns("FormName").readonly = True
-                ctl.columns("Status").readonly = True
-                ctl.columns("Description").readonly = True
-                ctl.columns("RVLID").readonly = True
-                ctl.columns("RVLID").headertext = "Subject ID"
-                ctl.AllowUserToAddRows = False
-
-
-                Dim cmb As TemplateDB.MyCmbColumn = Overclass.SetUpNewComboColumn("SELECT Code & ' - ' & Site AS Display, Code FROM SiteCode " &
-                        "a inner join Study b ON a.ListID=b.CodeList " &
-                        "WHERE CStr(StudyCode)=", AdQry.FilterCombo50, "Code", "Display", "SiteCode", "Site Code", AdQry.NewQueryGrid2, "clm1")
-
-                Dim cmb2 As TemplateDB.MyCmbColumn = Overclass.SetUpNewComboColumn("SELECT Code & ' - ' & ErrorType AS Display, " &
-                        "Code FROM TypeCode a inner join Study b ON a.ListID=b.CodeList " &
-                        "WHERE Cstr(StudyCode)=", AdQry.FilterCombo50, "Code", "Display", "TypeCode", "Type Code", AdQry.NewQueryGrid2, "clm2")
-
-                Dim cmb3 As TemplateDB.MyCmbColumn = Overclass.SetUpNewComboColumn("SELECT Code & ' - ' & Group AS Display, " &
-                         "Code FROM GroupCode a inner join Study b ON a.ListID=b.CodeList " &
-                         "WHERE CStr(StudyCode)=", AdQry.FilterCombo50, "Code", "Display", "RespondCode", "Respond Code", AdQry.NewQueryGrid2, "clm3")
-
-                AdQry.NewQueryGrid2.Columns("FormName").HeaderText = "Form Name"
-                Dim ctl3 As Object = AdQry.NewQueryGrid2
-                ctl3.Columns("Person").maxinputlength = 3
-                AdQry.NewQueryGrid2.Columns("Person").DisplayIndex = AdQry.NewQueryGrid2.Columns.Count - 2
-
-
             Case "NewQueryGrid"
 
-                AdQry.NewQueryGrid.Columns.Clear()
+                NewQueryGrid.Columns.Clear()
 
-                SqlCode = "SELECT Status, Study, QueryID, CreatedBy, FieldName, CreateDate, CreateTime, " &
+                SqlCode = "SELECT SiteCode, RespondCode, Person, TypeCode, Status, Study, QueryID, CreatedBy, CreateDate, CreateTime, " &
                     "CreatedByRole, ClosedDate, ClosedTime, ClosedBy, ClosedByRole, RVLID, Initials, " &
-                    "VisitName, FormName, PageNo, Description, Priority " &
+                    "VisitName, FormName, PageNo, Description, Priority, Bounced, AssCode " &
                     "FROM Queries INNER JOIN Study On queries.Study=Study.StudyCode " &
-                    "WHERE Hidden=false AND QueryID Like 'MANUAL-%' " &
+                    "WHERE Hidden=false " &
                     "AND CreatedByRole='" & Role & "' " &
+                    "AND Status<>'Closed' " &
                     "ORDER BY Status DESC, RVLID ASC"
 
-                Overclass.CreateDataSet(SqlCode, AdQry.BindingSource1, AdQry.NewQueryGrid)
+                NewQueryGrid.AutoGenerateColumns = True
+                Overclass.CreateDataSet(SqlCode, BindingSource1, NewQueryGrid)
+                NewQueryGrid.AutoGenerateColumns = False
 
-                AdQry.FilterCombo30.AllowBlanks = False
-                AdQry.FilterCombo30.SetAsExternalSource("Study", "Study", "SELECT StudyCode As Study FROM Study " &
+                FilterCombo7.LiveData = False
+                FilterCombo7.SetAsExternalSource("SiteCode", "Site", "SELECT DISTINCT Code AS SiteCode, Site FROM SiteCode", Overclass)
+                FilterCombo30.AllowBlanks = False
+                FilterCombo30.SetAsExternalSource("Study", "Study", "SELECT StudyCode As Study FROM Study " &
                 "WHERE Hidden=False ORDER BY StudyCode ASC", Overclass)
-                AdQry.FilterCombo30.SetDGVDefault(ctl, "Study")
+                FilterCombo30.SetDGVDefault(ctl, "Study")
 
-                AdQry.FilterCombo90.SetAsInternalSource("Initials", "Initials", Overclass)
-                AdQry.FilterCombo100.SetAsInternalSource("Status", "Status", Overclass)
+                FilterCombo90.SetAsInternalSource("Initials", "Initials", Overclass)
+                FilterCombo100.SetAsInternalSource("Status", "Status", Overclass)
 
-                AdQry.FilterCombo20.SetAsInternalSource("RVLID", "RVLID", Overclass)
-                AdQry.FilterCombo10.SetAsInternalSource("VisitName", "VisitName", Overclass)
+                FilterCombo20.SetAsInternalSource("RVLID", "RVLID", Overclass)
+                FilterCombo10.SetAsInternalSource("VisitName", "VisitName", Overclass)
 
-                AdQry.NewQueryGrid.Columns("QueryID").Visible = False
-                AdQry.NewQueryGrid.Columns("Study").Visible = False
-                AdQry.NewQueryGrid.Columns("FieldName").Visible = False
-                AdQry.NewQueryGrid.Columns("CreateDate").Visible = False
-                AdQry.NewQueryGrid.Columns("CreateTime").Visible = False
-                AdQry.NewQueryGrid.Columns("CreatedByRole").Visible = False
-                AdQry.NewQueryGrid.Columns("ClosedDate").Visible = False
-                AdQry.NewQueryGrid.Columns("ClosedTime").Visible = False
-                AdQry.NewQueryGrid.Columns("ClosedBy").Visible = False
-                AdQry.NewQueryGrid.Columns("ClosedByRole").Visible = False
-                AdQry.NewQueryGrid.Columns("Study").Visible = False
-                AdQry.NewQueryGrid.Columns("Priority").Visible = False
-                AdQry.NewQueryGrid.Columns("Status").Visible = False
+                NewQueryGrid.Columns("Bounced").Visible = False
+                NewQueryGrid.Columns("QueryID").Visible = False
+                NewQueryGrid.Columns("Study").Visible = False
+                NewQueryGrid.Columns("CreateDate").Visible = False
+                NewQueryGrid.Columns("CreateTime").Visible = False
+                NewQueryGrid.Columns("CreatedByRole").Visible = False
+                NewQueryGrid.Columns("ClosedDate").Visible = False
+                NewQueryGrid.Columns("ClosedTime").Visible = False
+                NewQueryGrid.Columns("ClosedBy").Visible = False
+                NewQueryGrid.Columns("ClosedByRole").Visible = False
+                NewQueryGrid.Columns("Study").Visible = False
+                NewQueryGrid.Columns("Priority").Visible = False
+                NewQueryGrid.Columns("Status").Visible = False
+                NewQueryGrid.Columns("AssCode").Visible = False
 
-                AdQry.NewQueryGrid.Columns("Study").ReadOnly = False
-                AdQry.NewQueryGrid.Columns("Status").ReadOnly = True
-                AdQry.NewQueryGrid.Columns("CreatedBy").ReadOnly = True
+                NewQueryGrid.Columns("CreatedBy").ReadOnly = True
 
-                AdQry.NewQueryGrid.Columns("RVLID").HeaderText = "Subject ID"
-                AdQry.NewQueryGrid.Columns("VisitName").HeaderText = "Study Visit"
-                AdQry.NewQueryGrid.Columns("FormName").HeaderText = "Assessment/Procedure"
-                AdQry.NewQueryGrid.Columns("PageNo").HeaderText = "Page No."
-                AdQry.NewQueryGrid.Columns("Description").HeaderText = "Query Description"
-                AdQry.NewQueryGrid.Columns("CreatedBy").HeaderText = "Created By"
+                NewQueryGrid.Columns("RVLID").HeaderText = "Subject ID"
+                NewQueryGrid.Columns("VisitName").HeaderText = "Study Visit"
+                NewQueryGrid.Columns("FormName").HeaderText = "Assessment/Procedure"
+                NewQueryGrid.Columns("PageNo").HeaderText = "Page No."
+                NewQueryGrid.Columns("Description").HeaderText = "Query Description"
+                NewQueryGrid.Columns("CreatedBy").HeaderText = "Created By"
 
-                AdQry.NewQueryGrid.Columns("CreatedBy").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                AdQry.NewQueryGrid.Columns("RVLID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                AdQry.NewQueryGrid.Columns("Initials").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                AdQry.NewQueryGrid.Columns("PageNo").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                NewQueryGrid.Columns("CreatedBy").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                NewQueryGrid.Columns("RVLID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                NewQueryGrid.Columns("Initials").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                NewQueryGrid.Columns("PageNo").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
 
                 Dim clm As New DataGridViewComboBoxColumn
                 clm.HeaderText = "Priority"
                 clm.Items.Add("1 - Data Entry")
                 clm.Items.Add("2 - Non Data Entry")
-                AdQry.NewQueryGrid.Columns.Add(clm)
+                NewQueryGrid.Columns.Add(clm)
                 clm.DataPropertyName = "Priority"
                 clm.Name = "PriorityClm"
 
-                AdQry.NewQueryGrid.Columns("PriorityClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                NewQueryGrid.Columns("PriorityClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+
+                Dim clm3 As DataGridViewColumn = Overclass.SetUpNewComboColumn("SELECT Site AS Display, Code FROM SiteCode " &
+                                                   "a inner join Study b ON a.ListID=b.CodeList " &
+                                                   "WHERE CStr(StudyCode)=", FilterCombo30,
+                                                  "Code", "Display", "SiteCode", "Site", NewQueryGrid, "SiteClm")
+
+                Dim clm4 As DataGridViewColumn = Overclass.SetUpNewComboColumn("SELECT Group AS Display, Code FROM GroupCode " &
+                                                   "a inner join Study b ON a.ListID=b.CodeList " &
+                                                   "WHERE CStr(StudyCode)=", FilterCombo30,
+                                                  "Code", "Display", "RespondCode", "Group", NewQueryGrid, "GroupClm")
+
+
+                Dim clm5 As DataGridViewColumn = Overclass.SetUpNewComboColumn("SELECT ErrorType AS Display, Code FROM TypeCode " &
+                                                   "a inner join Study b ON a.ListID=b.CodeList " &
+                                                   "WHERE CStr(StudyCode)=", FilterCombo30,
+                                                  "Code", "Display", "TypeCode", "Type", NewQueryGrid, "TypeClm")
+
+                Dim clm6 As New DataGridViewComboBoxColumn
+                If AssTable Is Nothing Then AssTable = Overclass.TempDataTable("SELECT AssName, AssCode From AssType ORDER BY AssName")
+                clm6.DataSource = AssTable
+                clm6.DisplayMember = "AssName"
+                clm6.ValueMember = "AssCode"
+                clm6.DataPropertyName = "AssCode"
+                clm6.Name = "AssDrop"
+                clm6.HeaderText = "Assessment Type"
+
+                NewQueryGrid.Columns.Add(clm6)
 
                 Dim cmb2 As New DataGridViewImageColumn
                 cmb2.HeaderText = "Copy"
@@ -309,24 +266,16 @@
                 cmb2.ImageLayout = DataGridViewImageCellLayout.Zoom
                 cmb2.Name = "CopyQuery"
 
-                AdQry.NewQueryGrid.Columns.Add(cmb2)
-                AdQry.NewQueryGrid.Columns("CopyQuery").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-
-                Dim clm1 As New DataGridViewImageColumn
-                clm1.HeaderText = "History"
-                clm1.Name = "ViewClm"
-                clm1.ImageLayout = DataGridViewImageCellLayout.Zoom
-                clm1.Image = My.Resources.PreviousHistory
-                AdQry.NewQueryGrid.Columns.Add(clm1)
-                AdQry.NewQueryGrid.Columns("ViewClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                NewQueryGrid.Columns.Add(cmb2)
+                NewQueryGrid.Columns("CopyQuery").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
 
                 Dim clm2 As New DataGridViewImageColumn
                 clm2.HeaderText = "Respond"
                 clm2.Name = "RespondClm"
                 clm2.ImageLayout = DataGridViewImageCellLayout.Zoom
                 clm2.Image = My.Resources.speech
-                AdQry.NewQueryGrid.Columns.Add(clm2)
-                AdQry.NewQueryGrid.Columns("RespondClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                NewQueryGrid.Columns.Add(clm2)
+                NewQueryGrid.Columns("RespondClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
 
                 Dim cmb As New DataGridViewImageColumn
                 cmb.HeaderText = "Close"
@@ -334,101 +283,191 @@
                 cmb.ImageLayout = DataGridViewImageCellLayout.Zoom
                 cmb.Name = "StatusCmb"
 
-                AdQry.NewQueryGrid.Columns.Add(cmb)
-                AdQry.NewQueryGrid.Columns("StatusCmb").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                NewQueryGrid.Columns.Add(cmb)
+                NewQueryGrid.Columns("StatusCmb").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+
+                NewQueryGrid.Columns("SiteCode").Visible = False
+                NewQueryGrid.Columns("CreatedBy").Visible = False
+                NewQueryGrid.Columns("RespondCode").Visible = False
+                NewQueryGrid.Columns("TypeCode").Visible = False
+
+                'Visible
+                NewQueryGrid.Columns("RVLID").DisplayIndex = 0
+                NewQueryGrid.Columns("Initials").DisplayIndex = 1
+                NewQueryGrid.Columns("VisitName").DisplayIndex = 2
+                NewQueryGrid.Columns("AssDrop").DisplayIndex = 3
+                NewQueryGrid.Columns("FormName").DisplayIndex = 4
+                NewQueryGrid.Columns("PageNo").DisplayIndex = 5
+                NewQueryGrid.Columns("Description").DisplayIndex = 6
+                NewQueryGrid.Columns("PriorityClm").DisplayIndex = 7
+                NewQueryGrid.Columns("SiteClm").DisplayIndex = 8
+                NewQueryGrid.Columns("TypeClm").DisplayIndex = 9
+                NewQueryGrid.Columns("Person").DisplayIndex = 10
+                NewQueryGrid.Columns("GroupClm").DisplayIndex = 11
+                NewQueryGrid.Columns("CopyQuery").DisplayIndex = 12
+                NewQueryGrid.Columns("RespondClm").DisplayIndex = 13
+                NewQueryGrid.Columns("StatusCmb").DisplayIndex = 14
+
+                'Invisible
+                NewQueryGrid.Columns("SiteCode").DisplayIndex = 15
+                NewQueryGrid.Columns("RespondCode").DisplayIndex = 16
+                NewQueryGrid.Columns("TypeCode").DisplayIndex = 17
+                NewQueryGrid.Columns("Status").DisplayIndex = 18
+                NewQueryGrid.Columns("Study").DisplayIndex = 19
+                NewQueryGrid.Columns("QueryID").DisplayIndex = 20
+                NewQueryGrid.Columns("CreatedBy").DisplayIndex = 21
+                NewQueryGrid.Columns("CreateDate").DisplayIndex = 22
+                NewQueryGrid.Columns("CreateTime").DisplayIndex = 23
+                NewQueryGrid.Columns("CreatedByRole").DisplayIndex = 24
+                NewQueryGrid.Columns("ClosedDate").DisplayIndex = 25
+                NewQueryGrid.Columns("ClosedTime").DisplayIndex = 26
+                NewQueryGrid.Columns("ClosedBy").DisplayIndex = 27
+                NewQueryGrid.Columns("ClosedByRole").DisplayIndex = 28
+                NewQueryGrid.Columns("Priority").DisplayIndex = 29
+                NewQueryGrid.Columns("Bounced").DisplayIndex = 30
 
 
-            Case "DataGridView1"
-                ctl.columns(0).headertext = "Study"
-                ctl.columns(1).headertext = "Last Update"
-                ctl.columns(2).headertext = "Upload Person"
-                ctl.columns(1).DefaultCellStyle.Format = "dd-MMM-yyyy - HH: mm"
-                ctl.enabled = False
-                ctl.AllowUserToAddRows = False
-
-            Case "DataGridView2"
-
-                If Me.CheckBox1.Checked = True Then
-                    SqlCode = "SELECT Study, QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
-                              "VisitName, FormName, Description, Status, Person FROM IncorrectQueries " &
-                              "ORDER BY RVLID ASC"
-                Else
-                    SqlCode = "SELECT Study, Queries.QueryID, SiteCode, TypeCode, RespondCode, RVLID, " &
-                              "VisitName, FormName, Description, Status, Person FROM Queries INNER JOIN Study ON queries.Study=Study.StudyCode " &
-                              "WHERE Hidden=false ORDER BY RVLID ASC"
-                End If
-
-
-
-                Overclass.ResetCollection()
-                Overclass.CreateDataSet(SqlCode, BindingSource1, ctl)
-
-                FilterCombo2.AllowBlanks = False
-                FilterCombo2.SetAsInternalSource("Study", "Study", Overclass)
-                FilterCombo1.SetAsInternalSource("RVLID", "RVLID", Overclass)
-                FilterCombo3.SetAsInternalSource("Status", "Status", Overclass)
-                FilterCombo4.SetAsInternalSource("VisitName", "VisitName", Overclass)
-                FilterCombo5.SetAsInternalSource("SiteCode", "SiteCode", Overclass)
-
-                ctl.columns("QueryID").visible = False
-                ctl.columns("TypeCode").visible = False
-                ctl.columns("SiteCode").visible = False
-                ctl.columns("RespondCode").visible = False
-                ctl.columns("VisitName").readonly = True
-                ctl.columns("FormName").readonly = True
-                ctl.columns("Status").readonly = True
-                ctl.columns("Description").readonly = True
-                ctl.columns("RVLID").readonly = True
-                ctl.columns("RVLID").headertext = "Subject ID"
-                ctl.columns("Study").visible = False
-                ctl.AllowUserToAddRows = False
-
-                Dim cmb As TemplateDB.MyCmbColumn = Overclass.SetUpNewComboColumn("SELECT Code & ' - ' & Site AS Display, Code FROM SiteCode " &
-                       "a inner join Study b ON a.ListID=b.CodeList " &
-                       "WHERE CStr(StudyCode)=", FilterCombo2, "Code", "Display", "SiteCode", "Site Code", DataGridView2, "clm1")
-
-                Dim cmb2 As TemplateDB.MyCmbColumn = Overclass.SetUpNewComboColumn("SELECT Code & ' - ' & ErrorType AS Display, " &
-                       "Code FROM TypeCode a inner join Study b ON a.ListID=b.CodeList " &
-                       "WHERE Cstr(StudyCode)=", FilterCombo2, "Code", "Display", "TypeCode", "Type Code", DataGridView2, "clm2")
-
-                Dim cmb3 As TemplateDB.MyCmbColumn = Overclass.SetUpNewComboColumn("SELECT Code & ' - ' & Group AS Display, " &
-                        "Code FROM GroupCode a inner join Study b ON a.ListID=b.CodeList " &
-                        "WHERE CStr(StudyCode)=", FilterCombo2, "Code", "Display", "RespondCode", "Respond Code", DataGridView2, "clm3")
-
-                ctl.columns("Person").displayindex = 13
-                ctl.columns("FormName").HeaderText = "Form Name"
-                ctl.columns("VisitName").HeaderText = "Visit Name"
-                ctl.Columns("Person").maxinputlength = 3
-
-                cmb.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                cmb3.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                DataGridView2.Columns("Person").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                DataGridView2.Columns("RVLID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                DataGridView2.Columns("Status").Visible = False
-
-
+                NewQueryGrid.Columns("SiteClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                NewQueryGrid.Columns("TypeClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                NewQueryGrid.Columns("Person").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                NewQueryGrid.Columns("GroupClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                NewQueryGrid.Columns("AssDrop").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                NewQueryGrid.Columns("VisitName").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                NewQueryGrid.Columns("FormName").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
 
         End Select
 
 
     End Sub
 
-    Private Sub CheckBox1_Click(sender As Object, e As EventArgs) Handles CheckBox1.Click
 
-        If Overclass.UnloadData() = True Then
-            RemoveHandler CheckBox1.Click, AddressOf CheckBox1_Click
-            CheckBox1.Checked = Not CheckBox1.Checked
-            AddHandler CheckBox1.Click, AddressOf CheckBox1_Click
+    Private Sub NewQueryGrid_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles NewQueryGrid.CellDoubleClick
+
+        If e.RowIndex < 0 Then Exit Sub
+        If e.ColumnIndex = sender.columns("CopyQuery").index Then
+            If MsgBox("Do you want To copy this query To a New line?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+
+                Dim NewRow As DataRow = Overclass.CurrentDataSet.Tables(0).NewRow
+                NewRow.Item("VisitName") = NewQueryGrid.Item("VisitName", e.RowIndex).Value
+                NewRow.Item("FormName") = NewQueryGrid.Item("FormName", e.RowIndex).Value
+                NewRow.Item("PageNo") = NewQueryGrid.Item("PageNo", e.RowIndex).Value
+                NewRow.Item("Description") = NewQueryGrid.Item("Description", e.RowIndex).Value
+                NewRow.Item("Priority") = Trim(NewQueryGrid.Item("Priority", e.RowIndex).Value)
+                NewRow.Item("Study") = Trim(NewQueryGrid.Item("Study", e.RowIndex).Value)
+                NewRow.Item("RVLID") = NewQueryGrid.Item("RVLID", e.RowIndex).Value
+                NewRow.Item("Initials") = NewQueryGrid.Item("Initials", e.RowIndex).Value
+                NewRow.Item("AssCode") = NewQueryGrid.Item("AssCode", e.RowIndex).Value
+                NewRow.Item("SiteCode") = Trim(NewQueryGrid.Item("SiteCode", e.RowIndex).Value)
+                NewRow.Item("TypeCode") = Trim(NewQueryGrid.Item("TypeCode", e.RowIndex).Value)
+                NewRow.Item("Person") = NewQueryGrid.Item("Person", e.RowIndex).Value
+                NewRow.Item("RespondCode") = NewQueryGrid.Item("RespondCode", e.RowIndex).Value
+                NewRow.Item("Status") = "Open"
+
+                Overclass.CurrentDataSet.Tables(0).Rows.Add(NewRow)
+                NewQueryGrid.CurrentCell = NewQueryGrid.Item("RVLID", NewQueryGrid.NewRowIndex)
+
+            End If
         End If
 
-        Dim TempStudy As String = FilterCombo2.SelectedValue
-        Call Specifics(Me.DataGridView2)
-        If TempStudy IsNot Nothing Then FilterCombo2.SelectedValue = TempStudy
-        FilterCombo1.SelectedValue = ""
-        FilterCombo3.SelectedValue = ""
-        FilterCombo4.SelectedValue = ""
-        FilterCombo5.SelectedValue = ""
+        If e.ColumnIndex = sender.columns("StatusCmb").index Then
+
+            If Me.NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then Exit Sub
+            If IsDBNull(NewQueryGrid.Item("QueryID", e.RowIndex).Value) = True Then Exit Sub
+
+            If MsgBox("Are you sure you want To close this query?", vbYesNo) = vbYes Then
+                Me.NewQueryGrid.Item("ClosedDate", e.RowIndex).Value = Format(DateTime.Now, "dd-MMM-yyyy")
+                Me.NewQueryGrid.Item("ClosedTime", e.RowIndex).Value = Format(DateTime.Now, "HH: mm")
+                Me.NewQueryGrid.Item("ClosedBy", e.RowIndex).Value = Overclass.GetUserName
+                Me.NewQueryGrid.Item("ClosedByRole", e.RowIndex).Value = Role
+                Me.NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed"
+                BindingSource1.EndEdit()
+            End If
+        End If
+
+        If e.ColumnIndex = sender.columns("RespondClm").index Then
+
+            If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Responded" Then Exit Sub
+
+            Dim RespondText As String = vbNullString
+
+            Dim QueryID As String
+            QueryID = NewQueryGrid.Item("QueryID", e.RowIndex).Value
+
+            If IsDBNull(NewQueryGrid.Item("QueryID", e.RowIndex).Value) = False Then
+                Dim CSVString As String = Overclass.CreateCSVString(
+                "Select format(Response_Timestamp,'dd-MMM-yyyy HH:mm') & ' (' & response_Person & ')  -  ' " &
+                "& replace(response_text,',',';') FROM Response WHERE QueryID=" & QueryID)
+                CSVString = Replace(CSVString, ",", vbNewLine & vbNewLine)
+                If CSVString = "" Then CSVString = "No history found"
+                RespondText = CSVString
+            End If
+
+            RespondText = RespondText & vbNewLine & "Please input response to query:"
+
+            Dim Response = InputBox(RespondText, "Query Response")
+            If Response = "" Then
+                Exit Sub
+            Else
+                Dim SQL As String
+                'NewQueryGrid.Item("Status", e.RowIndex).Value = "Open"
+                Dim foundRows() As DataRow
+                foundRows = Overclass.CurrentDataSet.Tables(0).Select("QueryID=" & QueryID)
+                foundRows(0).Item("Bounced") = "True"
+                foundRows(0).Item("Status") = "Open"
+                foundRows(0).EndEdit()
+                SQL = "INSERT INTO Response(QueryID,Response_Text,Response_Person) " &
+                "VALUES (" & QueryID & ", '" & Response & "', '" & Overclass.GetUserName & "')"
+
+                Dim Cmd As OleDb.OleDbCommand
+                Cmd = New OleDb.OleDbCommand(SQL)
+                Overclass.SetCommandConnection(Cmd)
+                RespondCommands.Add(Cmd)
+            End If
+        End If
 
     End Sub
 
+    Private Sub NewQueryGrid_DefaultValuesNeeded_1(sender As Object, e As DataGridViewRowEventArgs) Handles NewQueryGrid.DefaultValuesNeeded
+        NewQueryGrid.Item("Status", e.Row.Index).Value = "Open"
+    End Sub
+
+    Private Sub NewQueryGrid_DataError(sender As Object, e As DataGridViewDataErrorEventArgs)
+
+    End Sub
+
+    Private Sub NewQueryGrid_RowPrePaint(sender As Object, e As DataGridViewRowPrePaintEventArgs) Handles NewQueryGrid.RowPrePaint
+
+        Try
+
+            If IsDBNull(NewQueryGrid.Item("QueryID", e.RowIndex).Value) Then
+                If NewQueryGrid.Item("StatusCmb", e.RowIndex).Tag <> "Hyphen" Then
+                    NewQueryGrid.Item("StatusCmb", e.RowIndex).Value = My.Resources.hyphen
+                    NewQueryGrid.Item("StatusCmb", e.RowIndex).Tag = "Hyphen"
+                End If
+            End If
+
+            If NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then
+                If NewQueryGrid.Item("StatusCmb", e.RowIndex).Tag <> "Hyphen" Then
+                    NewQueryGrid.Item("StatusCmb", e.RowIndex).Value = My.Resources.hyphen
+                    NewQueryGrid.Item("StatusCmb", e.RowIndex).Tag = "Hyphen"
+                End If
+            End If
+
+            If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Responded" Then
+                If NewQueryGrid.Item("RespondClm", e.RowIndex).Tag <> "Hyphen" Then
+                    NewQueryGrid.Item("RespondClm", e.RowIndex).Value = My.Resources.hyphen
+                    NewQueryGrid.Item("RespondClm", e.RowIndex).Tag = "Hyphen"
+                End If
+            End If
+
+            If NewQueryGrid.Item("CopyQuery", e.RowIndex).Tag <> "Copy" Then
+                NewQueryGrid.Item("CopyQuery", e.RowIndex).Value = My.Resources.copy
+                NewQueryGrid.Item("CopyQuery", e.RowIndex).Tag = "Copy"
+            End If
+
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
 End Class

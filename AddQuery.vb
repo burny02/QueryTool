@@ -94,6 +94,7 @@ Public Class AddQuery
                 'NewQueryGrid.Item("Status", e.RowIndex).Value = "Open"
                 Dim foundRows() As DataRow
                 foundRows = Overclass.CurrentDataSet.Tables(0).Select("QueryID='" & QueryID & "'")
+                foundRows(0).Item("Bounced") = "True"
                 foundRows(0).Item("Status") = "Open"
                 foundRows(0).EndEdit()
                 SQL = "INSERT INTO Response(QueryID,Response_Text,Response_Person) " &
@@ -189,8 +190,13 @@ Public Class AddQuery
     Private Sub NewQueryGrid_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles NewQueryGrid.CellFormatting
 
         If e.RowIndex <= -1 Then Exit Sub
-        On Error Resume Next
-        If e.ColumnIndex = Me.NewQueryGrid.Columns("StatusCmb").Index And Me.NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then e.Value = My.Resources.hyphen
-        If e.ColumnIndex = Me.NewQueryGrid.Columns("RespondClm").Index And Me.NewQueryGrid.Item("Status", e.RowIndex).Value <> "Responded" Then e.Value = My.Resources.hyphen
+
+        If IsNothing(NewQueryGrid.Columns("RespondClm")) Or IsNothing(NewQueryGrid.Columns("StatusCmb")) Then Exit Sub
+        If NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then NewQueryGrid.Item("StatusCmb", e.RowIndex).Value = My.Resources.hyphen
+        If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Responded" Then
+            NewQueryGrid.Item("RespondClm", e.RowIndex).Value = My.Resources.hyphen
+            NewQueryGrid.Item("ViewClm", e.RowIndex).Value = My.Resources.hyphen
+        End If
+
     End Sub
 End Class
