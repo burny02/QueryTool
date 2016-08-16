@@ -24,22 +24,6 @@
         'Create and overwrite a custom one if needed (More than 1 table) ...OLEDB Parameters must be added in the order they are used
         Select Case ctl.name
 
-            Case "DataGridView2"
-
-                'SET THE Commands, with Parameters (OLDB Parameters must be added in the order they are used in the statement)
-                Overclass.CurrentDataAdapter.UpdateCommand = New OleDb.OleDbCommand("UPDATE Queries SET SiteCode=@P1, RespondCode=@P2, " &
-                                                                          "Person=@P3, TypeCode=@P4 " &
-                                                                          "WHERE QueryID=@P5")
-
-                'Add parameters with the source columns in the dataset
-                With Overclass.CurrentDataAdapter.UpdateCommand.Parameters
-                    .Add("@P1", OleDb.OleDbType.VarChar, 5, "SiteCode")
-                    .Add("@P2", OleDb.OleDbType.VarChar, 5, "RespondCode")
-                    .Add("@P3", OleDb.OleDbType.VarChar, 5, "Person")
-                    .Add("@P4", OleDb.OleDbType.VarChar, 5, "TypeCode")
-                    .Add("@P5", OleDb.OleDbType.VarChar, 50, "QueryID")
-                End With
-
             Case "NewQueryGrid"
 
                 Dim Status As String = "'Open'"
@@ -60,7 +44,7 @@
                     .Add("@P2", OleDb.OleDbType.VarChar, 50, "Initials")
                     .Add("@P3", OleDb.OleDbType.VarChar, 255, "FormName")
                     .Add("@P4", OleDb.OleDbType.VarChar, 50, "PageNo")
-                    .Add("@P5", OleDb.OleDbType.VarChar, 50, "Description")
+                    .Add("@P5", OleDb.OleDbType.LongVarChar, 500, "Description")
                     .Add("@P6", OleDb.OleDbType.VarChar, 255, "VisitName")
                     .Add("@P7", OleDb.OleDbType.VarChar, 50, "Priority")
                     .Add("@P8", OleDb.OleDbType.VarChar, 3, "SiteCode")
@@ -88,7 +72,7 @@
                     .Add("@P9", OleDb.OleDbType.VarChar, 255, "VisitName")
                     .Add("@P10", OleDb.OleDbType.VarChar, 255, "FormName")
                     .Add("@P11", OleDb.OleDbType.VarChar, 50, "PageNo")
-                    .Add("@P12", OleDb.OleDbType.VarChar, 255, "Description")
+                    .Add("@P12", OleDb.OleDbType.LongVarChar, 500, "Description")
                     .Add("@P14", OleDb.OleDbType.VarChar, 50, "Priority")
                     .Add("@P15", OleDb.OleDbType.Boolean, 50, "Bounced")
                     .Add("@P16", OleDb.OleDbType.VarChar, 3, "SiteCode")
