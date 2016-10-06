@@ -72,6 +72,7 @@
 
     End Sub
 
+
     Public Sub Specifics(ctl As Object)
 
         If IsNothing(ctl) Then Exit Sub
@@ -119,9 +120,9 @@
                 End Try
 
                 RespView.StaffQueryGrid.Columns.Clear()
-                SqlCode = "SELECT QueryID, Study, Person, " &
-                "Priority, Initials & ' ' & RVLID AS Volunteer, VisitName, FormName, PageNo, Description, SiteCode, RespondCode, Bounced " &
-                "FROM Queries INNER JOIN Study ON Queries.Study=Study.StudyCode WHERE Hidden=False AND Status ='Open' ORDER BY Initials"
+                SqlCode = "SELECT CreatedByRole, QueryID, Study, Person, " &
+                "replace(replace(cstr(Priority),0,'False'),-1,'True') AS PRI, Initials & ' ' & RVLID AS Volunteer, VisitName, FormName, PageNo, Description, SiteCode, RespondCode, Bounced " &
+                "FROM Queries INNER JOIN Study ON Queries.Study=Study.StudyCode WHERE Hidden=False AND Status ='Open' ORDER BY CreateDate ASC"
                 Overclass.CreateDataSet(SqlCode, RespView.BindingSource1, RespView.StaffQueryGrid)
 
                 With RespView.StaffQueryGrid
@@ -131,11 +132,12 @@
                     .Columns("Study").Visible = False
                     .Columns("SiteCode").Visible = False
                     .Columns("RespondCode").Visible = False
-                    .Columns("Priority").Visible = False
+                    .Columns("PRI").Visible = False
                     .Columns("VisitName").HeaderText = "Study Visit"
                     .Columns("FormName").HeaderText = "Assessment/Procedure"
                     .Columns("PageNo").HeaderText = "Page No"
                     .Columns("Person").HeaderText = "Assigned"
+                    .Columns("CreatedByRole").HeaderText = "Raised By"
                     Dim clm2 As New DataGridViewImageColumn
                     clm2.HeaderText = "Respond"
                     clm2.Name = "RespondClm"
@@ -146,12 +148,14 @@
                     .Columns("PageNo").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                     .Columns("Person").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                     .Columns("Volunteer").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                    .Columns("CreatedByRole").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 End With
 
                 With RespView
+                    .FilterCombo4.SetAsInternalSource("CreatedByRole", "CreatedByRole", Overclass)
                     .FilterCombo3.AllowBlanks = False
                     .FilterCombo3.SetAsInternalSource("Study", "Study", Overclass)
-                    .FilterCombo30.SetAsInternalSource("Priority", "Priority", Overclass)
+                    .FilterCombo30.SetAsInternalSource("PRI", "PRI", Overclass)
                     .FilterCombo90.SetAsInternalSource("Volunteer", "Volunteer", Overclass)
 
                     .StaffQueryGrid.Columns("QueryID").Visible = False
@@ -168,12 +172,11 @@
 
                 NewQueryGrid.Columns.Clear()
 
-                SqlCode = "SELECT SiteCode, RespondCode, Person, TypeCode, Status, Study, QueryID, CreatedBy, CreateDate, CreateTime, " &
-                    "CreatedByRole, ClosedDate, ClosedTime, ClosedBy, ClosedByRole, RVLID, Initials, " &
-                    "VisitName, FormName, PageNo, Description, Priority, Bounced, AssCode " &
+                SqlCode = "SELECT CreatedByRole, SiteCode, RespondCode, Person, TypeCode, Status, Study, QueryID, CreatedBy, CreateDate, CreateTime, " &
+                    "ClosedDate, ClosedTime, ClosedBy, ClosedByRole, RVLID, Initials, " &
+                    "VisitName, FormName, PageNo, Description, Priority, Bounced, AssCode, PDFLink " &
                     "FROM Queries INNER JOIN Study On queries.Study=Study.StudyCode " &
                     "WHERE Hidden=false " &
-                    "AND CreatedByRole='" & Role & "' " &
                     "AND Status<>'Closed' " &
                     "ORDER BY Status DESC, RVLID ASC"
 
@@ -181,6 +184,8 @@
                 Overclass.CreateDataSet(SqlCode, BindingSource1, NewQueryGrid)
                 NewQueryGrid.AutoGenerateColumns = False
 
+                FilterCombo1.SetAsInternalSource("CreatedByRole", "CreatedByRole", Overclass)
+                FilterCombo1.SetDGVDefault(ctl, "CreatedByRole")
                 FilterCombo7.LiveData = False
                 FilterCombo7.SetAsExternalSource("SiteCode", "Site", "SELECT DISTINCT Code AS SiteCode, Site FROM SiteCode", Overclass)
                 FilterCombo30.AllowBlanks = False
@@ -199,39 +204,27 @@
                 NewQueryGrid.Columns("Study").Visible = False
                 NewQueryGrid.Columns("CreateDate").Visible = False
                 NewQueryGrid.Columns("CreateTime").Visible = False
-                NewQueryGrid.Columns("CreatedByRole").Visible = False
                 NewQueryGrid.Columns("ClosedDate").Visible = False
                 NewQueryGrid.Columns("ClosedTime").Visible = False
                 NewQueryGrid.Columns("ClosedBy").Visible = False
                 NewQueryGrid.Columns("ClosedByRole").Visible = False
                 NewQueryGrid.Columns("Study").Visible = False
-                NewQueryGrid.Columns("Priority").Visible = False
                 NewQueryGrid.Columns("Status").Visible = False
                 NewQueryGrid.Columns("AssCode").Visible = False
+                NewQueryGrid.Columns("PDFLink").Visible = False
 
                 NewQueryGrid.Columns("CreatedBy").ReadOnly = True
 
-                NewQueryGrid.Columns("RVLID").HeaderText = "Subject ID"
+                NewQueryGrid.Columns("RVLID").HeaderText = "Subject"
                 NewQueryGrid.Columns("VisitName").HeaderText = "Study Visit"
                 NewQueryGrid.Columns("FormName").HeaderText = "Assessment/Procedure"
-                NewQueryGrid.Columns("PageNo").HeaderText = "Page No."
+                NewQueryGrid.Columns("PageNo").HeaderText = "Page"
                 NewQueryGrid.Columns("Description").HeaderText = "Query Description"
                 NewQueryGrid.Columns("CreatedBy").HeaderText = "Created By"
+                NewQueryGrid.Columns("CreatedByRole").HeaderText = "Role"
 
-                NewQueryGrid.Columns("CreatedBy").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                NewQueryGrid.Columns("RVLID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                NewQueryGrid.Columns("Initials").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                NewQueryGrid.Columns("PageNo").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
 
-                Dim clm As New DataGridViewComboBoxColumn
-                clm.HeaderText = "Priority"
-                clm.Items.Add("1 - Data Entry")
-                clm.Items.Add("2 - Non Data Entry")
-                NewQueryGrid.Columns.Add(clm)
-                clm.DataPropertyName = "Priority"
-                clm.Name = "PriorityClm"
 
-                NewQueryGrid.Columns("PriorityClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
 
                 Dim clm3 As DataGridViewColumn = Overclass.SetUpNewComboColumn("SELECT Site AS Display, Code FROM SiteCode " &
                                                    "a inner join Study b ON a.ListID=b.CodeList " &
@@ -267,7 +260,7 @@
                 cmb2.Name = "CopyQuery"
 
                 NewQueryGrid.Columns.Add(cmb2)
-                NewQueryGrid.Columns("CopyQuery").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+
 
                 Dim clm2 As New DataGridViewImageColumn
                 clm2.HeaderText = "Respond"
@@ -275,7 +268,7 @@
                 clm2.ImageLayout = DataGridViewImageCellLayout.Zoom
                 clm2.Image = My.Resources.speech
                 NewQueryGrid.Columns.Add(clm2)
-                NewQueryGrid.Columns("RespondClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+
 
                 Dim cmb As New DataGridViewImageColumn
                 cmb.HeaderText = "Close"
@@ -284,7 +277,14 @@
                 cmb.Name = "StatusCmb"
 
                 NewQueryGrid.Columns.Add(cmb)
-                NewQueryGrid.Columns("StatusCmb").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+
+                Dim pdfClm As New DataGridViewImageColumn
+                pdfClm.HeaderText = "PDF"
+                pdfClm.Name = "PDF"
+                pdfClm.ImageLayout = DataGridViewImageCellLayout.Zoom
+                pdfClm.Image = My.Resources.PDF
+                NewQueryGrid.Columns.Add(pdfClm)
+
 
                 NewQueryGrid.Columns("SiteCode").Visible = False
                 NewQueryGrid.Columns("CreatedBy").Visible = False
@@ -292,44 +292,54 @@
                 NewQueryGrid.Columns("TypeCode").Visible = False
 
                 'Visible
-                NewQueryGrid.Columns("RVLID").DisplayIndex = 0
-                NewQueryGrid.Columns("Initials").DisplayIndex = 1
-                NewQueryGrid.Columns("VisitName").DisplayIndex = 2
-                NewQueryGrid.Columns("AssDrop").DisplayIndex = 3
-                NewQueryGrid.Columns("FormName").DisplayIndex = 4
-                NewQueryGrid.Columns("PageNo").DisplayIndex = 5
-                NewQueryGrid.Columns("Description").DisplayIndex = 6
-                NewQueryGrid.Columns("PriorityClm").DisplayIndex = 7
-                NewQueryGrid.Columns("SiteClm").DisplayIndex = 8
-                NewQueryGrid.Columns("TypeClm").DisplayIndex = 9
-                NewQueryGrid.Columns("Person").DisplayIndex = 10
-                NewQueryGrid.Columns("GroupClm").DisplayIndex = 11
-                NewQueryGrid.Columns("CopyQuery").DisplayIndex = 12
-                NewQueryGrid.Columns("RespondClm").DisplayIndex = 13
-                NewQueryGrid.Columns("StatusCmb").DisplayIndex = 14
+                NewQueryGrid.Columns("CreatedByRole").DisplayIndex = 0
+                NewQueryGrid.Columns("RVLID").DisplayIndex = 1
+                NewQueryGrid.Columns("Initials").DisplayIndex = 2
+                NewQueryGrid.Columns("VisitName").DisplayIndex = 3
+                NewQueryGrid.Columns("AssDrop").DisplayIndex = 4
+                NewQueryGrid.Columns("FormName").DisplayIndex = 5
+                NewQueryGrid.Columns("PageNo").DisplayIndex = 6
+                NewQueryGrid.Columns("Description").DisplayIndex = 7
+                NewQueryGrid.Columns("Priority").DisplayIndex = 8
+                NewQueryGrid.Columns("SiteClm").DisplayIndex = 9
+                NewQueryGrid.Columns("TypeClm").DisplayIndex = 10
+                NewQueryGrid.Columns("Person").DisplayIndex = 11
+                NewQueryGrid.Columns("GroupClm").DisplayIndex = 12
+                NewQueryGrid.Columns("PDF").DisplayIndex = 13
+                NewQueryGrid.Columns("CopyQuery").DisplayIndex = 14
+                NewQueryGrid.Columns("RespondClm").DisplayIndex = 15
+                NewQueryGrid.Columns("StatusCmb").DisplayIndex = 16
+
 
                 'Invisible
-                NewQueryGrid.Columns("SiteCode").DisplayIndex = 15
-                NewQueryGrid.Columns("RespondCode").DisplayIndex = 16
-                NewQueryGrid.Columns("TypeCode").DisplayIndex = 17
-                NewQueryGrid.Columns("Status").DisplayIndex = 18
-                NewQueryGrid.Columns("Study").DisplayIndex = 19
-                NewQueryGrid.Columns("QueryID").DisplayIndex = 20
-                NewQueryGrid.Columns("CreatedBy").DisplayIndex = 21
-                NewQueryGrid.Columns("CreateDate").DisplayIndex = 22
-                NewQueryGrid.Columns("CreateTime").DisplayIndex = 23
-                NewQueryGrid.Columns("CreatedByRole").DisplayIndex = 24
-                NewQueryGrid.Columns("ClosedDate").DisplayIndex = 25
-                NewQueryGrid.Columns("ClosedTime").DisplayIndex = 26
-                NewQueryGrid.Columns("ClosedBy").DisplayIndex = 27
-                NewQueryGrid.Columns("ClosedByRole").DisplayIndex = 28
-                NewQueryGrid.Columns("Priority").DisplayIndex = 29
+                NewQueryGrid.Columns("SiteCode").DisplayIndex = 17
+                NewQueryGrid.Columns("RespondCode").DisplayIndex = 18
+                NewQueryGrid.Columns("TypeCode").DisplayIndex = 19
+                NewQueryGrid.Columns("Status").DisplayIndex = 20
+                NewQueryGrid.Columns("Study").DisplayIndex = 21
+                NewQueryGrid.Columns("QueryID").DisplayIndex = 22
+                NewQueryGrid.Columns("CreatedBy").DisplayIndex = 23
+                NewQueryGrid.Columns("CreateDate").DisplayIndex = 24
+                NewQueryGrid.Columns("CreateTime").DisplayIndex = 25
+                NewQueryGrid.Columns("ClosedDate").DisplayIndex = 26
+                NewQueryGrid.Columns("ClosedTime").DisplayIndex = 27
+                NewQueryGrid.Columns("ClosedBy").DisplayIndex = 28
+                NewQueryGrid.Columns("ClosedByRole").DisplayIndex = 29
                 NewQueryGrid.Columns("Bounced").DisplayIndex = 30
 
-
+                NewQueryGrid.Columns("PDF").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                NewQueryGrid.Columns("TypeClm").DefaultCellStyle.WrapMode = DataGridViewTriState.True
+                NewQueryGrid.Columns("RVLID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                NewQueryGrid.Columns("Initials").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                NewQueryGrid.Columns("PageNo").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                NewQueryGrid.Columns("Priority").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                NewQueryGrid.Columns("CopyQuery").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                NewQueryGrid.Columns("RespondClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                NewQueryGrid.Columns("StatusCmb").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                NewQueryGrid.Columns("CreatedByRole").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 NewQueryGrid.Columns("SiteClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
                 NewQueryGrid.Columns("TypeClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-                NewQueryGrid.Columns("Person").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                NewQueryGrid.Columns("Person").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 NewQueryGrid.Columns("GroupClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
                 NewQueryGrid.Columns("AssDrop").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
                 NewQueryGrid.Columns("VisitName").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
@@ -344,9 +354,57 @@
     Private Sub NewQueryGrid_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles NewQueryGrid.CellDoubleClick
 
         If e.RowIndex < 0 Then Exit Sub
-        If e.ColumnIndex = sender.columns("CopyQuery").index Then
-            If MsgBox("Do you want To copy this query To a New line?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+        If e.ColumnIndex = sender.columns("PDF").index Then
+            If Role <> NewQueryGrid.Item("CreatedByRole", e.RowIndex).Value.ToString Then
+                MsgBox("Cannot action this query due to role")
+                Exit Sub
+            End If
+            If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Responded" Then
+                MsgBox("Query must be responded to link to PDF")
+                Exit Sub
+            End If
+            'PDF Stuff
+            Dim FilePath As String = ""
+            Try
+                FilePath = NewQueryGrid.Item("PDFLink", e.RowIndex).Value
+            Catch ex As Exception
+            End Try
+            If FilePath = "" Then
+                Dim fd As OpenFileDialog = New OpenFileDialog()
 
+                fd.Title = "Open File Dialog"
+                fd.InitialDirectory = "C:\"
+                fd.Filter = "All files (*.*)|*.*|All files (*.*)|*.*"
+                fd.FilterIndex = 2
+                fd.RestoreDirectory = True
+
+                If fd.ShowDialog() = DialogResult.OK Then
+                    NewQueryGrid.Item("PDFLink", e.RowIndex).Value = fd.FileName
+                End If
+            Else
+                If MsgBox("A file is already attached, do you want to replace it with another?", vbYesNo) = vbNo Then
+                    Process.Start("explorer.exe", FilePath)
+                Else
+                    Dim fd As OpenFileDialog = New OpenFileDialog()
+
+                    fd.Title = "Open File Dialog"
+                    fd.InitialDirectory = "C:\"
+                    fd.Filter = "All files (*.*)|*.*|All files (*.*)|*.*"
+                    fd.FilterIndex = 2
+                    fd.RestoreDirectory = True
+
+                    If fd.ShowDialog() = DialogResult.OK Then
+                        NewQueryGrid.Item("PDFLink", e.RowIndex).Value = fd.FileName
+                    End If
+                End If
+            End If
+        End If
+        If e.ColumnIndex = sender.columns("CopyQuery").index Then
+            If Role <> NewQueryGrid.Item("CreatedByRole", e.RowIndex).Value.ToString Then
+                MsgBox("Cannot action this query due to role")
+                Exit Sub
+            End If
+            If MsgBox("Do you want To copy this query To a New line?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                 Dim NewRow As DataRow = Overclass.CurrentDataSet.Tables(0).NewRow
                 NewRow.Item("VisitName") = NewQueryGrid.Item("VisitName", e.RowIndex).Value
                 NewRow.Item("FormName") = NewQueryGrid.Item("FormName", e.RowIndex).Value
@@ -371,6 +429,11 @@
 
         If e.ColumnIndex = sender.columns("StatusCmb").index Then
 
+            If Role <> NewQueryGrid.Item("CreatedByRole", e.RowIndex).Value.ToString Then
+                MsgBox("Cannot action this query due to role")
+                Exit Sub
+            End If
+
             If Me.NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then Exit Sub
             If IsDBNull(NewQueryGrid.Item("QueryID", e.RowIndex).Value) = True Then Exit Sub
 
@@ -385,6 +448,11 @@
         End If
 
         If e.ColumnIndex = sender.columns("RespondClm").index Then
+
+            If Role <> NewQueryGrid.Item("CreatedByRole", e.RowIndex).Value.ToString Then
+                MsgBox("Cannot action this query due to role")
+                Exit Sub
+            End If
 
             If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Responded" Then Exit Sub
 
@@ -446,24 +514,36 @@
                 End If
             End If
 
-            If NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then
+            If NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Or Role <> NewQueryGrid.Item("CreatedByRole", e.RowIndex).Value Then
                 If NewQueryGrid.Item("StatusCmb", e.RowIndex).Tag <> "Hyphen" Then
                     NewQueryGrid.Item("StatusCmb", e.RowIndex).Value = My.Resources.hyphen
                     NewQueryGrid.Item("StatusCmb", e.RowIndex).Tag = "Hyphen"
                 End If
             End If
 
-            If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Responded" Then
+            If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Responded" Or Role <> NewQueryGrid.Item("CreatedByRole", e.RowIndex).Value Then
                 If NewQueryGrid.Item("RespondClm", e.RowIndex).Tag <> "Hyphen" Then
                     NewQueryGrid.Item("RespondClm", e.RowIndex).Value = My.Resources.hyphen
                     NewQueryGrid.Item("RespondClm", e.RowIndex).Tag = "Hyphen"
                 End If
             End If
 
-            If NewQueryGrid.Item("CopyQuery", e.RowIndex).Tag <> "Copy" Then
-                NewQueryGrid.Item("CopyQuery", e.RowIndex).Value = My.Resources.copy
-                NewQueryGrid.Item("CopyQuery", e.RowIndex).Tag = "Copy"
+            If Role <> NewQueryGrid.Item("CreatedByRole", e.RowIndex).Value And NewQueryGrid.Item("CreatedByRole", e.RowIndex).Value <> "" Then
+                If NewQueryGrid.Item("CopyQuery", e.RowIndex).Tag <> "Hyphen" Then
+                    NewQueryGrid.Item("CopyQuery", e.RowIndex).Value = My.Resources.hyphen
+                    NewQueryGrid.Item("CopyQuery", e.RowIndex).Tag = "Hyphen"
+                    If NewQueryGrid.Rows(e.RowIndex).ReadOnly <> True Then NewQueryGrid.Rows(e.RowIndex).ReadOnly = True
+                End If
             End If
+
+            If Role <> NewQueryGrid.Item("CreatedByRole", e.RowIndex).Value Or NewQueryGrid.Item("Status", e.RowIndex).Value <> "Responded" Then
+                If NewQueryGrid.Item("PDF", e.RowIndex).Tag <> "Hyphen" Then
+                    NewQueryGrid.Item("PDF", e.RowIndex).Value = My.Resources.hyphen
+                    NewQueryGrid.Item("PDF", e.RowIndex).Tag = "Hyphen"
+                End If
+            End If
+
+                If NewQueryGrid.Item("CreatedByRole", e.RowIndex).ReadOnly <> True Then NewQueryGrid.Item("CreatedByRole", e.RowIndex).ReadOnly = True
 
         Catch ex As Exception
 

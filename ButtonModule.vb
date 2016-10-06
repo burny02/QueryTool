@@ -135,19 +135,18 @@ Module ButtonModule
 
             Case "Button101"
 
-                Dim chkColumns(11) As DataGridViewColumn
+                Dim chkColumns(10) As DataGridViewColumn
                 chkColumns(0) = Form1.NewQueryGrid.Columns("RVLID")
                 chkColumns(1) = Form1.NewQueryGrid.Columns("Initials")
                 chkColumns(2) = Form1.NewQueryGrid.Columns("VisitName")
                 chkColumns(3) = Form1.NewQueryGrid.Columns("FormName")
                 chkColumns(4) = Form1.NewQueryGrid.Columns("PageNo")
                 chkColumns(5) = Form1.NewQueryGrid.Columns("Description")
-                chkColumns(6) = Form1.NewQueryGrid.Columns("Priority")
-                chkColumns(7) = Form1.NewQueryGrid.Columns("AssCode")
-                chkColumns(8) = Form1.NewQueryGrid.Columns("RespondCode")
-                chkColumns(9) = Form1.NewQueryGrid.Columns("Person")
-                chkColumns(10) = Form1.NewQueryGrid.Columns("TypeCode")
-                chkColumns(11) = Form1.NewQueryGrid.Columns("SiteCode")
+                chkColumns(6) = Form1.NewQueryGrid.Columns("AssCode")
+                chkColumns(7) = Form1.NewQueryGrid.Columns("RespondCode")
+                chkColumns(8) = Form1.NewQueryGrid.Columns("Person")
+                chkColumns(9) = Form1.NewQueryGrid.Columns("TypeCode")
+                chkColumns(10) = Form1.NewQueryGrid.Columns("SiteCode")
                 If Overclass.CheckColumns(Form1.NewQueryGrid, chkColumns, chkColumns) = False Then Call Saver(Form1.NewQueryGrid)
 
         End Select

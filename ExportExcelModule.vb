@@ -70,6 +70,8 @@ Module ExportExcelModule
                         <th>Study</th>
                         <th>Site</th>
                         <th>Total Queries</th>
+                        <th>QC Total</th>
+                        <th>DM Total</th>
                         <th>Overdue Queries</th>
                         <th>Priority 1</th>
                         <th>Priority 2</th>
@@ -81,6 +83,8 @@ Module ExportExcelModule
                             <td>" & row.Item("a.Study") & "</td>
                             <td>" & row.Item("Site") & "</td>
                             <td>" & row.Item("Tot_No") & "</td>
+                            <td>" & row.Item("QC_Total") & "</td>
+                            <td>" & row.Item("DM_Total") & "</td>
                             <td>" & row.Item("Overdue") & "</td>
                             <td>" & row.Item("PriorityOne") & "</td>
                             <td>" & row.Item("PriorityTwo") & "</td>

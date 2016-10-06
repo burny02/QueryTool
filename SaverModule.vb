@@ -46,7 +46,7 @@
                     .Add("@P4", OleDb.OleDbType.VarChar, 50, "PageNo")
                     .Add("@P5", OleDb.OleDbType.LongVarChar, 500, "Description")
                     .Add("@P6", OleDb.OleDbType.VarChar, 255, "VisitName")
-                    .Add("@P7", OleDb.OleDbType.VarChar, 50, "Priority")
+                    .Add("@P7", OleDb.OleDbType.Boolean, 50, "Priority")
                     .Add("@P8", OleDb.OleDbType.VarChar, 3, "SiteCode")
                     .Add("@P9", OleDb.OleDbType.VarChar, 3, "RespondCode")
                     .Add("@P10", OleDb.OleDbType.VarChar, 3, "Person")
@@ -57,8 +57,8 @@
                 Overclass.CurrentDataAdapter.UpdateCommand = New OleDb.OleDbCommand("UPDATE Queries SET  
                 Status=@P1, ClosedDate=@P3, ClosedTime=@P4, ClosedBy=@P5, ClosedByRole=@P6, 
                 RVLID=@P7, Initials=@P8, VisitName=@P9, FormName=@10, PageNo=@P11, Description=@P12, 
-                Priority=@P14, Bounced=@P15, SiteCode=@P16, RespondCode=@P17, Person=@P18, TypeCode=@P19, AssCode=@P20
-                WHERE QueryID=@P21")
+                Priority=@P14, Bounced=@P15, SiteCode=@P16, RespondCode=@P17, Person=@P18, TypeCode=@P19, AssCode=@P20, PDFLink=@P21
+                WHERE QueryID=@P22")
 
                 'Add parameters with the source columns in the dataset
                 With Overclass.CurrentDataAdapter.UpdateCommand.Parameters
@@ -73,14 +73,16 @@
                     .Add("@P10", OleDb.OleDbType.VarChar, 255, "FormName")
                     .Add("@P11", OleDb.OleDbType.VarChar, 50, "PageNo")
                     .Add("@P12", OleDb.OleDbType.LongVarChar, 500, "Description")
-                    .Add("@P14", OleDb.OleDbType.VarChar, 50, "Priority")
+                    .Add("@P14", OleDb.OleDbType.Boolean, 50, "Priority")
                     .Add("@P15", OleDb.OleDbType.Boolean, 50, "Bounced")
                     .Add("@P16", OleDb.OleDbType.VarChar, 3, "SiteCode")
                     .Add("@P17", OleDb.OleDbType.VarChar, 3, "RespondCode")
                     .Add("@P18", OleDb.OleDbType.VarChar, 3, "Person")
                     .Add("@P19", OleDb.OleDbType.VarChar, 3, "TypeCode")
                     .Add("@P20", OleDb.OleDbType.VarChar, 3, "AssCode")
-                    .Add("@P21", OleDb.OleDbType.VarChar, 50, "QueryID")
+                    .Add("@P21", OleDb.OleDbType.VarChar, 255, "PDFLink")
+                    .Add("@P22", OleDb.OleDbType.VarChar, 50, "QueryID")
+
                 End With
 
 
