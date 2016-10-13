@@ -82,12 +82,15 @@
         Select Case ctl.name
 
             Case "ResponseView"
+
                 Dim CurrentFilter As String = ""
                 Dim Filter1 As String = ""
                 Dim Filter2 As String = ""
                 Dim Filter3 As String = ""
                 Dim Filter4 As String = ""
                 Dim Filter5 As String = ""
+                Dim Filter6 As String = ""
+                Dim Filter7 As String = ""
 
                 Try
                     CurrentFilter = (Overclass.CurrentDataSet.Tables(0).DefaultView.RowFilter)
@@ -116,6 +119,16 @@
 
                 Try
                     Filter5 = RespView.FilterCombo90.Text
+                Catch ex As Exception
+                End Try
+
+                Try
+                    Filter6 = RespView.FilterCombo5.Text
+                Catch ex As Exception
+                End Try
+
+                Try
+                    Filter7 = RespView.FilterCombo4.Text
                 Catch ex As Exception
                 End Try
 
@@ -170,6 +183,8 @@
                 RespView.FilterCombo3.Text = Filter3
                 RespView.FilterCombo30.Text = Filter4
                 RespView.FilterCombo90.Text = Filter5
+                RespView.FilterCombo5.Text = Filter6
+                RespView.FilterCombo4.Text = Filter7
 
             Case "NewQueryGrid"
 
@@ -403,7 +418,11 @@
                 End If
             Else
                 If MsgBox("A file is already attached, do you want to replace it with another?", vbYesNo) = vbNo Then
-                    Process.Start("explorer.exe", FilePath)
+                    Try
+                        System.Diagnostics.Process.Start(FilePath)
+                    Catch ex As Exception
+                        MsgBox("Unable to find the file.")
+                    End Try
                 Else
                     Dim fd As OpenFileDialog = New OpenFileDialog()
 
@@ -547,22 +566,22 @@
                 End If
 
                 If NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then NewQueryGrid.Item("StatusCmb", e.RowIndex).Value = My.Resources.hyphen
-                If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Open" Then NewQueryGrid.Rows(e.RowIndex).ReadOnly = True
+                If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Open" And NewQueryGrid.Item("Status", e.RowIndex).Value <> "" Then NewQueryGrid.Rows(e.RowIndex).ReadOnly = True
 
 
                 If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Responded" Then
-                        NewQueryGrid.Item("RespondClm", e.RowIndex).Value = My.Resources.hyphen
-                        NewQueryGrid.Item("PDF", e.RowIndex).Value = My.Resources.hyphen
-                    End If
-
-
-
-                    NewQueryGrid.Item("CreatedByRole", e.RowIndex).ReadOnly = True
-                    NewQueryGrid.Rows(e.RowIndex).Tag = "DontPaint"
-
-
-
+                    NewQueryGrid.Item("RespondClm", e.RowIndex).Value = My.Resources.hyphen
+                    NewQueryGrid.Item("PDF", e.RowIndex).Value = My.Resources.hyphen
                 End If
+
+
+
+                NewQueryGrid.Item("CreatedByRole", e.RowIndex).ReadOnly = True
+                NewQueryGrid.Rows(e.RowIndex).Tag = "DontPaint"
+
+
+
+            End If
 
         Catch ex As Exception
         End Try
