@@ -250,7 +250,7 @@
         </ChartLegends>
         <ChartTitles>
           <ChartTitle Name="Default">
-            <Caption>Internal QC Teams</Caption>
+            <Caption>QC Teams</Caption>
             <Style>
               <BackgroundGradientType>None</BackgroundGradientType>
               <FontWeight>Bold</FontWeight>
@@ -281,7 +281,7 @@
             <FilterExpression>=Fields!WhoDid.Value</FilterExpression>
             <Operator>Equal</Operator>
             <FilterValues>
-              <FilterValue>Monitor</FilterValue>
+              <FilterValue>QC</FilterValue>
             </FilterValues>
           </Filter>
         </Filters>
@@ -544,7 +544,7 @@
         </ChartLegends>
         <ChartTitles>
           <ChartTitle Name="Default">
-            <Caption>Non QC-Department</Caption>
+            <Caption>DM Teams</Caption>
             <Style>
               <BackgroundGradientType>None</BackgroundGradientType>
               <FontWeight>Bold</FontWeight>
@@ -575,11 +575,11 @@
             <FilterExpression>=Fields!WhoDid.Value</FilterExpression>
             <Operator>Equal</Operator>
             <FilterValues>
-              <FilterValue>Data Manager</FilterValue>
+              <FilterValue>DM</FilterValue>
             </FilterValues>
           </Filter>
         </Filters>
-        <Top>9.11551cm</Top>
+        <Top>9.18607cm</Top>
         <Height>9.10167cm</Height>
         <Width>28.65438cm</Width>
         <ZIndex>1</ZIndex>
@@ -593,7 +593,7 @@
         </Style>
       </Chart>
     </ReportItems>
-    <Height>7.17212in</Height>
+    <Height>7.1999in</Height>
     <Style />
   </Body>
   <Width>11.28125in</Width>

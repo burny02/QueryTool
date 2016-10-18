@@ -2,17 +2,12 @@
 Module ExportExcelModule
     Public Sub ExportExcel(SQLCode As String, Send As Boolean)
 
-        If Send = True Then
-            If MsgBox("Would you to email queries?", vbYesNo) = vbNo Then Send = False
-        End If
-
         If Send = False Then
             Dim dt As New DataTable
             Dim da As OleDb.OleDbDataAdapter = Overclass.NewDataAdapter(SQLCode)
             da.Fill(dt)
 
             da = Nothing
-
             Dim i As Integer
             Dim j As Integer
 
@@ -36,7 +31,7 @@ Module ExportExcelModule
                 Next i
 
                 xlApp.Cells.EntireColumn.AutoFit()
-                .activesheet.Range("$A$1: $Z$1").AutoFilter()
+                .activesheet.Range("$A$1:  $Z$1").AutoFilter()
 
             End With
 
@@ -57,7 +52,7 @@ Module ExportExcelModule
             OutApp = CreateObject("Outlook.Application")
             objOutlookMsg = OutApp.CreateItem(0)
 
-            Dim CountTable As DataTable = Overclass.TempDataTable("SELECT * FROM ExportExcelCount ORDER BY a.Study, Site")
+            Dim CountTable As DataTable = Overclass.TempDataTable("SELECT * FROM ExportExcelCount ORDER BY Study, Site")
 
             Dim TableView As String = vbNullString
 
@@ -80,7 +75,7 @@ Module ExportExcelModule
             For Each row As DataRow In CountTable.Rows
                 TableView = TableView &
                             "<tr>
-                            <td>" & row.Item("a.Study") & "</td>
+                            <td>" & row.Item("Study") & "</td>
                             <td>" & row.Item("Site") & "</td>
                             <td>" & row.Item("Tot_No") & "</td>
                             <td>" & row.Item("QC_Total") & "</td>
