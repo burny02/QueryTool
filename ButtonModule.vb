@@ -94,10 +94,10 @@ Module ButtonModule
 
                 Try
 
-                    Dim TotalCount As Long = Overclass.SELECTCount("SELECT 1 FROM Queries WHERE Status='Open' AND RVLID='" &
-                                                                   RVLID & "'")
-                    Dim PrintCount As Long = Overclass.SELECTCount("SELECT * FROM PrintOut WHERE Status='Open' AND RVLID='" &
-                                                                   RVLID & "'")
+                    Dim TotalCount As Long = Overclass.SELECTCount("SELECT 1 FROM Queries WHERE Status='Open' AND RVLID=" &
+                                                                   RVLID)
+                    Dim PrintCount As Long = Overclass.SELECTCount("SELECT * FROM PrintOut WHERE Status='Open' AND RVLID=" &
+                                                                   RVLID)
 
                     If TotalCount <> PrintCount Then
                         If MsgBox(TotalCount - PrintCount & " queries were found to be incorrectly coded. Do you want to proceed?",
@@ -106,8 +106,8 @@ Module ButtonModule
                         End If
                     End If
 
-                    Dim SqlString As String = "SELECT * FROM PrintOut WHERE Status='Open' AND RVLID='" &
-                                                                   RVLID & "'"
+                    Dim SqlString As String = "SELECT * FROM PrintOut WHERE Status='Open' AND RVLID=" &
+                                                                   RVLID
 
                     Dim dt As DataTable = Overclass.TempDataTable(SqlString)
 

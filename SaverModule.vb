@@ -38,7 +38,7 @@
 
                 With Overclass.CurrentDataAdapter.InsertCommand.Parameters
                     .Add("@P0", OleDb.OleDbType.VarChar, 50, "Study")
-                    .Add("@P1", OleDb.OleDbType.VarChar, 50, "RVLID")
+                    .Add("@P1", OleDb.OleDbType.BigInt, 50, "RVLID")
                     .Add("@P2", OleDb.OleDbType.VarChar, 50, "Initials")
                     .Add("@P3", OleDb.OleDbType.VarChar, 255, "FormName")
                     .Add("@P4", OleDb.OleDbType.VarChar, 50, "PageNo")
@@ -62,10 +62,10 @@
                 'Add parameters with the source columns in the dataset
                 With Overclass.CurrentDataAdapter.UpdateCommand.Parameters
                     .Add("@P1", OleDb.OleDbType.VarChar, 50, "Status")
-                    .Add("@P3", OleDb.OleDbType.VarChar, 50, "ClosedDate")
+                    .Add("@P3", OleDb.OleDbType.Date, 50, "ClosedDate")
                     .Add("@P5", OleDb.OleDbType.VarChar, 50, "ClosedBy")
                     .Add("@P6", OleDb.OleDbType.VarChar, 50, "ClosedByRole")
-                    .Add("@P7", OleDb.OleDbType.VarChar, 50, "RVLID")
+                    .Add("@P7", OleDb.OleDbType.BigInt, 50, "RVLID")
                     .Add("@P8", OleDb.OleDbType.VarChar, 50, "Initials")
                     .Add("@P9", OleDb.OleDbType.VarChar, 255, "VisitName")
                     .Add("@P10", OleDb.OleDbType.VarChar, 255, "FormName")

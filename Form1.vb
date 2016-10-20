@@ -1,5 +1,4 @@
 ﻿Public Class Form1
-    Private AssTable As DataTable
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -134,8 +133,9 @@
 
                 RespView.StaffQueryGrid.Columns.Clear()
                 SqlCode = "SELECT QName, CreatedByRole, QueryID, Study, Person, " &
-                "replace(replace(cstr(Priority),0,'False'),-1,'True') AS PRI, Initials & ' ' & RVLID AS Volunteer, VisitName, FormName, PageNo, Description, SiteCode, RespondCode, Bounced " &
-                "FROM Queries INNER JOIN Study ON Queries.Study=Study.StudyCode WHERE Hidden=False AND Status ='Open' ORDER BY CreateDate ASC"
+                "Priority, Initials & ' ' & RVLID AS Volunteer, " &
+                "VisitName, FormName, PageNo, Description, SiteCode, RespondCode, Bounced " &
+                "FROM Queries WHERE Status ='Open' ORDER BY CreateDate ASC"
                 Overclass.CreateDataSet(SqlCode, RespView.BindingSource1, RespView.StaffQueryGrid)
 
                 With RespView.StaffQueryGrid
@@ -145,7 +145,7 @@
                     .Columns("Study").Visible = False
                     .Columns("SiteCode").Visible = False
                     .Columns("RespondCode").Visible = False
-                    .Columns("PRI").Visible = False
+                    .Columns("Priority").Visible = False
                     .Columns("VisitName").HeaderText = "Study Visit"
                     .Columns("FormName").HeaderText = "Assessment/Procedure"
                     .Columns("PageNo").HeaderText = "Page No"
@@ -171,7 +171,7 @@
                     .FilterCombo4.SetAsInternalSource("CreatedByRole", "CreatedByRole", Overclass)
                     .FilterCombo3.AllowBlanks = False
                     .FilterCombo3.SetAsInternalSource("Study", "Study", Overclass)
-                    .FilterCombo30.SetAsInternalSource("PRI", "PRI", Overclass)
+                    .FilterCombo30.SetAsInternalSource("Priority", "Priority", Overclass)
                     .FilterCombo90.SetAsInternalSource("Volunteer", "Volunteer", Overclass)
 
                     .StaffQueryGrid.Columns("QueryID").Visible = False
@@ -193,9 +193,8 @@
                 SqlCode = "SELECT QName, CreatedByRole, SiteCode, RespondCode, Person, TypeCode, Status, Study, QueryID, " &
                     "ClosedDate, ClosedBy, ClosedByRole, RVLID, Initials, " &
                     "VisitName, FormName, PageNo, Description, Priority, Bounced, AssCode, PDFLink " &
-                    "FROM Queries INNER JOIN Study On queries.Study=Study.StudyCode " &
-                    "WHERE Hidden=false " &
-                    "AND (Status='Open' OR Status='Responded') " &
+                    "FROM Queries " &
+                    "WHERE Status='Open' OR Status='Responded' " &
                     "ORDER BY Status DESC, RVLID ASC"
 
                 NewQueryGrid.AutoGenerateColumns = True
@@ -238,11 +237,12 @@
                 NewQueryGrid.Columns("Description").HeaderText = "Query Description"
                 NewQueryGrid.Columns("CreatedByRole").HeaderText = "Role"
 
-                Dim DTArray(2) As DataTable
-                Dim SqlArray(2) As String
+                Dim DTArray(3) As DataTable
+                Dim SqlArray(3) As String
                 SqlArray(0) = "SELECT Site AS Display, Code FROM SiteCode WHERE Hidden=False ORDER BY Site"
                 SqlArray(1) = "SELECT Group as Display, Code FROM GroupCode WHERE Hidden=False ORDER BY Group"
                 SqlArray(2) = "SELECT ErrorType as Display, Code FROM TypeCode WHERE Hidden=False ORDER BY ErrorType"
+                SqlArray(3) = "SELECT AssName, AssCode From AssType WHERE Hidden=false ORDER BY AssName"
                 DTArray = Overclass.MultiTempDataTable(SqlArray)
 
                 Dim clm3 As New DataGridViewComboBoxColumn
@@ -272,20 +272,20 @@
                 clm5.HeaderText = "Type"
                 NewQueryGrid.Columns.Add(clm5)
 
+                Dim clm6 As New DataGridViewComboBoxColumn
+                clm6.DataSource = DTArray(3)
+                clm6.DisplayMember = "AssName"
+                clm6.ValueMember = "AssCode"
+                clm6.DataPropertyName = "AssCode"
+                clm6.Name = "AssDrop"
+                clm6.HeaderText = "Assessment Type"
+
 
                 Dim clm7 As DataGridViewColumn = Overclass.SetUpNewComboColumn("SELECT QName AS Display FROM StudyCohort " &
                                                    "a inner join Study b ON a.CodeList=b.CodeList " &
                                                    "WHERE CStr(StudyCode)=", FilterCombo30,
                                                   "Display", "Display", "QName", "Cohort", NewQueryGrid, "CohortClm")
 
-                Dim clm6 As New DataGridViewComboBoxColumn
-                If AssTable Is Nothing Then AssTable = Overclass.TempDataTable("SELECT AssName, AssCode From AssType ORDER BY AssName")
-                clm6.DataSource = AssTable
-                clm6.DisplayMember = "AssName"
-                clm6.ValueMember = "AssCode"
-                clm6.DataPropertyName = "AssCode"
-                clm6.Name = "AssDrop"
-                clm6.HeaderText = "Assessment Type"
 
                 NewQueryGrid.Columns.Add(clm6)
 
@@ -573,8 +573,9 @@
                 End If
 
                 If NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then NewQueryGrid.Item("StatusCmb", e.RowIndex).Value = My.Resources.hyphen
-                If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Open" And NewQueryGrid.Item("Status", e.RowIndex).Value <> "" Then NewQueryGrid.Rows(e.RowIndex).ReadOnly = True
-
+                If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Open" And
+                   NewQueryGrid.Item("Status", e.RowIndex).Value <> "" Then NewQueryGrid.Rows(e.RowIndex).ReadOnly = True
+                If NewQueryGrid.Item("Bounced", e.RowIndex).Value = True Then NewQueryGrid.Rows(e.RowIndex).ReadOnly = True
 
                 If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Responded" Then
                     NewQueryGrid.Item("RespondClm", e.RowIndex).Value = My.Resources.hyphen
