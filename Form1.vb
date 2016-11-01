@@ -1,4 +1,8 @@
-﻿Public Class Form1
+﻿Imports System
+Imports System.Reflection
+Imports System.Windows.Forms
+Public Class Form1
+
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -203,7 +207,6 @@
 
                 FilterCombo2.SetAsInternalSource("QName", "QName", Overclass)
                 FilterCombo1.SetAsInternalSource("CreatedByRole", "CreatedByRole", Overclass)
-                FilterCombo1.SetDGVDefault(ctl, "CreatedByRole")
                 FilterCombo7.LiveData = False
                 FilterCombo7.SetAsExternalSource("SiteCode", "Site", "SELECT DISTINCT Code AS SiteCode, Site FROM SiteCode", Overclass)
                 FilterCombo30.LiveData = False
@@ -290,7 +293,7 @@
                 NewQueryGrid.Columns.Add(clm6)
 
                 Dim cmb2 As New DataGridViewImageColumn
-                cmb2.HeaderText = "Copy"
+                cmb2.HeaderText = ""
                 cmb2.Image = My.Resources.copy
                 cmb2.ImageLayout = DataGridViewImageCellLayout.Zoom
                 cmb2.Name = "CopyQuery"
@@ -299,7 +302,7 @@
 
 
                 Dim clm2 As New DataGridViewImageColumn
-                clm2.HeaderText = "Respond"
+                clm2.HeaderText = ""
                 clm2.Name = "RespondClm"
                 clm2.ImageLayout = DataGridViewImageCellLayout.Zoom
                 clm2.Image = My.Resources.speech
@@ -307,7 +310,7 @@
 
 
                 Dim cmb As New DataGridViewImageColumn
-                cmb.HeaderText = "Close"
+                cmb.HeaderText = ""
                 cmb.Image = My.Resources.TICK
                 cmb.ImageLayout = DataGridViewImageCellLayout.Zoom
                 cmb.Name = "StatusCmb"
@@ -315,7 +318,7 @@
                 NewQueryGrid.Columns.Add(cmb)
 
                 Dim pdfClm As New DataGridViewImageColumn
-                pdfClm.HeaderText = "PDF"
+                pdfClm.HeaderText = ""
                 pdfClm.Name = "PDF"
                 pdfClm.ImageLayout = DataGridViewImageCellLayout.Zoom
                 pdfClm.Image = My.Resources.PDF
@@ -359,24 +362,38 @@
                 NewQueryGrid.Columns("ClosedByRole").DisplayIndex = 26
                 NewQueryGrid.Columns("Bounced").DisplayIndex = 27
 
-                NewQueryGrid.Columns("PDF").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                NewQueryGrid.Columns("TypeClm").DefaultCellStyle.WrapMode = DataGridViewTriState.True
-                NewQueryGrid.Columns("RVLID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                NewQueryGrid.Columns("Initials").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+
+                'Widths
+                NewQueryGrid.Columns("RVLID").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                NewQueryGrid.Columns("Initials").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
                 NewQueryGrid.Columns("PageNo").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 NewQueryGrid.Columns("Priority").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-                NewQueryGrid.Columns("CopyQuery").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                NewQueryGrid.Columns("RespondClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 NewQueryGrid.Columns("CohortClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-                NewQueryGrid.Columns("StatusCmb").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-                NewQueryGrid.Columns("CreatedByRole").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                NewQueryGrid.Columns("CreatedByRole").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
                 NewQueryGrid.Columns("SiteClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
                 NewQueryGrid.Columns("TypeClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-                NewQueryGrid.Columns("Person").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                NewQueryGrid.Columns("Person").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
                 NewQueryGrid.Columns("GroupClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-                NewQueryGrid.Columns("AssDrop").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                NewQueryGrid.Columns("AssDrop").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 NewQueryGrid.Columns("VisitName").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-                NewQueryGrid.Columns("FormName").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                NewQueryGrid.Columns("FormName").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+
+                NewQueryGrid.Columns("PDF").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                NewQueryGrid.Columns("CopyQuery").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                NewQueryGrid.Columns("RespondClm").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                NewQueryGrid.Columns("StatusCmb").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+
+                NewQueryGrid.Columns("CreatedByRole").Width = 45
+                NewQueryGrid.Columns("RVLID").Width = 60
+                NewQueryGrid.Columns("Initials").Width = 40
+                NewQueryGrid.Columns("Person").Width = 45
+
+                NewQueryGrid.Columns("PDF").Width = 30
+                NewQueryGrid.Columns("CopyQuery").Width = 30
+                NewQueryGrid.Columns("RespondClm").Width = 30
+                NewQueryGrid.Columns("StatusCmb").Width = 30
+
+                NewQueryGrid.Columns("TypeClm").DefaultCellStyle.WrapMode = DataGridViewTriState.True
 
         End Select
 
@@ -417,11 +434,18 @@
                 fd.Filter = "All files (*.*)|*.*|All files (*.*)|*.*"
                 fd.FilterIndex = 2
                 fd.RestoreDirectory = True
+                fd.AutoUpgradeEnabled = False
 
-                If fd.ShowDialog() = DialogResult.OK Then
-                    NewQueryGrid.Item("PDFLink", e.RowIndex).Value = fd.FileName
-                    NewQueryGrid.Rows(e.RowIndex).Tag = ""
+                If fd.ShowDialog() <> Windows.Forms.DialogResult.OK Then
+                    fd = Nothing
+                    Exit Sub
                 End If
+
+                NewQueryGrid.Item("PDFLink", e.RowIndex).Value = fd.FileName
+                NewQueryGrid.Rows(e.RowIndex).Tag = ""
+
+                fd = Nothing
+
             Else
                 If MsgBox("A file is already attached, do you want to replace it with another?", vbYesNo) = vbNo Then
                     Try
@@ -437,11 +461,18 @@
                     fd.Filter = "All files (*.*)|*.*|All files (*.*)|*.*"
                     fd.FilterIndex = 2
                     fd.RestoreDirectory = True
+                    fd.AutoUpgradeEnabled = False
 
-                    If fd.ShowDialog() = DialogResult.OK Then
-                        NewQueryGrid.Item("PDFLink", e.RowIndex).Value = fd.FileName
-                        NewQueryGrid.Rows(e.RowIndex).Tag = ""
+                    If fd.ShowDialog() <> Windows.Forms.DialogResult.OK Then
+                        fd = Nothing
+                        Exit Sub
                     End If
+
+                    NewQueryGrid.Item("PDFLink", e.RowIndex).Value = fd.FileName
+                    NewQueryGrid.Rows(e.RowIndex).Tag = ""
+
+                    fd = Nothing
+
                 End If
             End If
         End If
@@ -532,6 +563,7 @@
     End Sub
 
     Private Sub NewQueryGrid_DefaultValuesNeeded_1(sender As Object, e As DataGridViewRowEventArgs) Handles NewQueryGrid.DefaultValuesNeeded
+        NewQueryGrid.Item("CreatedByRole", e.Row.Index).Value = Role
         NewQueryGrid.Item("Status", e.Row.Index).Value = "Open"
     End Sub
 
@@ -573,9 +605,6 @@
                 End If
 
                 If NewQueryGrid.Item("Status", e.RowIndex).Value = "Closed" Then NewQueryGrid.Item("StatusCmb", e.RowIndex).Value = My.Resources.hyphen
-                If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Open" And
-                   NewQueryGrid.Item("Status", e.RowIndex).Value <> "" Then NewQueryGrid.Rows(e.RowIndex).ReadOnly = True
-                If NewQueryGrid.Item("Bounced", e.RowIndex).Value = True Then NewQueryGrid.Rows(e.RowIndex).ReadOnly = True
 
                 If NewQueryGrid.Item("Status", e.RowIndex).Value <> "Responded" Then
                     NewQueryGrid.Item("RespondClm", e.RowIndex).Value = My.Resources.hyphen
@@ -595,4 +624,7 @@
         End Try
 
     End Sub
+
+
+
 End Class

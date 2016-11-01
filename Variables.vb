@@ -2,6 +2,8 @@
 Module Variables
 
     Public Overclass As OverClass
+    Private Const ThirtyTwo As String = "M:\VOLUNTEER SCREENING SERVICES\Systems\Query_Management_Tool\Query Management Tool.application"
+    Private Const SixtyFour As String = "M:\VOLUNTEER SCREENING SERVICES\Systems\Query_Management_Tool\Query Management Tool_64.application"
     Private Const TablePath As String = "M:\VOLUNTEER SCREENING SERVICES\Systems\Query_Management_Tool\Backend.accdb"
     Private Const PWord As String = "RetroRetro*1"
     Private Const Connect2 As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & TablePath & ";Jet OLEDB:Database Password=" & PWord
@@ -18,20 +20,31 @@ Module Variables
 
     Public Sub StartUpCentral()
 
-        Overclass = New OverClass
-        Overclass.SetPrivate(UserTable,
+
+        Try
+            Overclass = New OverClass
+            Overclass.SetPrivate(UserTable,
                            UserField,
                            Contact,
                            Connect2,
                            AuditTable)
 
-        Dim SQLString(0) As String
-        SQLString(0) = "SELECT Admin, Role FROM [Users] WHERE UserName='" & Overclass.GetUserName & "'"
+            Dim SQLString(0) As String
+            SQLString(0) = "SELECT Admin, Role FROM [Users] WHERE UserName='" & Overclass.GetUserName & "'"
 
-        Dim dt() As DataTable = Overclass.LoginCheck(SQLString)
+            Dim dt() As DataTable = Overclass.LoginCheck(SQLString)
 
-        AccessLevel = dt(1).Rows(0).Item(0)
-        Role = dt(1).Rows(0).Item(1)
+            AccessLevel = dt(1).Rows(0).Item(0)
+            Role = dt(1).Rows(0).Item(1)
+        Catch ex As System.InvalidOperationException
+            If System.Reflection.Assembly.GetCallingAssembly.GetName.Name = "Query Management Tool" Then
+                System.Diagnostics.Process.Start(SixtyFour)
+            ElseIf System.Reflection.Assembly.GetCallingAssembly.GetName.Name = "Query Management Tool_64" Then
+                System.Diagnostics.Process.Start(ThirtyTwo)
+            End If
+            Application.Exit()
+
+        End Try
 
         If AccessLevel <> 0 Then
             Overclass.AddAllDataItem(Form1)
