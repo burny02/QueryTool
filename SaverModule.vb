@@ -88,7 +88,12 @@
         End Select
 
         Call Overclass.SetCommandConnection()
-        Call Overclass.UpdateBackend(ctl, SaveMessage)
+        Try
+            Call Overclass.UpdateBackend(ctl, SaveMessage)
+        Catch ex As Exception
+            MsgBox(ex)
+            Exit Sub
+        End Try
         For Each cmd As OleDb.OleDbCommand In RespondCommands
             Overclass.AddToMassSQL(cmd)
         Next

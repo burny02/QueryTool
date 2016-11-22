@@ -18,45 +18,51 @@ Module ExportExcelModule
                 .Workbooks.Add()
                 .Sheets("Sheet1").Select()
 
+                Dim Sheet = xlApp.activesheet
+
                 'Add column heading
                 For i = 1 To dt.Columns.Count
-                    xlApp.activesheet.Cells(1, i).Value = dt.Columns(i - 1).ColumnName
+                    Sheet.Cells(1, i).Value = dt.Columns(i - 1).ColumnName
                 Next i
 
                 'Add Rows
                 For i = 0 To dt.Rows.Count - 1
                     For j = 0 To dt.Columns.Count - 1
-                        xlApp.activesheet.Cells(i + 2, j + 1) = dt.Rows(i).Item(j)
+                        Sheet.Cells(i + 2, j + 1) = dt.Rows(i).Item(j)
                     Next j
                 Next i
 
-                xlApp.Cells.EntireColumn.AutoFit()
-                .activesheet.Range("$A$1:  $Z$1").AutoFilter()
+                .Cells.EntireColumn.AutoFit()
+                Sheet.Range("$A$1:  $Z$1").AutoFilter()
 
             End With
 
-            Dim numrow As Long
-            numrow = dt.Rows.Count + 1
+            xlApp.Visible = True
+
             dt = Nothing
             da = Nothing
 
-            xlApp.Visible = True
+
 
         End If
 
         If Send = True Then
 
-            Dim OutApp = CreateObject("Outlook.Application")
-            Dim objOutlookMsg = OutApp.CreateItem(0)
+            Dim OutApp
+            Dim objOutlookMsg
+            Dim Inspector
 
-            OutApp = CreateObject("Outlook.Application")
-            objOutlookMsg = OutApp.CreateItem(0)
+            Try
 
-            Dim CountTable As DataTable = Overclass.TempDataTable("SELECT * FROM ExportExcelCount ORDER BY Study, Site")
+                OutApp = CreateObject("Outlook.Application")
+                objOutlookMsg = OutApp.CreateItem(0)
+                Inspector = objOutlookMsg.GetInspector
 
-            Dim TableView As String = vbNullString
+                Dim CountTable As DataTable = Overclass.TempDataTable("SELECT * FROM ExportExcelCount ORDER BY Study, Site")
 
-            TableView = "<head>
+                Dim TableView As String = vbNullString
+
+                TableView = "<head>
                          <title>HTML Table Cellpadding</title>
                         </head>
                         <body>
@@ -72,9 +78,9 @@ Module ExportExcelModule
                         <th>Priority 2</th>
                         </tr>"
 
-            For Each row As DataRow In CountTable.Rows
-                TableView = TableView &
-                            "<tr>
+                For Each row As DataRow In CountTable.Rows
+                    TableView = TableView &
+                                "<tr>
                             <td>" & row.Item("Study") & "</td>
                             <td>" & row.Item("Site") & "</td>
                             <td>" & row.Item("Tot_No") & "</td>
@@ -84,30 +90,40 @@ Module ExportExcelModule
                             <td>" & row.Item("PriorityOne") & "</td>
                             <td>" & row.Item("PriorityTwo") & "</td>
                             </tr>"
-            Next
+                Next
 
-            TableView = TableView & "</table>
+                TableView = TableView & "</table>
                                     </body>"
 
 
-            Dim Link As String = "<a href='M:\VOLUNTEER SCREENING SERVICES\Systems\Query_Management_Tool\Query Management Tool.application'>" &
-                                    "Click Here</a>"
+                Dim Link As String = "<a href='M:\VOLUNTEER SCREENING SERVICES\Systems\Query_Management_Tool\Query Management Tool.application'>" &
+                                        "Click Here</a>"
 
-            objOutlookMsg.Subject = "Open Queries"
+                objOutlookMsg.Subject = "Open Queries"
 
-            objOutlookMsg.HTMLBody = "Dear All" & "<br/>" & "<br/>" &
-                                        "The following queries are currently open:  " & "<br/>" & "<br/>" &
-                                        TableView & "<br/>" &
-                                        "Link to Query Tool: " & Link & "<br/>" & "<br/>" &
-                                        "Many thanks"
+                objOutlookMsg.HTMLBody = "Dear All" & "<br/>" & "<br/>" &
+                                            "The following queries are currently open:  " & "<br/>" & "<br/>" &
+                                            TableView & "<br/>" &
+                                            "Link to Query Tool: " & Link & "<br/>" & "<br/>" &
+                                            "Many thanks"
 
 
-            objOutlookMsg.Display()
+                objOutlookMsg.Display()
+                Inspector.activate()
 
-            OutApp = Nothing
+
+
+            Catch ex As Exception
+                objOutlookMsg = Nothing
+                MsgBox(ex.Message)
+            Finally
+                OutApp = Nothing
+                Inspector = Nothing
+            End Try
 
         End If
 
     End Sub
+
 
 End Module

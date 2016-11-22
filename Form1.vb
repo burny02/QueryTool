@@ -190,6 +190,36 @@ Public Class Form1
                 RespView.FilterCombo5.Text = Filter6
                 RespView.FilterCombo4.Text = Filter7
 
+                Try
+                    RespView.FilterCombo1.RefreshCombo()
+                Catch ex As Exception
+                End Try
+                Try
+                    RespView.FilterCombo2.RefreshCombo()
+                Catch ex As Exception
+                End Try
+                Try
+                    RespView.FilterCombo3.RefreshCombo()
+                Catch ex As Exception
+                End Try
+                Try
+                    RespView.FilterCombo30.RefreshCombo()
+                Catch ex As Exception
+                End Try
+                Try
+                    RespView.FilterCombo4.RefreshCombo()
+                Catch ex As Exception
+                End Try
+                Try
+                    RespView.FilterCombo90.RefreshCombo()
+                Catch ex As Exception
+                End Try
+                Try
+                    RespView.FilterCombo5.RefreshCombo()
+                Catch ex As Exception
+                End Try
+
+
             Case "NewQueryGrid"
 
                 NewQueryGrid.Columns.Clear()
@@ -289,7 +319,7 @@ Public Class Form1
                                                    "WHERE CStr(StudyCode)=", FilterCombo30,
                                                   "Display", "Display", "QName", "Cohort", NewQueryGrid, "CohortClm")
 
-
+                clm7.SortMode =
                 NewQueryGrid.Columns.Add(clm6)
 
                 Dim cmb2 As New DataGridViewImageColumn
@@ -447,31 +477,16 @@ Public Class Form1
                 fd = Nothing
 
             Else
-                If MsgBox("A file is already attached, do you want to replace it with another?", vbYesNo) = vbNo Then
+                If MsgBox("A file is already attached, do you want to remove it?", vbYesNo) = vbNo Then
                     Try
                         System.Diagnostics.Process.Start(FilePath)
                     Catch ex As Exception
                         MsgBox("Unable to find the file.")
                     End Try
                 Else
-                    Dim fd As OpenFileDialog = New OpenFileDialog()
 
-                    fd.Title = "Open File Dialog"
-                    fd.InitialDirectory = "C:\"
-                    fd.Filter = "All files (*.*)|*.*|All files (*.*)|*.*"
-                    fd.FilterIndex = 2
-                    fd.RestoreDirectory = True
-                    fd.AutoUpgradeEnabled = False
-
-                    If fd.ShowDialog() <> Windows.Forms.DialogResult.OK Then
-                        fd = Nothing
-                        Exit Sub
-                    End If
-
-                    NewQueryGrid.Item("PDFLink", e.RowIndex).Value = fd.FileName
+                    NewQueryGrid.Item("PDFLink", e.RowIndex).Value = ""
                     NewQueryGrid.Rows(e.RowIndex).Tag = ""
-
-                    fd = Nothing
 
                 End If
             End If
@@ -625,6 +640,20 @@ Public Class Form1
 
     End Sub
 
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
 
+        Call UpdateCounter(Label6)
+
+    End Sub
+
+
+    Public Sub UpdateCounter(WhatLabel As Label)
+
+        Try
+            WhatLabel.Text = "Displaying " & Overclass.CurrentDataSet.Tables(0).DefaultView.Count & " queries"
+        Catch ex As Exception
+        End Try
+
+    End Sub
 
 End Class

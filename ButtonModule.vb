@@ -8,8 +8,13 @@ Module ButtonModule
 
         Select Case sender.name.ToString
 
+            Case "Button1"
+                Dim Trd As New Threading.Thread(Sub() ExportExcel("SELECT * FROM RawResponse", False))
+                Trd.Start()
+
             Case "Button2"
-                Call ExportExcel("SELECT * FROM ResponsePerPerson", False)
+                Dim Trd As New Threading.Thread(Sub() ExportExcel("SELECT * FROM ResponsePerPerson", False))
+                Trd.Start()
 
             Case "Button3"
                 CheckDates()
@@ -24,10 +29,12 @@ Module ButtonModule
                 OK.ReportViewer1.RefreshReport()
 
             Case "Button5"
-                Call ExportExcel("SELECT * FROM AllQueries", False)
+                Dim Trd As New Threading.Thread(Sub() ExportExcel("SELECT * FROM AllQueries", False))
+                Trd.Start()
 
             Case "Button6"
-                Call ExportExcel("SELECT * FROM AllQueries WHERE Status='Open'", True)
+                Dim Trd As New Threading.Thread(Sub() ExportExcel("SELECT * FROM AllQueries WHERE Status='Open'", True))
+                Trd.Start()
 
             Case "Button8"
                 CheckDates()
@@ -135,6 +142,7 @@ Module ButtonModule
 
             Case "Button101"
 
+                Form1.NewQueryGrid.EndEdit()
                 Dim chkColumns(10) As DataGridViewColumn
                 chkColumns(0) = Form1.NewQueryGrid.Columns("RVLID")
                 chkColumns(1) = Form1.NewQueryGrid.Columns("Initials")

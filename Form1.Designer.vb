@@ -55,6 +55,8 @@ Partial Class Form1
         Me.FilterCombo90 = New TemplateDB.FilterCombo()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.FilterCombo20 = New TemplateDB.FilterCombo()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Splitter1 = New System.Windows.Forms.Splitter()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.FilterCombo2 = New TemplateDB.FilterCombo()
         Me.Label11 = New System.Windows.Forms.Label()
@@ -70,6 +72,8 @@ Partial Class Form1
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.TabPage6.SuspendLayout()
         CType(Me.SplitContainer6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer6.Panel1.SuspendLayout()
@@ -104,7 +108,7 @@ Partial Class Form1
         Me.TabPage6.Location = New System.Drawing.Point(4, 22)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(1375, 320)
+        Me.TabPage6.Size = New System.Drawing.Size(1153, 320)
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Reports"
         '
@@ -128,8 +132,8 @@ Partial Class Form1
         Me.SplitContainer6.Panel2.Controls.Add(Me.Button14)
         Me.SplitContainer6.Panel2.Controls.Add(Me.Button8)
         Me.SplitContainer6.Panel2.Controls.Add(Me.Button10)
-        Me.SplitContainer6.Size = New System.Drawing.Size(1369, 314)
-        Me.SplitContainer6.SplitterDistance = 605
+        Me.SplitContainer6.Size = New System.Drawing.Size(1147, 314)
+        Me.SplitContainer6.SplitterDistance = 506
         Me.SplitContainer6.TabIndex = 7
         '
         'DateTimePicker1
@@ -137,7 +141,7 @@ Partial Class Form1
         Me.DateTimePicker1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.DateTimePicker1.CustomFormat = "dd-MMM-yyyy"
         Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker1.Location = New System.Drawing.Point(260, 117)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(211, 117)
         Me.DateTimePicker1.MinDate = New Date(2015, 1, 1, 0, 0, 0, 0)
         Me.DateTimePicker1.Name = "DateTimePicker1"
         Me.DateTimePicker1.Size = New System.Drawing.Size(152, 20)
@@ -149,7 +153,7 @@ Partial Class Form1
         Me.DateTimePicker2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.DateTimePicker2.CustomFormat = "dd-MMM-yyyy"
         Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker2.Location = New System.Drawing.Point(260, 161)
+        Me.DateTimePicker2.Location = New System.Drawing.Point(211, 161)
         Me.DateTimePicker2.MinDate = New Date(2015, 1, 1, 0, 0, 0, 0)
         Me.DateTimePicker2.Name = "DateTimePicker2"
         Me.DateTimePicker2.Size = New System.Drawing.Size(152, 20)
@@ -160,7 +164,7 @@ Partial Class Form1
         '
         Me.Label20.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(191, 165)
+        Me.Label20.Location = New System.Drawing.Point(142, 165)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(49, 13)
         Me.Label20.TabIndex = 11
@@ -170,7 +174,7 @@ Partial Class Form1
         '
         Me.Label19.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(191, 117)
+        Me.Label19.Location = New System.Drawing.Point(142, 117)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(59, 13)
         Me.Label19.TabIndex = 10
@@ -179,7 +183,7 @@ Partial Class Form1
         'Button3
         '
         Me.Button3.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button3.Location = New System.Drawing.Point(383, 117)
+        Me.Button3.Location = New System.Drawing.Point(321, 117)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(85, 41)
         Me.Button3.TabIndex = 9
@@ -189,7 +193,7 @@ Partial Class Form1
         'Button15
         '
         Me.Button15.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button15.Location = New System.Drawing.Point(286, 163)
+        Me.Button15.Location = New System.Drawing.Point(224, 163)
         Me.Button15.Name = "Button15"
         Me.Button15.Size = New System.Drawing.Size(85, 41)
         Me.Button15.TabIndex = 8
@@ -199,7 +203,7 @@ Partial Class Form1
         'Button14
         '
         Me.Button14.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button14.Location = New System.Drawing.Point(383, 70)
+        Me.Button14.Location = New System.Drawing.Point(321, 70)
         Me.Button14.Name = "Button14"
         Me.Button14.Size = New System.Drawing.Size(85, 41)
         Me.Button14.TabIndex = 7
@@ -209,7 +213,7 @@ Partial Class Form1
         'Button8
         '
         Me.Button8.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button8.Location = New System.Drawing.Point(286, 69)
+        Me.Button8.Location = New System.Drawing.Point(224, 69)
         Me.Button8.Name = "Button8"
         Me.Button8.Size = New System.Drawing.Size(85, 41)
         Me.Button8.TabIndex = 1
@@ -219,7 +223,7 @@ Partial Class Form1
         'Button10
         '
         Me.Button10.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button10.Location = New System.Drawing.Point(286, 116)
+        Me.Button10.Location = New System.Drawing.Point(224, 116)
         Me.Button10.Name = "Button10"
         Me.Button10.Size = New System.Drawing.Size(85, 41)
         Me.Button10.TabIndex = 3
@@ -250,6 +254,7 @@ Partial Class Form1
         'SplitContainer4.Panel2
         '
         Me.SplitContainer4.Panel2.BackColor = System.Drawing.Color.LightGray
+        Me.SplitContainer4.Panel2.Controls.Add(Me.Button1)
         Me.SplitContainer4.Panel2.Controls.Add(Me.Button2)
         Me.SplitContainer4.Panel2.Controls.Add(Me.Button17)
         Me.SplitContainer4.Panel2.Controls.Add(Me.Button6)
@@ -264,7 +269,7 @@ Partial Class Form1
         Me.PictureBox1.BackgroundImage = Global.Query_Management_Tool.My.Resources.Resources.ExcelIcon
         Me.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.PictureBox1.Location = New System.Drawing.Point(158, 63)
+        Me.PictureBox1.Location = New System.Drawing.Point(142, 90)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(115, 105)
         Me.PictureBox1.TabIndex = 3
@@ -273,7 +278,7 @@ Partial Class Form1
         'Button2
         '
         Me.Button2.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button2.Location = New System.Drawing.Point(300, 48)
+        Me.Button2.Location = New System.Drawing.Point(301, 147)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(110, 41)
         Me.Button2.TabIndex = 16
@@ -287,7 +292,7 @@ Partial Class Form1
         Me.Button17.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Button17.FlatAppearance.BorderSize = 0
         Me.Button17.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Button17.Location = New System.Drawing.Point(300, 219)
+        Me.Button17.Location = New System.Drawing.Point(301, 261)
         Me.Button17.Name = "Button17"
         Me.Button17.Size = New System.Drawing.Size(110, 39)
         Me.Button17.TabIndex = 15
@@ -297,7 +302,7 @@ Partial Class Form1
         'Button6
         '
         Me.Button6.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button6.Location = New System.Drawing.Point(300, 161)
+        Me.Button6.Location = New System.Drawing.Point(301, 203)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(110, 41)
         Me.Button6.TabIndex = 2
@@ -307,11 +312,11 @@ Partial Class Form1
         'Button5
         '
         Me.Button5.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button5.Location = New System.Drawing.Point(300, 105)
+        Me.Button5.Location = New System.Drawing.Point(301, 90)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(110, 41)
         Me.Button5.TabIndex = 1
-        Me.Button5.Text = "All " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Study Queries"
+        Me.Button5.Text = "Raw Query " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Data"
         Me.Button5.UseVisualStyleBackColor = True
         '
         'TabPage2
@@ -350,7 +355,7 @@ Partial Class Form1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Right
         Me.SplitContainer1.IsSplitterFixed = True
-        Me.SplitContainer1.Location = New System.Drawing.Point(147, 0)
+        Me.SplitContainer1.Location = New System.Drawing.Point(83, 0)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
@@ -367,6 +372,8 @@ Partial Class Form1
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.Label6)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.Splitter1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.Label3)
         Me.SplitContainer1.Panel2.Controls.Add(Me.FilterCombo2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.Label11)
@@ -375,7 +382,7 @@ Partial Class Form1
         Me.SplitContainer1.Panel2.Controls.Add(Me.FilterCombo100)
         Me.SplitContainer1.Panel2.Controls.Add(Me.Label13)
         Me.SplitContainer1.Panel2.Controls.Add(Me.FilterCombo10)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1000, 53)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1064, 53)
         Me.SplitContainer1.SplitterDistance = 25
         Me.SplitContainer1.SplitterWidth = 3
         Me.SplitContainer1.TabIndex = 12
@@ -385,7 +392,7 @@ Partial Class Form1
         Me.Label4.AutoSize = True
         Me.Label4.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(326, 0)
+        Me.Label4.Location = New System.Drawing.Point(390, 0)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(50, 20)
         Me.Label4.TabIndex = 25
@@ -396,7 +403,7 @@ Partial Class Form1
         Me.FilterCombo30.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo30.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo30.FormattingEnabled = True
-        Me.FilterCombo30.Location = New System.Drawing.Point(376, 0)
+        Me.FilterCombo30.Location = New System.Drawing.Point(440, 0)
         Me.FilterCombo30.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo30.Name = "FilterCombo30"
         Me.FilterCombo30.Size = New System.Drawing.Size(142, 25)
@@ -407,7 +414,7 @@ Partial Class Form1
         Me.Label1.AutoSize = True
         Me.Label1.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(518, 0)
+        Me.Label1.Location = New System.Drawing.Point(582, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(42, 20)
         Me.Label1.TabIndex = 23
@@ -418,7 +425,7 @@ Partial Class Form1
         Me.FilterCombo1.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo1.FormattingEnabled = True
-        Me.FilterCombo1.Location = New System.Drawing.Point(560, 0)
+        Me.FilterCombo1.Location = New System.Drawing.Point(624, 0)
         Me.FilterCombo1.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo1.Name = "FilterCombo1"
         Me.FilterCombo1.Size = New System.Drawing.Size(119, 25)
@@ -429,7 +436,7 @@ Partial Class Form1
         Me.Label5.AutoSize = True
         Me.Label5.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(679, 0)
+        Me.Label5.Location = New System.Drawing.Point(743, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(54, 20)
         Me.Label5.TabIndex = 21
@@ -440,7 +447,7 @@ Partial Class Form1
         Me.FilterCombo90.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo90.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo90.FormattingEnabled = True
-        Me.FilterCombo90.Location = New System.Drawing.Point(733, 0)
+        Me.FilterCombo90.Location = New System.Drawing.Point(797, 0)
         Me.FilterCombo90.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo90.Name = "FilterCombo90"
         Me.FilterCombo90.Size = New System.Drawing.Size(79, 25)
@@ -451,7 +458,7 @@ Partial Class Form1
         Me.Label8.AutoSize = True
         Me.Label8.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(812, 0)
+        Me.Label8.Location = New System.Drawing.Point(876, 0)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(84, 20)
         Me.Label8.TabIndex = 16
@@ -462,18 +469,39 @@ Partial Class Form1
         Me.FilterCombo20.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo20.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo20.FormattingEnabled = True
-        Me.FilterCombo20.Location = New System.Drawing.Point(896, 0)
+        Me.FilterCombo20.Location = New System.Drawing.Point(960, 0)
         Me.FilterCombo20.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo20.Name = "FilterCombo20"
         Me.FilterCombo20.Size = New System.Drawing.Size(104, 25)
         Me.FilterCombo20.TabIndex = 19
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(132, 0)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(57, 20)
+        Me.Label6.TabIndex = 37
+        Me.Label6.Text = "Label6"
+        Me.Label6.TextAlign = System.Drawing.ContentAlignment.BottomRight
+        '
+        'Splitter1
+        '
+        Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Splitter1.Location = New System.Drawing.Point(189, 0)
+        Me.Splitter1.Name = "Splitter1"
+        Me.Splitter1.Size = New System.Drawing.Size(38, 25)
+        Me.Splitter1.TabIndex = 36
+        Me.Splitter1.TabStop = False
         '
         'Label3
         '
         Me.Label3.AutoSize = True
         Me.Label3.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(163, 0)
+        Me.Label3.Location = New System.Drawing.Point(227, 0)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(57, 20)
         Me.Label3.TabIndex = 27
@@ -484,7 +512,7 @@ Partial Class Form1
         Me.FilterCombo2.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo2.FormattingEnabled = True
-        Me.FilterCombo2.Location = New System.Drawing.Point(220, 0)
+        Me.FilterCombo2.Location = New System.Drawing.Point(284, 0)
         Me.FilterCombo2.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo2.Name = "FilterCombo2"
         Me.FilterCombo2.Size = New System.Drawing.Size(90, 25)
@@ -495,7 +523,7 @@ Partial Class Form1
         Me.Label11.AutoSize = True
         Me.Label11.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(310, 0)
+        Me.Label11.Location = New System.Drawing.Point(374, 0)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(37, 20)
         Me.Label11.TabIndex = 25
@@ -506,7 +534,7 @@ Partial Class Form1
         Me.FilterCombo7.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo7.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo7.FormattingEnabled = True
-        Me.FilterCombo7.Location = New System.Drawing.Point(347, 0)
+        Me.FilterCombo7.Location = New System.Drawing.Point(411, 0)
         Me.FilterCombo7.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo7.Name = "FilterCombo7"
         Me.FilterCombo7.Size = New System.Drawing.Size(134, 25)
@@ -517,7 +545,7 @@ Partial Class Form1
         Me.Label12.AutoSize = True
         Me.Label12.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.Location = New System.Drawing.Point(481, 0)
+        Me.Label12.Location = New System.Drawing.Point(545, 0)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(56, 20)
         Me.Label12.TabIndex = 23
@@ -528,7 +556,7 @@ Partial Class Form1
         Me.FilterCombo100.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo100.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo100.FormattingEnabled = True
-        Me.FilterCombo100.Location = New System.Drawing.Point(537, 0)
+        Me.FilterCombo100.Location = New System.Drawing.Point(601, 0)
         Me.FilterCombo100.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo100.Name = "FilterCombo100"
         Me.FilterCombo100.Size = New System.Drawing.Size(108, 25)
@@ -539,7 +567,7 @@ Partial Class Form1
         Me.Label13.AutoSize = True
         Me.Label13.Dock = System.Windows.Forms.DockStyle.Right
         Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(645, 0)
+        Me.Label13.Location = New System.Drawing.Point(709, 0)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(39, 20)
         Me.Label13.TabIndex = 14
@@ -550,7 +578,7 @@ Partial Class Form1
         Me.FilterCombo10.Dock = System.Windows.Forms.DockStyle.Right
         Me.FilterCombo10.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FilterCombo10.FormattingEnabled = True
-        Me.FilterCombo10.Location = New System.Drawing.Point(684, 0)
+        Me.FilterCombo10.Location = New System.Drawing.Point(748, 0)
         Me.FilterCombo10.Margin = New System.Windows.Forms.Padding(2)
         Me.FilterCombo10.Name = "FilterCombo10"
         Me.FilterCombo10.Size = New System.Drawing.Size(316, 25)
@@ -588,6 +616,7 @@ Partial Class Form1
         Me.NewQueryGrid.Dock = System.Windows.Forms.DockStyle.Fill
         Me.NewQueryGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
         Me.NewQueryGrid.Location = New System.Drawing.Point(0, 0)
+        Me.NewQueryGrid.MultiSelect = False
         Me.NewQueryGrid.Name = "NewQueryGrid"
         Me.NewQueryGrid.RowHeadersVisible = False
         Me.NewQueryGrid.RowTemplate.Height = 40
@@ -644,6 +673,20 @@ Partial Class Form1
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(1161, 346)
         Me.TabControl1.TabIndex = 5
+        '
+        'Timer1
+        '
+        Me.Timer1.Enabled = True
+        '
+        'Button1
+        '
+        Me.Button1.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Button1.Location = New System.Drawing.Point(301, 29)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(110, 41)
+        Me.Button1.TabIndex = 17
+        Me.Button1.Text = "Raw Response Data"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -731,4 +774,8 @@ Partial Class Form1
     Friend WithEvents FilterCombo30 As TemplateDB.FilterCombo
     Friend WithEvents Label3 As Label
     Friend WithEvents FilterCombo2 As TemplateDB.FilterCombo
+    Friend WithEvents Timer1 As Timer
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Splitter1 As Splitter
+    Friend WithEvents Button1 As Button
 End Class
